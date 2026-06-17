@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: yf-sessions-records
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/public
+    envVars:
+      - key: NODE_VERSION
+        value: 24.16.0
+      - key: ADMIN_EMAIL
+        value: admin@yfsessionsrecords.com
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_PASSWORD_SALT
+        sync: false
+      - key: DATA_DIR
+        value: /opt/render/project/src/data

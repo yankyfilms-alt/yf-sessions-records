@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YF SESSIONS - YF Sessions Records</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root{
+  --black: #0a0604;
+  --wine: #1a0805;
+  --red: #d62828;
+  --red-bright: #ff3b30;
+  --amber: #f7941d;
+  --gold: #e8b14d;
+  --cream: #f5e6d3;
+  --text-dim: #b89a7e;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  background: var(--black);
+  color: var(--cream);
+  font-family:'Space Grotesk', sans-serif;
+  overflow-x:hidden;
+}
+
+::selection{ background: var(--red); color:#fff; }
+
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--red),var(--gold));border-radius:5px;}
+
+.noise{
+  position:fixed; inset:0; pointer-events:none; z-index:1; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.glow-bg{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 800px 500px at 20% -10%, rgba(214,40,40,.25), transparent 60%),
+    radial-gradient(ellipse 700px 600px at 110% 30%, rgba(232,177,77,.15), transparent 60%),
+    radial-gradient(ellipse 900px 500px at 50% 120%, rgba(247,148,29,.12), transparent 60%);
+}
+
+/* ===== HEADER ===== */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 18px 5vw;
+  background: linear-gradient(to bottom, rgba(10,6,4,.95), rgba(10,6,4,0));
+  backdrop-filter: blur(6px);
+  transition: background .3s;
+}
+.brand{
+  display:flex; align-items:center; gap:14px;
+  font-family:'Bebas Neue', sans-serif;
+  letter-spacing:.08em;
+}
+.brand img{
+  width:42px; height:42px; border-radius:50%;
+  border:2px solid var(--gold);
+  box-shadow:0 0 18px rgba(232,177,77,.5);
+}
+.brand-name{ font-size:1.5rem; color:var(--cream); }
+.brand-name span{ color: var(--red-bright); }
+
+.follow-btn{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600; font-size:.82rem; letter-spacing:.05em;
+  padding:10px 22px; border-radius:999px;
+  background:linear-gradient(120deg, var(--red), var(--amber));
+  color:#1a0805; border:none; cursor:pointer;
+  text-decoration:none; white-space:nowrap;
+  box-shadow:0 4px 20px rgba(214,40,40,.35);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.follow-btn:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 8px 28px rgba(247,148,29,.45); }
+
+/* ===== HERO ===== */
+.hero{
+  position:relative; min-height:100vh; display:flex; align-items:center;
+  padding: 0 5vw; overflow:hidden; isolation:isolate;
+}
+.hero-bg{
+  position:absolute; inset:0; z-index:0;
+  background-image:
+    linear-gradient(90deg, rgba(10,6,4,.94) 0%, rgba(10,6,4,.70) 32%, rgba(10,6,4,.08) 67%, rgba(10,6,4,0) 100%),
+    linear-gradient(0deg, rgba(10,6,4,.94) 0%, rgba(10,6,4,.16) 36%, rgba(10,6,4,0) 100%),
+    radial-gradient(ellipse 920px 560px at 72% 44%, rgba(247,148,29,.22), transparent 62%),
+    url('hero-a-lo-bien-guaracha.jpg');
+  background-size:cover;
+  background-position:center right;
+  filter: saturate(1.34) contrast(1.12) brightness(1.16);
+  animation: heroIn 1.6s cubic-bezier(.16,1,.3,1) both;
+}
+.hero-content{ position:relative; z-index:2; }
+@keyframes heroIn{ from{ transform:scale(1.12); opacity:0;} to{ transform:scale(1); opacity:1;} }
+
+.hero-content{ max-width:720px; }
+.eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
+  color: var(--gold); margin-bottom:18px;
+  opacity:0; animation: fadeUp .8s .4s ease forwards;
+}
+.eyebrow::before{
+  content:''; width:7px; height:7px; border-radius:50%;
+  background:var(--red-bright); box-shadow:0 0 12px var(--red-bright);
+  animation:pulse 1.6s infinite;
+}
+@keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+.hero h1{
+  font-family:'Bebas Neue', sans-serif;
+  font-size: clamp(3.2rem, 9vw, 7.5rem);
+  line-height:.95; letter-spacing:.01em;
+  color: var(--cream);
+  text-shadow: 0 6px 40px rgba(0,0,0,.6);
+  opacity:0; animation: fadeUp .9s .55s ease forwards;
+}
+.hero h1 em{
+  font-style:normal;
+  background: linear-gradient(100deg, var(--red-bright), var(--amber) 60%, var(--gold));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero p{
+  margin-top:22px; max-width:480px; font-size:1.05rem; color:var(--text-dim); line-height:1.6;
+  opacity:0; animation: fadeUp .9s .7s ease forwards;
+}
+.hero-actions{
+  margin-top:36px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;
+  opacity:0; animation: fadeUp .9s .85s ease forwards;
+}
+.btn-primary{
+  display:inline-flex; align-items:center; gap:10px;
+  background: linear-gradient(120deg, var(--red-bright), var(--red) 55%, var(--amber));
+  color:#1a0805; font-weight:700; font-size:.95rem;
+  padding:16px 32px; border-radius:999px; text-decoration:none;
+  box-shadow:0 8px 30px rgba(214,40,40,.4);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.btn-primary:hover{ transform:translateY(-3px); box-shadow:0 14px 38px rgba(247,148,29,.5); }
+.stat{
+  display:flex; flex-direction:column; line-height:1.1;
+}
+.stat b{ font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--gold); }
+.stat span{ font-size:.72rem; letter-spacing:.08em; color:var(--text-dim); text-transform:uppercase;}
+
+.scroll-cue{
+  position:absolute; bottom:34px; left:5vw; z-index:2;
+  display:flex; align-items:center; gap:10px; font-size:.72rem;
+  letter-spacing:.12em; color: var(--text-dim); text-transform:uppercase;
+  opacity:0; animation: fadeUp .9s 1.1s ease forwards;
+}
+.scroll-line{ width:28px; height:1px; background:var(--gold); position:relative; overflow:hidden;}
+.scroll-line::after{ content:''; position:absolute; left:-100%; top:0; bottom:0; width:100%; background:var(--red-bright); animation: scrollX 2s infinite; }
+@keyframes scrollX{ to{ left:100%; } }
+
+@keyframes fadeUp{ from{ opacity:0; transform:translateY(24px);} to{ opacity:1; transform:translateY(0);} }
+
+/* ===== NAV TABS ===== */
+.tabs-wrap{
+  position: sticky; top:0; z-index:40;
+  background: rgba(10,6,4,.85); backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(232,177,77,.15);
+}
+.tabs{
+  display:flex; gap:6px; padding: 18px 5vw; max-width:1400px; margin:0 auto;
+  overflow-x:auto;
+}
+.tab-btn{
+  font-family:'Bebas Neue', sans-serif; font-size:1.05rem; letter-spacing:.04em;
+  background:none; border:none; color: var(--text-dim); cursor:pointer;
+  padding:10px 22px; border-radius:999px; position:relative; white-space:nowrap;
+  transition: color .25s ease;
+}
+.tab-btn.active{ color:var(--black); }
+.tab-btn .pill{
+  position:absolute; inset:0; border-radius:999px; z-index:-1;
+  background:linear-gradient(120deg,var(--red-bright),var(--amber));
+  opacity:0; transform:scale(.85); transition: all .35s cubic-bezier(.16,1,.3,1);
+}
+.tab-btn.active .pill{ opacity:1; transform:scale(1); }
+.tab-btn:hover:not(.active){ color: var(--gold); }
+.tab-count{ font-family:'Space Grotesk',sans-serif; font-size:.7rem; opacity:.7; margin-left:6px; }
+
+/* ===== SECTIONS ===== */
+section.view{
+  position:relative;
+  max-width:1400px; margin:0 auto; padding: 56px 5vw 100px;
+  display:none;
+}
+section.view::before{
+  content:"";
+  position:absolute;
+  inset:0 2vw 28px;
+  z-index:-1;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at var(--mx, 18%) var(--my, 20%), rgba(255,64,129,.30), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(255,123,172,.22), transparent 24%),
+    radial-gradient(circle at 52% 95%, rgba(247,148,29,.15), transparent 28%),
+    linear-gradient(135deg, rgba(84,9,45,.55), rgba(10,6,4,.18) 54%, rgba(113,21,67,.36));
+  filter:saturate(1.42);
+  opacity:.95;
+  animation: catalogAura 9s ease-in-out infinite alternate;
+}
+section.view::after{
+  content:"";
+  position:absolute;
+  inset:0 2vw 28px;
+  z-index:-1;
+  border-radius:28px;
+  opacity:.22;
+  background-image:
+    linear-gradient(115deg, transparent 0 42%, rgba(255,142,190,.18) 48%, transparent 54%),
+    repeating-linear-gradient(90deg, rgba(255,123,172,.11) 0 1px, transparent 1px 46px),
+    radial-gradient(circle at 10% -10%, rgba(255,255,255,.16) 0 2px, transparent 3px);
+  background-size:180% 180%, 46px 46px, 120px 120px;
+  animation: catalogSweep 7s linear infinite, shimmerDots 12s linear infinite;
+}
+.section-head{ position:relative; z-index:1; }
+.section-head::after{
+  content:"♪  ♫  ●  ◉  ▷  ◌  ♬  ◇  ◍";
+  position:absolute;
+  inset:-34px 0 auto auto;
+  width:min(620px,80%);
+  min-height:120px;
+  color:rgba(255,154,202,.26);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(28px,5vw,58px);
+  letter-spacing:.30em;
+  line-height:1.55;
+  text-align:right;
+  pointer-events:none;
+  filter:drop-shadow(0 0 18px rgba(255,64,129,.35));
+  animation: fallingIcons 10s linear infinite;
+}
+.album-grid,.songs-list,.playlist-grid,.video-grid,.admin-grid,.genre-filter,.song-search{ position:relative; z-index:1; }
+section.view.active{ display:block; animation: viewIn .5s ease both; }
+@keyframes catalogAura{
+  0%{ transform:translate3d(0,0,0) scale(1); filter:hue-rotate(0deg) saturate(1.18); }
+  50%{ transform:translate3d(0,-10px,0) scale(1.015); filter:hue-rotate(-8deg) saturate(1.45); }
+  100%{ transform:translate3d(0,8px,0) scale(1.025); filter:hue-rotate(10deg) saturate(1.35); }
+}
+@keyframes catalogSweep{
+  from{ background-position:180% 0, 0 0; }
+  to{ background-position:-180% 0, 92px 46px; }
+}
+@keyframes shimmerDots{
+  from{ background-position:180% 0, 0 0, 0 -120px; }
+  to{ background-position:-180% 0, 92px 46px, 0 120px; }
+}
+@keyframes fallingIcons{
+  0%{ transform:translate3d(0,-42px,0); opacity:.18; }
+  35%{ opacity:.32; }
+  100%{ transform:translate3d(-28px,78px,0); opacity:.10; }
+}
+@keyframes viewIn{ from{ opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+.section-head{ margin-bottom:38px; }
+.section-head h2{
+  font-family:'Bebas Neue',sans-serif; font-size: clamp(2.2rem,4.5vw,3.4rem);
+  letter-spacing:.02em; color:var(--cream);
+}
+.section-head h2 em{
+  font-style:normal; color: transparent;
+  background:linear-gradient(100deg,var(--red-bright),var(--gold));
+  -webkit-background-clip:text; background-clip:text;
+}
+.section-head p{ color:var(--text-dim); margin-top:8px; font-size:.95rem; }
+
+/* ALBUM GRID */
+.album-grid{
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr));
+  gap: 28px;
+}
+.album-card{
+  position:relative; border-radius:14px; overflow:hidden;
+  text-decoration:none; background:#150a07;
+  border:1px solid rgba(232,177,77,.08);
+  transition: transform .4s cubic-bezier(.16,1,.3,1), border-color .4s ease;
+  opacity:0; transform:translateY(18px);
+}
+.album-card.in{ opacity:1; transform:translateY(0); }
+.album-card:hover{ transform: translateY(-8px) scale(1.02); border-color: rgba(247,148,29,.5); }
+.album-cover-wrap{ position:relative; aspect-ratio:1/1; overflow:hidden; }
+.album-cover-wrap img{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition: transform .6s cubic-bezier(.16,1,.3,1), filter .6s ease;
+  filter: saturate(1.05) brightness(.92);
+}
+.album-card:hover .album-cover-wrap img{ transform:scale(1.12); filter: saturate(1.25) brightness(1.05); }
+.album-cover-wrap::after{
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(to top, rgba(10,6,4,.92) 0%, transparent 55%);
+}
+.play-badge{
+  position:absolute; right:12px; bottom:12px; z-index:3;
+  width:42px;height:42px;border-radius:50%;
+  background: linear-gradient(120deg,var(--red-bright),var(--gold));
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transform: translateY(8px) scale(.8);
+  transition: all .35s cubic-bezier(.16,1,.3,1);
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+.album-card:hover .play-badge{ opacity:1; transform:translateY(0) scale(1); }
+.play-badge svg{ width:16px; height:16px; fill:#1a0805; margin-left:2px; }
+.album-info{ padding: 14px 14px 16px; }
+.album-info h3{
+  font-size:.95rem; font-weight:700; color:var(--cream); line-height:1.25;
+  margin-bottom:4px;
+}
+.album-info span{ font-size:.74rem; color: var(--text-dim); text-transform:uppercase; letter-spacing:.04em; }
+
+/* SONGS LIST */
+.song-search{
+  display:flex; align-items:center; gap:10px;
+  background:#150a07; border:1px solid rgba(232,177,77,.15);
+  border-radius:999px; padding:12px 20px; margin-bottom:28px; max-width:420px;
+}
+.song-search svg{ width:16px;height:16px; fill:var(--text-dim); flex-shrink:0; }
+.song-search input{
+  background:none; border:none; outline:none; color:var(--cream);
+  font-family:'Space Grotesk',sans-serif; font-size:.92rem; width:100%;
+}
+.song-search input::placeholder{ color: var(--text-dim); }
+
+.songs-list{ display:flex; flex-direction:column; gap:2px; }
+.song-row{
+  display:grid; grid-template-columns: 36px 52px 1fr auto auto;
+  align-items:center; gap:18px; padding:11px 14px; border-radius:10px;
+  text-decoration:none; color:var(--cream);
+  transition: background .25s ease;
+  opacity:0; transform:translateX(-10px);
+}
+.song-row.in{ opacity:1; transform:translateX(0); }
+.song-row:hover{ background: rgba(214,40,40,.1); }
+.song-idx{ color: var(--text-dim); font-size:.8rem; text-align:right; font-variant-numeric: tabular-nums; }
+.song-thumb{
+  width:46px; height:46px; border-radius:7px; overflow:hidden; position:relative; flex-shrink:0;
+}
+.song-thumb img{ width:100%; height:100%; object-fit:cover; transition: transform .4s ease; }
+.song-row:hover .song-thumb img{ transform:scale(1.15); }
+.song-thumb::after{
+  content:''; position:absolute; inset:0; background:rgba(10,6,4,0);
+  display:flex; align-items:center; justify-content:center;
+  transition: background .25s ease;
+}
+.song-main{ overflow:hidden; }
+.song-title{ font-size:.92rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.song-album{ font-size:.74rem; color:var(--text-dim); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.song-letter{
+  font-size:.72rem; color:var(--gold); letter-spacing:.05em; text-transform:uppercase; text-align:right;
+}
+.song-go{
+  width:30px;height:30px;border-radius:50%; display:flex;align-items:center;justify-content:center;
+  background: rgba(232,177,77,.12); opacity:0; transition: all .25s ease; flex-shrink:0;
+}
+.song-row:hover .song-go{ opacity:1; background:linear-gradient(120deg,var(--red-bright),var(--gold)); }
+.song-go svg{ width:12px;height:12px; fill:var(--gold); }
+.song-row:hover .song-go svg{ fill:#1a0805; }
+
+.letter-divider{
+  font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:var(--red-bright);
+  margin: 26px 0 6px; padding-left:14px; letter-spacing:.05em;
+}
+.letter-divider:first-child{ margin-top:0; }
+
+/* PLAYLISTS */
+.playlist-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:26px; }
+.playlist-card{
+  position:relative; border-radius:18px; padding: 36px 30px;
+  text-decoration:none; overflow:hidden; min-height:200px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  border:1px solid rgba(232,177,77,.15);
+  transition: transform .35s cubic-bezier(.16,1,.3,1);
+}
+.playlist-card:nth-child(1){ background: linear-gradient(135deg, #3a0e0a, #1a0805 70%); }
+.playlist-card:nth-child(2){ background: linear-gradient(135deg, #4a2a06, #1a0805 70%); }
+.playlist-card:hover{ transform: translateY(-6px); }
+.playlist-card::before{
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(circle at 80% 0%, rgba(247,148,29,.25), transparent 60%);
+  opacity:0; transition: opacity .4s ease;
+}
+.playlist-card:hover::before{ opacity:1; }
+.pl-icon{
+  width:54px;height:54px;border-radius:50%;
+  background: linear-gradient(120deg,var(--red-bright),var(--gold));
+  display:flex; align-items:center; justify-content:center; margin-bottom:18px;
+  box-shadow:0 8px 26px rgba(0,0,0,.35);
+}
+.pl-icon svg{ width:20px;height:20px; fill:#1a0805; }
+.playlist-card h3{ font-family:'Bebas Neue',sans-serif; font-size:1.7rem; color:var(--cream); position:relative; z-index:2;}
+.playlist-card span{ font-size:.8rem; color:var(--text-dim); margin-top:6px; position:relative; z-index:2;}
+
+/* ABOUT */
+.about{
+  margin-top:90px; padding-top:60px; border-top:1px solid rgba(232,177,77,.12);
+  display:grid; grid-template-columns: 1.1fr .9fr; gap:60px; align-items:center;
+}
+.about h2{ font-family:'Bebas Neue',sans-serif; font-size:clamp(2rem,4vw,2.8rem); margin-bottom:18px; }
+.about p{ color:var(--text-dim); line-height:1.75; font-size:1rem; }
+.about-img{ border-radius:18px; overflow:hidden; aspect-ratio:4/3; }
+.about-img img{ width:100%; height:100%; object-fit:cover; filter:saturate(1.1) contrast(1.05); }
+
+@media(max-width:860px){ .about{ grid-template-columns:1fr; gap:30px;} .about-img{order:-1;} }
+
+/* FOOTER */
+footer{
+  border-top:1px solid rgba(232,177,77,.12); padding: 44px 5vw 60px;
+  display:flex; flex-wrap:wrap; justify-content:space-between; gap:24px; align-items:center;
+}
+.footer-links{ display:flex; gap:26px; flex-wrap:wrap; }
+.footer-links a{ color:var(--text-dim); text-decoration:none; font-size:.85rem; transition:color .25s; }
+.footer-links a:hover{ color:var(--gold); }
+.footer-credit{ color:var(--text-dim); font-size:.78rem; }
+
+.empty-state{ color:var(--text-dim); padding:40px 0; text-align:center; font-size:.9rem; }
+
+
+
+/* GENRE FILTERS */
+.genre-filter{
+  display:flex; gap:10px; flex-wrap:wrap; margin: 0 0 28px;
+}
+.genre-chip{
+  font-family:'Space Grotesk',sans-serif; font-size:.78rem; font-weight:700;
+  letter-spacing:.04em; text-transform:uppercase; cursor:pointer;
+  padding:10px 16px; border-radius:999px; border:1px solid rgba(232,177,77,.18);
+  color:var(--text-dim); background:#150a07; transition: all .25s ease;
+}
+.genre-chip:hover{ color:var(--gold); border-color:rgba(232,177,77,.45); }
+.genre-chip.active{ color:var(--black); background:linear-gradient(120deg,var(--red-bright),var(--amber)); border-color:transparent; }
+
+.album-actions{ display:flex; gap:8px; margin: 12px 14px 16px; }
+.album-action{
+  flex:1; border:none; border-radius:999px; padding:10px 12px; cursor:pointer;
+  font-family:'Space Grotesk',sans-serif; font-size:.72rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+  color:#1a0805; background:linear-gradient(120deg,var(--red-bright),var(--amber));
+}
+.album-action.secondary{ color:var(--gold); background:rgba(232,177,77,.1); border:1px solid rgba(232,177,77,.18); }
+
+.album-modal{
+  position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+  padding:24px; background:rgba(10,6,4,.78); backdrop-filter: blur(12px);
+}
+.album-modal.active{ display:flex; }
+.album-dialog{
+  width:min(980px,100%); max-height:88vh; overflow:auto; border-radius:18px;
+  background:linear-gradient(135deg,#180705,#080403 74%); border:1px solid rgba(232,177,77,.2);
+  box-shadow:0 30px 90px rgba(0,0,0,.65);
+}
+.album-detail{ display:grid; grid-template-columns:minmax(220px,330px) 1fr; gap:28px; padding:26px; }
+.album-detail img{ width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:14px; box-shadow:0 20px 60px rgba(0,0,0,.45); }
+.album-detail h3{ font-family:'Bebas Neue',sans-serif; font-size:clamp(2.2rem,5vw,4rem); line-height:.92; margin-bottom:8px; }
+.album-detail .meta{ color:var(--gold); font-size:.78rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:18px; }
+.album-detail p{ color:var(--text-dim); line-height:1.65; margin-bottom:18px; }
+.track-list{ columns:2; column-gap:34px; margin:0 0 22px; padding:0; list-style:none; }
+.track-list li{ break-inside:avoid; padding:7px 0; color:var(--cream); font-size:.88rem; border-bottom:1px solid rgba(232,177,77,.08); }
+.modal-actions{ display:flex; flex-wrap:wrap; gap:12px; }
+.modal-close{
+  position:sticky; top:0; float:right; margin:14px 14px 0 0; z-index:2;
+  width:38px;height:38px;border-radius:50%;border:1px solid rgba(232,177,77,.25);
+  color:var(--cream); background:rgba(10,6,4,.82); cursor:pointer; font-size:1.2rem;
+}
+
+.video-tools{ display:grid; grid-template-columns:1fr auto; gap:12px; margin-bottom:28px; max-width:760px; }
+.video-tools input{
+  background:#150a07; border:1px solid rgba(232,177,77,.15); color:var(--cream); border-radius:999px;
+  padding:14px 18px; font-family:'Space Grotesk',sans-serif; outline:none;
+}
+.video-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+.video-card{ border:1px solid rgba(232,177,77,.15); border-radius:18px; overflow:hidden; background:#150a07; text-decoration:none; color:var(--cream); }
+.video-thumb{ aspect-ratio:16/9; background:#080403; position:relative; overflow:hidden; }
+.video-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }
+.video-card:hover .video-thumb img{ transform:scale(1.06); }
+.video-thumb::after{ content:'PLAY'; position:absolute; inset:auto 14px 14px auto; width:54px;height:34px;border-radius:999px; display:flex;align-items:center;justify-content:center; background:linear-gradient(120deg,var(--red-bright),var(--amber)); color:#1a0805; font-size:1rem; }
+.video-info{ padding:16px; }
+.video-info h3{ font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1; margin-bottom:8px; }
+.video-info span{ color:var(--text-dim); font-size:.78rem; }
+
+
+.platform-strip{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+.platform-btn{ display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:10px 15px; border-radius:999px; text-decoration:none; color:var(--cream); background:rgba(232,177,77,.09); border:1px solid rgba(232,177,77,.18); font-size:.76rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; transition:transform .25s ease, background .25s ease, color .25s ease; }
+.platform-btn:hover{ transform:translateY(-2px); color:#1a0805; background:linear-gradient(120deg,var(--red-bright),var(--amber)); }
+.song-desc{ color:var(--text-dim); font-size:.72rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hero{ background:transparent; }
+.hero-bg{ background-size:cover; background-position:center center; }
+.album-card,.song-row,.playlist-card,.video-card{ will-change:transform; }
+@media(min-width:1500px){ .hero-bg{ background-size:cover; background-position:center 42%; } .hero{ min-height:88vh; } }
+@media(max-width:640px){ header{ padding:12px 4vw; } .brand-name{font-size:1.1rem;} .follow-btn{padding:8px 12px;font-size:.7rem;} .hero{min-height:92vh;padding-top:70px;} .hero-bg{background-position:center top; background-image:linear-gradient(0deg, rgba(10,6,4,.96) 0%, rgba(10,6,4,.70) 42%, rgba(10,6,4,.18) 100%), linear-gradient(90deg, rgba(10,6,4,.82), rgba(10,6,4,.18)), url('hero-a-lo-bien-guaracha.jpg');} .tabs{padding:12px 4vw;} section.view{padding:38px 4vw 72px;} .platform-strip{gap:8px;} .platform-btn{font-size:.68rem;padding:9px 11px;} }
+
+
+/* PUBLIC BIO + CONTACT */
+.public-band{ position:relative; max-width:1400px; margin:0 auto; padding:70px 5vw; }
+.public-panel{ border:1px solid rgba(255,123,172,.18); border-radius:24px; background:linear-gradient(135deg,rgba(84,9,45,.46),rgba(10,6,4,.68)); box-shadow:0 28px 90px rgba(0,0,0,.35); padding:clamp(24px,4vw,44px); overflow:hidden; }
+.public-panel h2{ font-family:'Bebas Neue',sans-serif; font-size:clamp(2.4rem,5vw,4rem); line-height:.95; margin-bottom:16px; }
+.public-panel h2 em{ font-style:normal; color:transparent; background:linear-gradient(100deg,var(--red-bright),#ff7bac,var(--gold)); -webkit-background-clip:text; background-clip:text; }
+.public-panel p{ color:var(--text-dim); line-height:1.75; max-width:880px; }
+.bio-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center; }
+.bio-list{ display:grid; gap:10px; margin-top:22px; color:var(--cream); }
+.bio-list span{ padding:12px 14px; border-radius:14px; background:rgba(255,255,255,.045); border:1px solid rgba(255,123,172,.12); }
+.contact-form{ display:grid; gap:14px; margin-top:20px; }
+.contact-form .admin-row{ margin:0; }
+.contact-form input,.contact-form textarea,.contact-form select{ width:100%; background:#100604; color:var(--cream); border:1px solid rgba(255,123,172,.18); border-radius:14px; padding:14px 16px; font-family:'Space Grotesk',sans-serif; outline:none; }
+.contact-form textarea{ min-height:130px; resize:vertical; }
+.form-status{ color:var(--gold); min-height:22px; font-size:.9rem; }
+.admin-login{ position:fixed; inset:0; z-index:120; display:none; align-items:center; justify-content:center; padding:22px; background:rgba(8,3,3,.86); backdrop-filter:blur(14px); }
+.admin-login.active{ display:flex; }
+.admin-login-box{ width:min(460px,100%); border-radius:24px; padding:30px; background:linear-gradient(135deg,#200608,#080303); border:1px solid rgba(255,123,172,.22); box-shadow:0 35px 110px rgba(0,0,0,.65); }
+.admin-login-box h2{ font-family:'Bebas Neue',sans-serif; font-size:2.6rem; margin-bottom:10px; }
+.admin-login-box p{ color:var(--text-dim); line-height:1.55; margin-bottom:18px; }
+.admin-login-box form{ display:grid; gap:12px; }
+.admin-login-error{ color:#ff7bac; min-height:22px; font-size:.9rem; }
+.contact-table{ display:grid; gap:10px; max-height:420px; overflow:auto; }
+.contact-card{ padding:14px; border-radius:14px; background:rgba(255,255,255,.04); border:1px solid rgba(255,123,172,.12); }
+.contact-card strong{ display:block; color:var(--cream); }
+.contact-card small{ color:var(--gold); }
+.contact-card p{ color:var(--text-dim); margin-top:8px; line-height:1.55; }
+@media(max-width:760px){ .bio-grid{ grid-template-columns:1fr; } .public-band{ padding:44px 4vw; } }
+
+/* ADMIN DASHBOARD */
+.admin-grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:22px; }
+.admin-card{
+  grid-column:span 6; background:linear-gradient(135deg,#170705,#0b0504 78%);
+  border:1px solid rgba(232,177,77,.14); border-radius:18px; padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
+.admin-card.wide{ grid-column:1/-1; }
+.admin-card h3{ font-family:'Bebas Neue',sans-serif; font-size:1.9rem; margin-bottom:14px; }
+.admin-form{ display:grid; gap:12px; }
+.admin-form label{ color:var(--gold); font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+.admin-form input,.admin-form textarea,.admin-form select{
+  width:100%; background:#100604; color:var(--cream); border:1px solid rgba(232,177,77,.18);
+  border-radius:12px; padding:12px 14px; font-family:'Space Grotesk',sans-serif; outline:none;
+}
+.admin-form textarea{ min-height:110px; resize:vertical; }
+.admin-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.admin-btn{
+  border:none; border-radius:999px; padding:12px 18px; cursor:pointer;
+  color:#1a0805; background:linear-gradient(120deg,var(--red-bright),var(--amber));
+  font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+}
+.admin-btn.secondary{ color:var(--gold); background:rgba(232,177,77,.1); border:1px solid rgba(232,177,77,.18); }
+.metric-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+.metric{ padding:18px; border-radius:16px; background:rgba(232,177,77,.08); border:1px solid rgba(232,177,77,.12); }
+.metric b{ display:block; font-family:'Bebas Neue',sans-serif; font-size:2.1rem; color:var(--gold); }
+.metric span{ color:var(--text-dim); font-size:.78rem; text-transform:uppercase; letter-spacing:.06em; }
+.admin-list{ display:grid; gap:10px; max-height:360px; overflow:auto; padding-right:4px; }
+.admin-item{
+  display:grid; grid-template-columns:54px 1fr auto; gap:12px; align-items:center;
+  padding:10px; border-radius:14px; background:rgba(255,255,255,.035); border:1px solid rgba(232,177,77,.1);
+}
+.admin-item img{ width:54px; height:54px; object-fit:cover; border-radius:10px; background:#070302; }
+.admin-item strong{ display:block; color:var(--cream); font-size:.9rem; }
+.admin-item small{ color:var(--text-dim); }
+.admin-mini-btn{ border:none; border-radius:999px; padding:8px 10px; cursor:pointer; color:var(--gold); background:rgba(232,177,77,.1); }
+.photo-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+.photo-card{ border-radius:16px; overflow:hidden; background:#100604; border:1px solid rgba(232,177,77,.12); }
+.photo-card img{ width:100%; aspect-ratio:4/3; object-fit:cover; }
+.photo-card span{ display:block; padding:10px; color:var(--text-dim); font-size:.78rem; }
+.top-clicks{ display:grid; gap:8px; }
+.top-clicks div{ display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid rgba(232,177,77,.08); color:var(--text-dim); }
+.admin-note{ color:var(--text-dim); font-size:.86rem; line-height:1.6; margin-top:12px; }
+
+@media(max-width:760px){
+  .album-detail{ grid-template-columns:1fr; }
+  .track-list{ columns:1; }
+  .video-tools{ grid-template-columns:1fr; }
+  .admin-grid{ grid-template-columns:1fr; }
+  .admin-card,.admin-card.wide{ grid-column:1; }
+  .admin-row{ grid-template-columns:1fr; }
+}
+
+@media(max-width:640px){
+  .hero h1{ font-size: clamp(2.6rem, 13vw, 4.5rem); }
+  .hero-actions{ flex-direction:column; align-items:flex-start; }
+  .song-row{ grid-template-columns: 24px 42px 1fr auto; }
+  .song-letter{ display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="glow-bg"></div>
+
+<header>
+  <div class="brand">
+    <img src="https://i.scdn.co/image/ab6761610000e5eb60429b62905033e6c2c2ee6b" alt="YF Sessions logo">
+    <span class="brand-name">YF <span>SESSIONS</span></span>
+  </div>
+  <a class="follow-btn" href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">Seguir en Spotify</a>
+</header>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="eyebrow">Nuevo Lanzamiento</div>
+    <h1>A LO BIEN<br><em>GUARACHA</em></h1>
+    <p>El catálogo oficial de YF Sessions — guaracha, dancehall, afro, flamenco urbano y más. Todo el sonido, en un solo lugar.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+        Escuchar en Spotify
+      </a>
+      <div class="stat"><b>2.8K</b><span>Oyentes mensuales</span></div>
+      <div class="stat"><b>15+</b><span>Álbumes</span></div>
+      <div class="stat"><b>360+</b><span>Canciones</span></div>
+    </div>
+    <div class="platform-strip" id="platform-strip"></div>
+  </div>
+  <div class="scroll-cue"><div class="scroll-line"></div> Descubre el catálogo</div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="albums">Álbumes <span class="tab-count" id="count-albums"></span></button>
+    <button class="tab-btn" data-tab="songs">Canciones <span class="tab-count" id="count-songs"></span></button>
+    <button class="tab-btn" data-tab="playlists">Playlists <span class="tab-count" id="count-playlists"></span></button>
+    <button class="tab-btn" data-tab="videos">Videos <span class="tab-count" id="count-videos"></span></button>
+  </div>
+</div>
+
+<section class="view active" id="view-albums">
+  <div class="section-head">
+    <h2>Todo el <em>catálogo</em></h2>
+    <p>Álbumes y singles oficiales de YF Sessions. Toca cualquier portada para escuchar en Spotify.</p>
+  </div>
+  <div class="genre-filter" id="album-genre-filter"></div>
+  <div class="album-grid" id="album-grid"></div>
+</section>
+
+<section class="view" id="view-songs">
+  <div class="section-head">
+    <h2>Todas las <em>canciones</em></h2>
+    <p>El listado completo, de la A a la Z, de cada canción publicada por YF Sessions.</p>
+  </div>
+  <div class="genre-filter" id="song-genre-filter"></div>
+  <div class="song-search">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <input type="text" id="song-search-input" placeholder="Buscar canción...">
+  </div>
+  <div class="songs-list" id="songs-list"></div>
+</section>
+
+<section class="view" id="view-playlists">
+  <div class="section-head">
+    <h2>Playlists <em>oficiales</em></h2>
+    <p>Selecciones curadas donde suena YF Sessions, directo en Spotify.</p>
+  </div>
+  <div class="playlist-grid" id="playlist-grid"></div>
+
+  <div class="about">
+    <div>
+      <h2>Sobre <em style="background:linear-gradient(100deg,var(--red-bright),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;font-style:normal;">YF Sessions</em></h2>
+      <p>YF Sessions es el sello musical de YANKYFILMS — reggae-conscious, urban latin y R&amp;B donde el artista nunca aparece en cámara. La narrativa visual la llevan los modelos, con una paleta roja, ámbar y dorada que define cada lanzamiento. Guaracha, dancehall, afrobeat, flamenco urbano y más, todo bajo un mismo universo sonoro.</p>
+    </div>
+    <div class="about-img"><img src="https://i.scdn.co/image/ab6761610000e5eb60429b62905033e6c2c2ee6b" alt="YF Sessions"></div>
+  </div>
+</section>
+
+
+<section class="view" id="view-videos">
+  <div class="section-head">
+    <h2>Videos de <em>YouTube</em></h2>
+    <p>Pega enlaces de YouTube aqui y se mostraran como tarjetas con miniatura, canal y salida directa al video.</p>
+  </div>
+  <div class="video-tools">
+    <input type="text" id="youtube-url-input" placeholder="Pega aqui un enlace de YouTube para previsualizarlo">
+    <button class="album-action" id="youtube-preview-btn" type="button">Previsualizar</button>
+  </div>
+  <div class="video-grid" id="video-grid"></div>
+</section>
+
+<section class="view" id="view-admin">
+  <div class="section-head">
+    <h2>Dashboard <em>YF Sessions Records</em></h2>
+    <p>Panel local para gestionar perfil, biografia, videos, fotografias y estadisticas de la pagina.</p>
+  </div>
+
+  <div class="admin-grid">
+    <div class="admin-card wide">
+      <h3>Estadisticas</h3>
+      <div class="metric-grid" id="admin-metrics"></div>
+      <p class="admin-note">Las visitas y clicks se guardan en este navegador. Para estadisticas reales en dominio publico, despues se conecta Analytics o una base de datos.</p>
+    </div>
+
+    <div class="admin-card">
+      <h3>Perfil principal</h3>
+      <form class="admin-form" id="profile-form">
+        <label>Nombre publico</label>
+        <input id="profile-name" type="text" value="YF Sessions">
+        <label>Texto del hero</label>
+        <textarea id="profile-hero">El catalogo oficial de YF Sessions - guaracha, dancehall, afro, flamenco urbano y mas. Todo el sonido, en un solo lugar.</textarea>
+        <label>Biografia</label>
+        <textarea id="profile-bio">YF Sessions es el sello musical de YF Sessions Records. Reggae-conscious, urban latin y R&B donde el artista nunca aparece en camara. La narrativa visual la llevan los modelos, con una paleta roja, ambar y dorada que define cada lanzamiento.</textarea>
+        <div class="admin-row">
+          <div>
+            <label>Spotify</label>
+            <input id="profile-spotify" type="url" value="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN">
+          </div>
+          <div>
+            <label>YouTube</label>
+            <input id="profile-youtube" type="url" value="https://www.youtube.com/@YFSessions">
+          </div>
+        </div>
+        <div class="admin-row">
+          <div>
+            <label>Instagram</label>
+            <input id="profile-instagram" type="text" value="YF Sessions HD">
+          </div>
+          <div>
+            <label>Marca footer</label>
+            <input id="profile-footer" type="text" value="YF Sessions Records">
+          </div>
+        </div>
+        <button class="admin-btn" type="submit">Guardar perfil</button>
+      </form>
+    </div>
+
+    <div class="admin-card">
+      <h3>Videos YouTube</h3>
+      <form class="admin-form" id="video-form">
+        <label>Titulo</label>
+        <input id="video-title" type="text" placeholder="Nombre del video">
+        <label>Enlace YouTube</label>
+        <input id="video-url" type="url" placeholder="https://youtu.be/...">
+        <label>Canal</label>
+        <input id="video-channel" type="text" value="YF Sessions">
+        <label>Enlace Spotify relacionado</label>
+        <input id="video-spotify" type="url" placeholder="https://open.spotify.com/...">
+        <button class="admin-btn" type="submit">Anadir video</button>
+      </form>
+      <div class="admin-list" id="admin-video-list"></div>
+    </div>
+
+    <div class="admin-card">
+      <h3>Fotografias</h3>
+      <form class="admin-form" id="photo-form">
+        <label>Titulo</label>
+        <input id="photo-title" type="text" placeholder="Portada, artista, campana...">
+        <label>URL de imagen</label>
+        <input id="photo-url" type="url" placeholder="https://...">
+        <button class="admin-btn" type="submit">Anadir foto</button>
+      </form>
+      <div class="photo-grid" id="photo-grid"></div>
+    </div>
+
+    <div class="admin-card wide">
+      <h3>Canciones manuales</h3>
+      <form class="admin-form" id="song-form">
+        <div class="admin-row">
+          <div><label>Titulo</label><input id="song-title-admin" type="text" placeholder="Nombre de la cancion"></div>
+          <div><label>Album / Proyecto</label><input id="song-album-admin" type="text" placeholder="Album o single"></div>
+        </div>
+        <div class="admin-row">
+          <div><label>Genero</label><input id="song-genre-admin" type="text" placeholder="Bachata, dembow, afro-house..."></div>
+          <div><label>Enlace Spotify</label><input id="song-url-admin" type="url" placeholder="https://open.spotify.com/track/..."></div>
+        </div>
+        <label>Portada</label><input id="song-cover-admin" type="url" placeholder="https://i.scdn.co/image/..."></input>
+        <label>Descripcion</label><textarea id="song-description-admin" placeholder="Descripcion corta de la cancion"></textarea>
+        <button class="admin-btn" type="submit">Anadir cancion</button>
+      </form>
+      <div class="admin-list" id="admin-song-list"></div>
+    </div>
+
+    <div class="admin-card wide">
+      <h3>Solicitudes y contactos</h3>
+      <div class="contact-table" id="admin-contact-list"></div>
+      <button class="admin-btn secondary" id="clear-contacts" type="button">Limpiar contactos</button>
+    </div>
+
+    <div class="admin-card">
+      <h3>Top clicks</h3>
+      <div class="top-clicks" id="top-clicks"></div>
+      <button class="admin-btn secondary" id="reset-stats" type="button">Reiniciar estadisticas</button>
+    </div>
+  </div>
+</section>
+
+<section class="public-band" id="bio">
+  <div class="public-panel bio-grid">
+    <div>
+      <h2>YF Sessions <em>Records</em></h2>
+      <p>YF Sessions Records es una discografica independiente enfocada en musica urbana latina, R&B, afro, dancehall, guaracha, dembow, bachata y propuestas visuales cinematograficas. Trabajamos con artistas independientes, productores, modelos, directores creativos y proyectos musicales que necesitan una identidad solida para lanzamiento, promocion y crecimiento digital.</p>
+      <div class="bio-list">
+        <span>Catalogo musical, videoclips, visualizers y campa?as de lanzamiento.</span>
+        <span>Promocion para Spotify, YouTube, Instagram, TikTok y plataformas digitales.</span>
+        <span>Produccion visual sin artista en camara cuando el concepto lo requiere.</span>
+      </div>
+    </div>
+    <div>
+      <h2>Redes <em>oficiales</em></h2>
+      <div class="platform-strip">
+        <a class="platform-btn" href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">Spotify</a>
+        <a class="platform-btn" href="https://www.youtube.com/@YFSessions" target="_blank" rel="noopener">YouTube</a>
+        <a class="platform-btn" href="https://www.instagram.com/yfsessionshd/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="public-band" id="contacto">
+  <div class="public-panel">
+    <h2>Trabaja con <em>nosotros</em></h2>
+    <p>Completa el formulario si quieres promocionar una cancion, proponer una colaboracion, producir un videoclip, presentar un artista o pedir informacion sobre servicios de la discografica.</p>
+    <form class="contact-form" id="contact-form">
+      <div class="admin-row">
+        <input id="contact-name" type="text" placeholder="Nombre completo" required>
+        <input id="contact-email" type="email" placeholder="Correo electronico" required>
+      </div>
+      <div class="admin-row">
+        <select id="contact-type" required>
+          <option value="Promocionar cancion">Promocionar cancion</option>
+          <option value="Trabajar un tema">Trabajar un tema</option>
+          <option value="Videoclip / visualizer">Videoclip / visualizer</option>
+          <option value="Artista independiente">Artista independiente</option>
+          <option value="Informacion general">Informacion general</option>
+        </select>
+        <input id="contact-link" type="url" placeholder="Link de cancion, perfil o video">
+      </div>
+      <textarea id="contact-message" placeholder="Cuentanos que necesitas" required></textarea>
+      <button class="admin-btn" type="submit">Enviar solicitud</button>
+      <div class="form-status" id="contact-status"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">Spotify</a>
+    <a href="https://www.youtube.com/@YFSessions" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.instagram.com/yfsessionshd/" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <div class="footer-credit">? 2026 YF Sessions Records</div>
+</footer>
+
+
+<div class="admin-login" id="admin-login">
+  <div class="admin-login-box">
+    <h2>Acceso Admin</h2>
+    <p>Panel privado de YF Sessions Records. Solo entra el administrador.</p>
+    <form id="admin-login-form">
+      <input id="admin-email" type="email" placeholder="Correo" autocomplete="username" required>
+      <input id="admin-password" type="password" placeholder="Contrase?a" autocomplete="current-password" required>
+      <button class="admin-btn" type="submit">Entrar</button>
+      <button class="admin-btn secondary" id="admin-cancel" type="button">Volver a la pagina</button>
+      <div class="admin-login-error" id="admin-login-error"></div>
+    </form>
+  </div>
+</div>
+
+
+<div class="album-modal" id="album-modal" aria-hidden="true">
+  <div class="album-dialog" role="dialog" aria-modal="true" aria-label="Detalle de album">
+    <button class="modal-close" id="modal-close" type="button" aria-label="Cerrar">x</button>
+    <div id="album-detail"></div>
+  </div>
+</div>
+
+<script>
+const DATA = {"albums": [{"title": "A LO BIEN GUARACHA", "tracks": ["Cabrón x Prende (Guaracha)", "El Guayabo Ni El Berraco (Guaracha)", "Prende (Guaracha)", "El Judas del Barrio (Guaracha)", "Tierra de Chimbas (Guaracha)", "Lambada (Guaracha)", "No Te Pegues (Guaracha)", "Pura Guachafita (Guaracha)", "El Zapatelo Medallo (Guaracha)", "Chimbas x Punto Cuarenta (Rmix) [Guaracha]", "Culo Encendido x Melo Parce (Guaracha)", "A Mi Manera (Guaracha)", "Medallo En La Casa (Guaracha)", "No Tiene (Guaracha)", "Culo Encendido (Guaracha)", "El Visaje Del Guetto (Guaracha)", "Las Reinas Del Aleteo (Guaracha)", "El Zapateo del Nea (Guaracha)", "Melo, Pero Sin Vos (Guaracha)"], "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "BODY IN FIRE", "tracks": ["Baila Tu Sueño", "Bloque Pesado", "Body on Fire", "Brilla y Baila", "Cintura Criminal", "Código de Esquina", "Dale Dale Sexy", "Dale Otra Vez", "Danse Conmigo", "Fuego Bajo La Piel", "Hasta Abajo Sin Frenos", "Lo Sabe Tu Cuerpo", "Mirada Que Quema", "Noche Magnétique", "Noche Sin Ley", "Nos Vimos Mal", "Pegá Sin Miedo", "Pegaito Sin Espacio", "Peso en el Bajo", "Piel y Sombra", "Dale Replay (RMIX)"], "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "DANCEHALL MUSIC", "tracks": ["Say my name", "Peace", "Walks in Power", "Stronger", "Love", "Déception", "Black Energy", "Peach Fuzz", "Amoure", "Vanity", "Life is life", "Money and diamonds", "Empowered Woman", "Égoïste", "Vanité", "Life is fantasy", "You said", "Baby", "Darling", "My man", "I love you", "Anyway", "Enchante", "Le temps"], "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "METAVERSO FLAMENCO", "tracks": ["La Vida No Pide Permiso", "No Te Pegues", "Lo Que No Se Aplaude", "La Calle No Pide Permiso", "Ni Callada Ni Perdía", "Dale Sin Miedo", "Manual Básico del Hombre", "No Me Llames Mañana", "Yo Me Sostengo", "Que Lo Mueva el Barrio", "Between The Fire And The Calm", "Cantiñas con Bulerías", "Lo Que Se Queda", "Raíz que No se Dobla", "Cuando el Ritmo Nos Dice", "De Mí Para Ti", "Live It Light", "No Me Cabe En Tu Norma", "Dos Mundos, Una Verdad", "Cuando Suena Mi Tacón", "Aquí Todo el Mundo Sabe", "Que Baile la Verdad", "Sal de Plata y Carcajadas", "No Me Bajes el Ritmo", "Lo Que No Sale En La Foto", "La Lengua Del Vecindario", "Aquí Se Dice Claro", "Aquí Nadie Se Esconde"], "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Lía Vibes", "tracks": ["Reina Sin Permiso", "Quedate Otra Vez", "Cicatrices de Oro", "Tu Truco de Magia", "Pura Verdad", "Cicatriz y Barro", "Tú & Yo", "Princeso", "Pantallas y Asfalto", "Fuego Callejero", "Diamante", "Arena en la Herida", "Soy el Incendio", "Ay Corre Corre", "Tu Fuego", "Fuego en la Voz", "Raíces y Asfalto"], "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Calle Pero Elegante", "tracks": ["Punto y Aparte (Remix Calle Elegante)", "Calle Sin Pardón", "Plákata Todo El Día", "La Más Cara del Barrio", "Hablan Mucho", "Lo Haces a Propósito", "Payaso De Micrófono", "Lento Sin Prisa", "La Esquina No Duerme (Street Club Rmix)", "El Tiguere Negro", "Noche Sin Censura", "Que En Descansen", "La Más Cara del Barrio (RMIX)", "Guasa No Me Llega", "Pegá' Pa' Que Miren", "De Frente Y Sin Guantes", "Hasta Abajo Lento", "La Chapa Que Retumba", "Manda Ella Violento", "Desde Mi Ventana", "Rompe el Bajo", "Basura Con Micrófono", "Calor Sin Promesas", "Provocas Bailando", "Sin Filtro en el Bloque", "Te Provoca"], "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Triq l-hayat", "tracks": ["Yo Venir de Lejos", "Arena y Fuego", "Sout Zan9a", "Tange Dyali", "Weld Tange", "Flow Importao", "Maghreb Flow", "Darija en la Piel", "Bajo La Luz Azul", "Código de Cemento", "Tigueraje de Tánger", "Una Noche Sin Salida", "Zan9a Caliente", "Ruh Libre", "Paso Firme", "Layl Tange", "No Saber Decir Adiós", "Sombra del Desierto"], "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "TWERK", "tracks": ["APOCALIPSIS", "DROP IT LOW TONIGHT", "FLOOR RUMBLE", "SHAKE LOW", "VINYL WARFARE", "BACKSPIN CHAOS", "RATTLE MODE", "SHAKE THE GROUND", "GLITCH IT", "RAGE CIRCUIT", "GROUND ZERO", "BOOM LOOP", "IGNITE THE FLOOR", "NO MERCY MODE", "POWER SURGE", "RED ZONE", "WILD CIRCUIT", "CONCRETE PULSE", "IRON SHADOW", "SCRATCH DOMINATION"], "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Do not disturb (LO-FI SESSION)", "tracks": ["01 Today", "01 Underwater", "03 Tíbet", "04 Relax", "05 My mindb", "06 Visión", "07 Water", "08 Focuz", "09 Morning", "10 Waterk", "11 Zen", "12 Andina", "13 Violín", "14 Fluye", "15 Papel", "16 Loud", "17 Peace", "18 Tíbett", "19 Relaxx", "20 My mind", "21 Visiónn", "22 Waterr", "23 Focus", "24 Morning", "25 Waterd", "26 Zenn", "27 Andine", "28 Violínn", "29 Fluy3", "30 Papel"], "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "TETEO MUNDIAL", "tracks": ["TA'ACTIVO", "TRIPLE IMPACTO", "BAJO CONTROL", "EL TIGUERE QUE NO PAGA", "MODO TURBO", "BATIDORA", "REBOTE ILEGAL", "GRAVEDAD CERO", "RÁFAGA DE CADERA", "BAJO CONTROL (RMIX CLUB)", "SE HIZO EL FAMOSO", "LA ESQUINA", "BATIDORA (RMIX MUNDIAL)", "SE PRENDIÓ LA VAINA", "MORENA CALIBRE 9MM", "MODO TURBO (RMIX CLUB)", "TE BAJO EL MUNDO", "HUMO EN LA CABINA", "DOÑA VIGILANCIA", "RÁFAGA DE CADERA (RMIX CLUB)", "TRIPLE PRESIÓN", "DEL BARRIO PA' LA ISLA", "CALLE PRENDÍA", "TAMO'QUÍ TRANQUILO", "SE FUE TO'A PIQUE", "EL CHISMOSO DEL BLOQUE", "TRIPLE IMPACTO (RMIX CLUB)", "DEL PARCHE AL CASE", "VELOCIDAD CRÍTICA"], "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Spirit of the Drum", "tracks": ["Ya No Quiero Tu Querer", "Pura Vida", "Tú y Yo", "Vaitimbora", "Felina", "Capaz", "Push The Feeling On", "Bemba Colorá", "Guantanamera", "No Te Pegues", "Quiéreme", "Midnight Rhythm", "Substitution"], "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "La force Afro", "tracks": ["Twa Vwa Yon Lanmmou", "Afro Demonio", "Ça Tourne Sale", "Jolo Fire", "Noche Interdite (Salsa)", "Mon Tout (Afro Bachata)", "Lumière Sauvage", "Doucement (Odo)", "Sans Filtre", "Rhythm & Blood (Blus)", "Lanmmou Sans Frontiéres", "Dale Tribal", "Ké Mwen An Flanm", "Brut et Sans Coupe", "Booty Confirm", "Waist & Cintura", "Tourne Encore", "Rue en Haute Définition", "Tribal Fuego", "La Reine Du Quartier (Salsa)", "Bounce International", "Nuit Chaude (Odo Lento)", "Waka Fire", "Mon Tout", "Contre Le Monde", "Afro Caliente (Salsa)", "Sudor & Pecado", "Baja & Bloquea"], "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "SE HIZO VIRAL - PARA TIK TOK", "tracks": ["Se Hizo Viral", "Brilla Aunque Duela", "Esa Mirada No Es Inocente", "Repe Repe", "Dale Replay", "No Rules Tonight", "Pausa y Dale", "Flow Que Incomoda", "Del Pasillo al Mundo", "Repe-Repe (RMIX WOMEN)", "Sexy Dale Muévelo", "Muévelo en Loop", "Sin Espacio", "Se Hizo Viral (Rmix)", "Repe-Repe – (RMIX INTERNACIONAL)", "Mírame Ahora", "Noche Caliente", "Muévelo Sexy", "Movimiento Internacional", "Repe-Repe (RMIX CALLE)", "Sin Saberlo", "Un Solo Intento", "Tú Sabes Cómo Es", "Sin Decirlo", "Provoca y Castiga", "Dance Con Fuego", "Que Hablen", "Mírala Cómo Se Crece", "Chaleur Latina", "Bajo Control No"], "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "ELECTRO LATINO CON FL0W", "tracks": ["Sabor A Ti", "Culo Encendido", "Tu de mi", "Cabrón", "Los niños del Estrecho", "Sigue El Sol", "Sin papeles", "El Paso", "El infierno se pasa Bailando", "El Diablo", "No Le Pare", "Regalo", "Chulitas", "Barrio Dominicano", "Casi algo", "La Hora Spicy", "Los niños del Estrecho 2.0", "Baila en la Calle", "Calle Sin Pausa", "Cuerpo Blanco", "Diablitos Sueltos", "Empoderá Fuego", "Negro Para Ti", "Noche De Descarga", "Pa'La Gente Dura", "Ron & Calor", "Shorty Prendía"], "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Una Noche En La Cantina (Rancheras)", "tracks": ["Que Valiera la Pena", "Díselo Bajito", "Te Va a Doler Después", "No Me Hace Falta Que Lo Jures", "Cuando Te Duelas de Mí", "Eso No Es Amor", "La Última Botella", "Valió La Pena", "Ya No Voy a Fingir", "Me Tocó Perder", "No Me Hagas el Cuento", "De Él Aprendí el Silencio", "Me Da Miedo Perderte", "No Te Va a Salir Gratis", "Mi Padre Camina Despacio", "No Todos Aman Como Yo", "Te Fuiste y Punto", "No Fue Cobardía", "Te Amé Sin Medida", "Dime Si Te Vas Con Algo Bueno", "Te Quedó Grande Quererme", "Nunca Te Olvidé", "Te Di Más De Lo Que Tenía", "A Esta Hora de la Noche", "Aunque Me Cueste El Alma", "Si Alguna Vez Te Acuerdas", "La Botella No Perdona", "Copas Que No Abrigan", "Dime Que No Fue Mentira", "No Se Dice en Voz Alta"], "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}], "singles": [{"title": "EL Tiguere No Paga", "cover": "https://i.scdn.co/image/ab67616d0000b2738546ffbc561b77ad1236fa79", "url": "https://open.spotify.com/album/1sFUk6pQGo7zDC7t68lkJb"}, {"title": "Doña Vigilancia “Vecinaaa”", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}], "playlists": [{"title": "This Is YF Sessions", "url": "https://open.spotify.com/playlist/37i9dQZF1DZ06evO4g6H4f"}, {"title": "YF Sessions Radio", "url": "https://open.spotify.com/playlist/37i9dQZF1E4A01TxTvoJ7s"}], "songs": [{"title": "01 Today", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "01 Underwater", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "03 Tíbet", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "04 Relax", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "05 My mindb", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "06 Visión", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "07 Water", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "08 Focuz", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "09 Morning", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "10 Waterk", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "11 Zen", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "12 Andina", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "13 Violín", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "14 Fluye", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "15 Papel", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "16 Loud", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "17 Peace", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "18 Tíbett", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "19 Relaxx", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "20 My mind", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "21 Visiónn", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "22 Waterr", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "23 Focus", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "24 Morning", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "25 Waterd", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "26 Zenn", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "27 Andine", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "28 Violínn", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "29 Fluy3", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "30 Papel", "album": "Do not disturb (LO-FI SESSION)", "cover": "https://i.scdn.co/image/ab67616d0000b273311b960c064689469e3eabe2", "url": "https://open.spotify.com/album/4NSaXsm1YW6F9uREBv6ePo"}, {"title": "A Esta Hora de la Noche", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "A Mi Manera (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Afro Caliente (Salsa)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Afro Demonio", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Amoure", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Anyway", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "APOCALIPSIS", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Aquí Nadie Se Esconde", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Aquí Se Dice Claro", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Aquí Todo el Mundo Sabe", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Arena en la Herida", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Arena y Fuego", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Aunque Me Cueste El Alma", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Ay Corre Corre", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Baby", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "BACKSPIN CHAOS", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Baila en la Calle", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Baila Tu Sueño", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Baja & Bloquea", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "BAJO CONTROL", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "BAJO CONTROL (RMIX CLUB)", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Bajo Control No", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Bajo La Luz Azul", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Barrio Dominicano", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Basura Con Micrófono", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "BATIDORA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "BATIDORA (RMIX MUNDIAL)", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Bemba Colorá", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Between The Fire And The Calm", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Black Energy", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Bloque Pesado", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Body on Fire", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "BOOM LOOP", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Booty Confirm", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Bounce International", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Brilla Aunque Duela", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Brilla y Baila", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Brut et Sans Coupe", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Cabrón", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Cabrón x Prende (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "CALLE PRENDÍA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Calle Sin Pardón", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Calle Sin Pausa", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Calor Sin Promesas", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Cantiñas con Bulerías", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Capaz", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Casi algo", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Chaleur Latina", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Chimbas x Punto Cuarenta (Rmix) [Guaracha]", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Chulitas", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Cicatrices de Oro", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Cicatriz y Barro", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Cintura Criminal", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "CONCRETE PULSE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Contre Le Monde", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Copas Que No Abrigan", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Cuando el Ritmo Nos Dice", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Cuando Suena Mi Tacón", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Cuando Te Duelas de Mí", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Cuerpo Blanco", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Culo Encendido", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Culo Encendido (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Culo Encendido x Melo Parce (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Código de Cemento", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Código de Esquina", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Dale Dale Sexy", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Dale Otra Vez", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Dale Replay", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Dale Replay (RMIX)", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Dale Sin Miedo", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Dale Tribal", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Dance Con Fuego", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Danse Conmigo", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Darija en la Piel", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Darling", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "De Frente Y Sin Guantes", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "De Mí Para Ti", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "De Él Aprendí el Silencio", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "DEL BARRIO PA' LA ISLA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "DEL PARCHE AL CASE", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Del Pasillo al Mundo", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Desde Mi Ventana", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Diablitos Sueltos", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Diamante", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Dime Que No Fue Mentira", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Dime Si Te Vas Con Algo Bueno", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Dos Mundos, Una Verdad", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Doucement (Odo)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "DOÑA VIGILANCIA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Doña Vigilancia “Vecinaaa”", "album": "Single", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "DROP IT LOW TONIGHT", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Déception", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Díselo Bajito", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "EL CHISMOSO DEL BLOQUE", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "El Diablo", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "El Guayabo Ni El Berraco (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "El infierno se pasa Bailando", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "El Judas del Barrio (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "El Paso", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "El Tiguere Negro", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "EL Tiguere No Paga", "album": "Single", "cover": "https://i.scdn.co/image/ab67616d0000b2738546ffbc561b77ad1236fa79", "url": "https://open.spotify.com/album/1sFUk6pQGo7zDC7t68lkJb"}, {"title": "EL TIGUERE QUE NO PAGA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "El Visaje Del Guetto (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "El Zapatelo Medallo (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "El Zapateo del Nea (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Empoderá Fuego", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Empowered Woman", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Enchante", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Esa Mirada No Es Inocente", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Eso No Es Amor", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Felina", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "FLOOR RUMBLE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Flow Importao", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Flow Que Incomoda", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Fuego Bajo La Piel", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Fuego Callejero", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Fuego en la Voz", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "GLITCH IT", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "GRAVEDAD CERO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "GROUND ZERO", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Guantanamera", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Guasa No Me Llega", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Hablan Mucho", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Hasta Abajo Lento", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Hasta Abajo Sin Frenos", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "HUMO EN LA CABINA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "I love you", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "IGNITE THE FLOOR", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "IRON SHADOW", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Jolo Fire", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Ké Mwen An Flanm", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "La Botella No Perdona", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "La Calle No Pide Permiso", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "La Chapa Que Retumba", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "LA ESQUINA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "La Esquina No Duerme (Street Club Rmix)", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "La Hora Spicy", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "La Lengua Del Vecindario", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "La Más Cara del Barrio", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "La Más Cara del Barrio (RMIX)", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "La Reine Du Quartier (Salsa)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "La Vida No Pide Permiso", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "La Última Botella", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Lambada (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Lanmmou Sans Frontiéres", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Las Reinas Del Aleteo (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Layl Tange", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Le temps", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Lento Sin Prisa", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Life is fantasy", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Life is life", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Live It Light", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Lo Haces a Propósito", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Lo Que No Sale En La Foto", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Lo Que No Se Aplaude", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Lo Que Se Queda", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Lo Sabe Tu Cuerpo", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Los niños del Estrecho", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Los niños del Estrecho 2.0", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Love", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Lumière Sauvage", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Maghreb Flow", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Manda Ella Violento", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Manual Básico del Hombre", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Me Da Miedo Perderte", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Me Tocó Perder", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Medallo En La Casa (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Melo, Pero Sin Vos (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Mi Padre Camina Despacio", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Midnight Rhythm", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Mirada Que Quema", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "MODO TURBO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "MODO TURBO (RMIX CLUB)", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Mon Tout", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Mon Tout (Afro Bachata)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Money and diamonds", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "MORENA CALIBRE 9MM", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Movimiento Internacional", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Muévelo en Loop", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Muévelo Sexy", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "My man", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Mírala Cómo Se Crece", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Mírame Ahora", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Negro Para Ti", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Ni Callada Ni Perdía", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "No Fue Cobardía", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "No Le Pare", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "No Me Bajes el Ritmo", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "No Me Cabe En Tu Norma", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "No Me Hace Falta Que Lo Jures", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "No Me Hagas el Cuento", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "No Me Llames Mañana", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "NO MERCY MODE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "No Rules Tonight", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "No Saber Decir Adiós", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "No Se Dice en Voz Alta", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "No Te Pegues", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "No Te Pegues", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "No Te Pegues (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "No Te Va a Salir Gratis", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "No Tiene (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "No Todos Aman Como Yo", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Noche Caliente", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Noche De Descarga", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Noche Interdite (Salsa)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Noche Magnétique", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Noche Sin Censura", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Noche Sin Ley", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Nos Vimos Mal", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Nuit Chaude (Odo Lento)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Nunca Te Olvidé", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Pa'La Gente Dura", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Pantallas y Asfalto", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Paso Firme", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Pausa y Dale", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Payaso De Micrófono", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Peace", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Peach Fuzz", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Pegaito Sin Espacio", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Pegá Sin Miedo", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Pegá' Pa' Que Miren", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Peso en el Bajo", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Piel y Sombra", "album": "BODY IN FIRE", "cover": "https://i.scdn.co/image/ab67616d0000b273806b1535971b7b2605da979e", "url": "https://open.spotify.com/album/54HzZD9QwqRSG0cyn7AmKU"}, {"title": "Plákata Todo El Día", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "POWER SURGE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Prende (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Princeso", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Provoca y Castiga", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Provocas Bailando", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Punto y Aparte (Remix Calle Elegante)", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Pura Guachafita (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Pura Verdad", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Pura Vida", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Push The Feeling On", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Que Baile la Verdad", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Que En Descansen", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Que Hablen", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Que Lo Mueva el Barrio", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Que Valiera la Pena", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Quedate Otra Vez", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Quiéreme", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "RAGE CIRCUIT", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "RATTLE MODE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Raíces y Asfalto", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Raíz que No se Dobla", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "REBOTE ILEGAL", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "RED ZONE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Regalo", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Reina Sin Permiso", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Repe Repe", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Repe-Repe (RMIX CALLE)", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Repe-Repe (RMIX WOMEN)", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Repe-Repe – (RMIX INTERNACIONAL)", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Rhythm & Blood (Blus)", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Rompe el Bajo", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Ron & Calor", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Rue en Haute Définition", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Ruh Libre", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "RÁFAGA DE CADERA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "RÁFAGA DE CADERA (RMIX CLUB)", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Sabor A Ti", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Sal de Plata y Carcajadas", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Sans Filtre", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Say my name", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "SCRATCH DOMINATION", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "SE FUE TO'A PIQUE", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "SE HIZO EL FAMOSO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Se Hizo Viral", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Se Hizo Viral (Rmix)", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "SE PRENDIÓ LA VAINA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Sexy Dale Muévelo", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "SHAKE LOW", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "SHAKE THE GROUND", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Shorty Prendía", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Si Alguna Vez Te Acuerdas", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Sigue El Sol", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Sin Decirlo", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Sin Espacio", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Sin Filtro en el Bloque", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Sin papeles", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Sin Saberlo", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Sombra del Desierto", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Sout Zan9a", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Soy el Incendio", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Stronger", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Substitution", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Sudor & Pecado", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "TA'ACTIVO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "TAMO'QUÍ TRANQUILO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Tange Dyali", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Te Amé Sin Medida", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "TE BAJO EL MUNDO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Te Di Más De Lo Que Tenía", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Te Fuiste y Punto", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Te Provoca", "album": "Calle Pero Elegante", "cover": "https://i.scdn.co/image/ab67616d0000b27385ede9c7bf3b4cacc34b322e", "url": "https://open.spotify.com/album/00QfgYxlYTy7hFGMxfVdVi"}, {"title": "Te Quedó Grande Quererme", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Te Va a Doler Después", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Tierra de Chimbas (Guaracha)", "album": "A LO BIEN GUARACHA", "cover": "https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde", "url": "https://open.spotify.com/album/5W8QK2HeIWw6yMx3cb30MX"}, {"title": "Tigueraje de Tánger", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Tourne Encore", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Tribal Fuego", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "TRIPLE IMPACTO", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "TRIPLE IMPACTO (RMIX CLUB)", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "TRIPLE PRESIÓN", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "Tu de mi", "album": "ELECTRO LATINO CON FL0W", "cover": "https://i.scdn.co/image/ab67616d0000b27360ce12ae0c1e728e164175ea", "url": "https://open.spotify.com/album/1Htixw5aVT4ZsNIX5dQ8gk"}, {"title": "Tu Fuego", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Tu Truco de Magia", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Twa Vwa Yon Lanmmou", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Tú & Yo", "album": "Lía Vibes", "cover": "https://i.scdn.co/image/ab67616d0000b2730dba45d2f143e05c4db24810", "url": "https://open.spotify.com/album/2NYU0vAD6PMvcB5a1wkPba"}, {"title": "Tú Sabes Cómo Es", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Tú y Yo", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Un Solo Intento", "album": "SE HIZO VIRAL - PARA TIK TOK", "cover": "https://i.scdn.co/image/ab67616d0000b2735c56ed360978b4fe979dd1f0", "url": "https://open.spotify.com/album/5LiUSC300Nz9S3CW0GMTBa"}, {"title": "Una Noche Sin Salida", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Vaitimbora", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Valió La Pena", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Vanity", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Vanité", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "VELOCIDAD CRÍTICA", "album": "TETEO MUNDIAL", "cover": "https://i.scdn.co/image/ab67616d0000b273cd2dcf4458b0832d3aae54fa", "url": "https://open.spotify.com/album/0ziIYcwUL8gsB3dT2vwuDg"}, {"title": "VINYL WARFARE", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Waist & Cintura", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Waka Fire", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Walks in Power", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Weld Tange", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "WILD CIRCUIT", "album": "TWERK", "cover": "https://i.scdn.co/image/ab67616d0000b27399b068b2976312d6a21347ca", "url": "https://open.spotify.com/album/2Q8PHbRYEzSHs2DwAelNLI"}, {"title": "Ya No Quiero Tu Querer", "album": "Spirit of the Drum", "cover": "https://i.scdn.co/image/ab67616d0000b2731b002dfeffb749861440d7a5", "url": "https://open.spotify.com/album/3eGgVUr03l4tBwlX0RAqpx"}, {"title": "Ya No Voy a Fingir", "album": "Una Noche En La Cantina (Rancheras)", "cover": "https://i.scdn.co/image/ab67616d0000b273d51cf1b62b8a05563e4f3b29", "url": "https://open.spotify.com/album/0YT5E8sNkzMCJSbvb21Fwt"}, {"title": "Yo Me Sostengo", "album": "METAVERSO FLAMENCO", "cover": "https://i.scdn.co/image/ab67616d0000b2732fee48444bebb78455466ed3", "url": "https://open.spotify.com/album/2EVu7EMt17SHUk6Gtrt618"}, {"title": "Yo Venir de Lejos", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "You said", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}, {"title": "Zan9a Caliente", "album": "Triq l-hayat", "cover": "https://i.scdn.co/image/ab67616d0000b2730d202cdb26ba6f9e941db029", "url": "https://open.spotify.com/album/4KYQQQwwPEQDor3UQIBZJF"}, {"title": "Ça Tourne Sale", "album": "La force Afro", "cover": "https://i.scdn.co/image/ab67616d0000b2735059ce0d4d859eeb040c8a11", "url": "https://open.spotify.com/album/54v1K9QKI71kIc8vLsxL2I"}, {"title": "Égoïste", "album": "DANCEHALL MUSIC", "cover": "https://i.scdn.co/image/ab67616d0000b273f574ad191f9f2b338379de49", "url": "https://open.spotify.com/album/14YAqE3OLFVPmNXUMNZI1w"}]};
+
+const albumGrid = document.getElementById('album-grid');
+const songsList = document.getElementById('songs-list');
+const playlistGrid = document.getElementById('playlist-grid');
+const albumGenreFilter = document.getElementById('album-genre-filter');
+const songGenreFilter = document.getElementById('song-genre-filter');
+const videoGrid = document.getElementById('video-grid');
+const modal = document.getElementById('album-modal');
+const albumDetail = document.getElementById('album-detail');
+const STORAGE_KEYS = {
+  profile: 'jfcx_profile',
+  videos: 'jfcx_videos',
+  photos: 'jfcx_photos',
+  stats: 'jfcx_stats',
+  songs: 'jfcx_custom_songs',
+  contacts: 'yf_sessions_contacts'
+};
+
+
+
+
+const PLATFORM_LINKS = [
+  { name:'Spotify', url:'https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN' },
+  { name:'YouTube', url:'https://www.youtube.com/@YFSessions' },
+  { name:'Instagram', url:'https://www.instagram.com/yfsessionshd/' },
+  { name:'Apple Music', url:'https://music.apple.com/search?term=YF%20Sessions' },
+  { name:'YouTube Music', url:'https://music.youtube.com/search?q=YF%20Sessions' },
+  { name:'Deezer', url:'https://www.deezer.com/search/YF%20Sessions' },
+  { name:'Amazon Music', url:'https://music.amazon.com/search/YF%20Sessions' },
+  { name:'TikTok', url:'https://www.tiktok.com/search?q=YF%20Sessions' }
+];
+const ALBUM_GENRES = {
+  'A LO BIEN GUARACHA':'Guaracha',
+  'BODY IN FIRE':'Reggaeton / R&B latino',
+  'DANCEHALL MUSIC':'Dancehall',
+  'METAVERSO FLAMENCO':'Flamenco urbano',
+  'L?a Vibes':'R&B latino',
+  'Calle Pero Elegante':'Reggaeton callejero',
+  'Triq l-hayat':'Afro-Maghreb urbano',
+  'TWERK':'Twerk / Club urbano',
+  'Do not disturb (LO-FI SESSION)':'Chill-out / Lo-Fi',
+  'TETEO MUNDIAL':'Dembow',
+  'Spirit of the Drum':'Afro-house / Percusion',
+  'La force Afro':'Afrobeat / Afro-house',
+  'SE HIZO VIRAL - PARA TIK TOK':'Electro latino / TikTok',
+  'ELECTRO LATINO CON FL0W':'Electro latino',
+  'Una Noche En La Cantina (Rancheras)':'Ranchera / Regional latino',
+  'EL Tiguere No Paga':'Dembow',
+  'Do?a Vigilancia ?Vecinaaa?':'Ranchera / Regional latino'
+};
+const GENRE_DESCRIPTIONS = {
+  'Guaracha':'Ritmo acelerado de club latino, aleteo, zapateo y energia de pista.',
+  'Reggaeton / R&B latino':'Mezcla urbana sensual con bajo latino, melodia R&B y noche cinematografica.',
+  'Dancehall':'Vibra caribena internacional con energia de baile, flow mel?dico y groove caliente.',
+  'Flamenco urbano':'Raiz flamenca mezclada con calle, palmas, tacon y actitud urbana.',
+  'R&B latino':'Voz emocional, textura urbana suave, deseo, cicatrices y relato femenino.',
+  'Reggaeton callejero':'Perreo oscuro, barrio, bajo pesado y actitud frontal de calle.',
+  'Afro-Maghreb urbano':'Fusion norteafricana, Darija, desierto, viaje y beat urbano.',
+  'Twerk / Club urbano':'Club agresivo, bajos pesados, movimiento corporal y energia nocturna.',
+  'Chill-out / Lo-Fi':'Textura tranquila, instrumental, enfoque, calma y ambiente relajado.',
+  'Dembow':'Teteo dominicano, rebote, cabina, coro rapido y energia de bloque.',
+  'Afro-house / Percusion':'Percusion organica, groove afro, pulso ritual y pista elegante.',
+  'Afrobeat / Afro-house':'Cintura, percusion, groove afro y fuego corporal.',
+  'Electro latino / TikTok':'Hooks cortos, beat directo y energia viral para clips y baile.',
+  'Electro latino':'Sintetizadores, club latino, melodia comercial y movimiento.',
+  'Ranchera / Regional latino':'Cantina, despecho, orgullo herido y dramatismo regional latino.',
+  'Bachata':'Guitarra romantica, cadencia caribena, desamor y baile pegado.',
+  'Urban Latin':'Sonido latino urbano con mezcla flexible de club, calle y melodia.'
+};
+
+const GENRE_RULES = [
+  ['Guaracha', ['guaracha', 'aleteo', 'zapateo']],
+  ['Dancehall', ['dancehall', 'dance', 'darling', 'baby']],
+  ['Afro', ['afro', 'drum', 'tribal', 'waka', 'force']],
+  ['Flamenco urbano', ['flamenco', 'buler', 'tacon', 'canti']],
+  ['Regueton', ['calle', 'tiguere', 'barrio', 'perreo', 'chapa', 'hasta abajo', 'dembow']],
+  ['Dembow', ['teteo', 'batidora', 'rebote', 'turbo', 'rafaga']],
+  ['Lo-Fi', ['lo-fi', 'zen', 'relax', 'water', 'tibet', 'focus']],
+  ['R&B', ['vibes', 'love', 'amor', 'piel', 'body', 'fuego']],
+  ['Rancheras', ['rancheras', 'cantina', 'quererme', 'pena']],
+  ['Electro latino', ['electro', 'flow', 'club', 'rmix', 'viral']]
+];
+
+const ALBUM_DESCRIPTIONS = {
+  'A LO BIEN GUARACHA': 'Guaracha de alto voltaje con energia de barrio, zapateo, aleteo y lenguaje directo para prender la pista desde el primer tema.',
+  'BODY IN FIRE': 'Urban latin y R&B caliente, centrado en cuerpo, noche, deseo, bajo pesado y movimiento sensual.',
+  'DANCEHALL MUSIC': 'Dancehall melodico con letras en ingles y frances, vibra internacional, poder femenino y energia caribena.',
+  'METAVERSO FLAMENCO': 'Flamenco urbano con calle, palmas, tacon, raiz latina y actitud de mujer fuerte sin permiso.',
+  'L?a Vibes': 'Universo femenino de cicatrices, fuego, verdad y asfalto; R&B urbano con identidad visual cinematografica.',
+  'Calle Pero Elegante': 'Regueton callejero con elegancia oscura, barrio, bajo, provocacion y actitud frontal.',
+  'Triq l-hayat': 'Fusion magrebi urbana con Darija, Tanger, desierto, calle y viaje migrante convertido en musica.',
+  'TWERK': 'Club, twerk y electronica agresiva: bajos rotos, energia industrial y pista en modo impacto.',
+  'Do not disturb (LO-FI SESSION)': 'Lo-fi instrumental para concentracion, calma, agua, zen y atmosfera introspectiva.',
+  'TETEO MUNDIAL': 'Dembow y teteo dominicano con frases de bloque, cabina, turbo, rebote y fiesta pesada.',
+  'Spirit of the Drum': 'Percusion global, afro y drum sessions con groove organico y espiritu ritual.',
+  'La force Afro': 'Afro urbano, frances, creole y ritmo corporal con fuego, cintura, tribal y calle.',
+  'SE HIZO VIRAL - PARA TIK TOK': 'Electro latino y hooks cortos pensados para clips, baile, redes y repeticion inmediata.',
+  'ELECTRO LATINO CON FL0W': 'Electro latino bailable con flow comercial, club, melodia y energia de verano.',
+  'Una Noche En La Cantina (Rancheras)': 'Rancheras de despecho, cantina, amor perdido y orgullo herido con dramatismo latino.',
+  'Bachata Sessions': 'Bachata romantica con guitarra, cadencia caribena y letras de amor/desamor.'
+};
+
+function normalizeText(value){
+  return (value || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+function detectGenre(item){
+  if(item.genre) return item.genre;
+  if(item.album && ALBUM_GENRES[item.album]) return ALBUM_GENRES[item.album];
+  if(ALBUM_GENRES[item.title]) return ALBUM_GENRES[item.title];
+  const haystack = normalizeText([item.title, item.album, ...(item.tracks || [])].join(' '));
+  if(haystack.includes('bachata')) return 'Bachata';
+  const found = GENRE_RULES.find(([, keys]) => keys.some(key => haystack.includes(normalizeText(key))));
+  return found ? found[0] : 'Urban Latin';
+}
+function describeSong(song){
+  if(song.description) return song.description;
+  const genre = song.genre || detectGenre(song);
+  const base = GENRE_DESCRIPTIONS[genre] || GENRE_DESCRIPTIONS['Urban Latin'];
+  return `${song.title} - ${base}`;
+}
+function renderPlatforms(){
+  const strip = document.getElementById('platform-strip');
+  if(!strip) return;
+  strip.innerHTML = PLATFORM_LINKS.map((platform) => `<a class="platform-btn" href="${platform.url}" target="_blank" rel="noopener">${platform.name}</a>`).join('');
+}
+function createGenreFilter(container, genres, onChange){
+  let active = 'Todos';
+  container.innerHTML = ['Todos', ...genres].map((genre, index) => `<button class="genre-chip${index === 0 ? ' active' : ''}" type="button" data-genre="${genre}">${genre}</button>`).join('');
+  container.querySelectorAll('.genre-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      active = chip.dataset.genre;
+      container.querySelectorAll('.genre-chip').forEach((item) => item.classList.toggle('active', item === chip));
+      onChange(active);
+    });
+  });
+}
+function openAlbumDetail(album){
+  const description = ALBUM_DESCRIPTIONS[album.title] || `${album.title} forma parte del catalogo oficial de YF Sessions, con una identidad visual urbana y sonido latino cinematografico.`;
+  const tracks = (album.tracks || []).map((track, index) => `<li>${index + 1}. ${track}</li>`).join('') || '<li>Single oficial</li>';
+  albumDetail.innerHTML = `
+    <div class="album-detail">
+      <img src="${album.cover}" alt="${album.title}">
+      <div>
+        <h3>${album.title}</h3>
+        <div class="meta">${album.type || 'Album'} - ${album.genre || detectGenre(album)}${album.tracks && album.tracks.length ? ' - ' + album.tracks.length + ' temas' : ''}</div>
+        <p>${description}</p>
+        <ul class="track-list">${tracks}</ul>
+        <div class="modal-actions">
+          <a class="btn-primary" href="${album.url}" target="_blank" rel="noopener">Reproducir en Spotify</a>
+        </div>
+      </div>
+    </div>`;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+}
+function closeAlbumDetail(){
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+}
+function getYoutubeId(url){
+  const match = String(url).match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+  return match ? match[1] : '';
+}
+function loadJson(key, fallback){
+  try { return JSON.parse(localStorage.getItem(key)) || fallback; }
+  catch { return fallback; }
+}
+function saveJson(key, value){
+  localStorage.setItem(key, JSON.stringify(value));
+}
+async function api(path, options = {}){
+  const headers = { 'content-type':'application/json', ...(options.headers || {}) };
+  const response = await fetch(path, { credentials:'same-origin', ...options, headers });
+  const data = await response.json().catch(() => ({}));
+  if(!response.ok) throw new Error(data.error || 'Error de servidor');
+  return data;
+}
+async function syncPublicFromServer(){
+  try {
+    const state = await api('/api/public');
+    saveJson(STORAGE_KEYS.profile, state.profile);
+    saveJson(STORAGE_KEYS.videos, state.videos || []);
+    saveJson(STORAGE_KEYS.photos, state.photos || []);
+    saveJson(STORAGE_KEYS.songs, state.songs || []);
+    youtubeVideos = state.videos && state.videos.length ? state.videos : youtubeVideos;
+    customSongs = state.songs || customSongs;
+    refreshSongs();
+    applyProfile();
+    renderVideos(youtubeVideos);
+    renderPhotos();
+  } catch {}
+}
+async function syncAdminFromServer(){
+  const state = await api('/api/admin/state');
+  saveJson(STORAGE_KEYS.profile, state.profile);
+  saveJson(STORAGE_KEYS.videos, state.videos || []);
+  saveJson(STORAGE_KEYS.photos, state.photos || []);
+  saveJson(STORAGE_KEYS.songs, state.songs || []);
+  saveJson(STORAGE_KEYS.contacts, state.contacts || []);
+  saveJson(STORAGE_KEYS.stats, state.stats || getStats());
+  youtubeVideos = state.videos || [];
+  customSongs = state.songs || [];
+  refreshSongs();
+  applyProfile();
+  fillProfileForm();
+  renderVideos(youtubeVideos);
+  renderAdmin();
+}
+function getStats(){
+  return loadJson(STORAGE_KEYS.stats, { visits: 0, spotifyClicks: 0, youtubeClicks: 0, clicks: {} });
+}
+function saveStats(stats){
+  saveJson(STORAGE_KEYS.stats, stats);
+}
+function trackClick(label, type){
+  const stats = getStats();
+  if(type === 'youtube') stats.youtubeClicks += 1;
+  else stats.spotifyClicks += 1;
+  stats.clicks[label] = (stats.clicks[label] || 0) + 1;
+  saveStats(stats);
+  api('/api/click', { method:'POST', body:JSON.stringify({ label, type }) }).catch(() => {});
+  renderAdmin();
+}
+
+function svgPlay(){
+  return '<svg width="16" height="16" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+}
+function svgArrow(){
+  return '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+}
+function svgList(){
+  return '<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+}
+
+// ===== ALBUMS + SINGLES =====
+const allReleases = [...DATA.albums.map(a => ({...a, type:'Álbum'})), ...DATA.singles.map(s => ({...s, type:'Single', tracks:[]}))];
+document.getElementById('count-albums').textContent = allReleases.length;
+
+allReleases.forEach((release) => {
+  release.genre = detectGenre(release);
+  release.description = ALBUM_DESCRIPTIONS[release.title] || '';
+});
+const releaseGenres = [...new Set(allReleases.map((release) => release.genre))].sort((a,b)=>a.localeCompare(b,'es'));
+createGenreFilter(albumGenreFilter, releaseGenres, renderAlbums);
+
+function renderAlbums(genre){
+  albumGrid.innerHTML = '';
+  const filtered = !genre || genre === 'Todos' ? allReleases : allReleases.filter((release) => release.genre === genre);
+  filtered.forEach((a, i) => {
+    const card = document.createElement('article');
+    card.className = 'album-card';
+    card.innerHTML = `
+      <a href="${a.url}" target="_blank" rel="noopener" aria-label="Abrir ${a.title} en Spotify">
+        <div class="album-cover-wrap">
+          <img src="${a.cover}" alt="${a.title}" loading="lazy">
+          <div class="play-badge">${svgPlay()}</div>
+        </div>
+      </a>
+      <div class="album-info">
+        <h3>${a.title}</h3>
+        <span>${a.type} - ${a.genre}${a.tracks.length ? ' - ' + a.tracks.length + ' temas' : ''}</span>
+      </div>
+      <div class="album-actions">
+        <button class="album-action" type="button">Ver canciones</button>
+        <a class="album-action secondary" href="${a.url}" target="_blank" rel="noopener">Reproducir</a>
+      </div>`;
+    card.querySelector('button').addEventListener('click', () => openAlbumDetail(a));
+    albumGrid.appendChild(card);
+    setTimeout(() => card.classList.add('in'), 30 * i);
+  });
+}
+renderAlbums('Todos');
+
+// ===== SONGS (alphabetical) =====
+let customSongs = loadJson(STORAGE_KEYS.songs, []);
+let songs = [...DATA.songs, ...customSongs].sort((a,b)=> a.title.localeCompare(b.title, 'es', {sensitivity:'base'}));
+songs.forEach((song) => { song.genre = detectGenre(song); song.description = describeSong(song); });
+const songGenres = [...new Set(songs.map((song) => song.genre))].sort((a,b)=>a.localeCompare(b,'es'));
+let activeSongGenre = 'Todos';
+createGenreFilter(songGenreFilter, songGenres, (genre) => { activeSongGenre = genre; renderSongs(document.getElementById('song-search-input').value); });
+document.getElementById('count-songs').textContent = songs.length;
+
+function renderSongs(filter){
+  songsList.innerHTML = '';
+  const f = (filter||'').toLowerCase().trim();
+  const filtered = songs.filter(s => (activeSongGenre === 'Todos' || s.genre === activeSongGenre) && (!f || normalizeText(s.title).includes(normalizeText(f)) || normalizeText(s.album).includes(normalizeText(f)) || normalizeText(s.genre).includes(normalizeText(f))));
+
+  if(!filtered.length){
+    songsList.innerHTML = '<div class="empty-state">No se encontraron canciones con ese nombre.</div>';
+    return;
+  }
+
+  let lastLetter = null;
+  let idx = 0;
+  filtered.forEach((s) => {
+    const letter = s.title.charAt(0).toUpperCase();
+    if(!f && letter !== lastLetter){
+      const div = document.createElement('div');
+      div.className = 'letter-divider';
+      div.textContent = letter;
+      songsList.appendChild(div);
+      lastLetter = letter;
+    }
+    idx++;
+    const row = document.createElement('a');
+    row.className = 'song-row';
+    row.href = s.url; row.target = '_blank'; row.rel = 'noopener';
+    row.innerHTML = `
+      <span class="song-idx">${idx}</span>
+      <div class="song-thumb"><img src="${s.cover}" alt="" loading="lazy"></div>
+      <div class="song-main">
+        <div class="song-title">${s.title}</div>
+        <div class="song-album">${s.album} - ${s.genre}</div><div class="song-desc">${describeSong(s)}</div>
+      </div>
+      <span class="song-letter">${letter}</span>
+      <span class="song-go">${svgArrow()}</span>`;
+    songsList.appendChild(row);
+  });
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.song-row').forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), Math.min(i,40) * 12);
+    });
+  });
+}
+renderSongs('');
+document.getElementById('song-search-input').addEventListener('input', (e) => renderSongs(e.target.value));
+
+// ===== PLAYLISTS =====
+document.getElementById('count-playlists').textContent = DATA.playlists.length;
+DATA.playlists.forEach(p => {
+  const card = document.createElement('a');
+  card.className = 'playlist-card';
+  card.href = p.url; card.target = '_blank'; card.rel = 'noopener';
+  card.innerHTML = `<div class="pl-icon">${svgList()}</div><h3>${p.title}</h3><span>Playlist oficial · Spotify</span>`;
+  playlistGrid.appendChild(card);
+});
+
+
+
+// ===== YOUTUBE VIDEOS =====
+const DEFAULT_YOUTUBE_VIDEOS = [
+  { title:'El Amor Verdadero No Necesita Ruido: Descubre Su Silencio', url:'https://www.youtube.com/watch?v=AakqiN_MIFY', youtubeId:'AakqiN_MIFY', channel:'YF Sessions' },
+  { title:'05 DESDE QUE LLEGASTE feat  SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS', url:'https://www.youtube.com/watch?v=-KiPTbfU2bs', youtubeId:'-KiPTbfU2bs', channel:'YF Sessions' },
+  { title:'06 ELLA NO ESTABA ROTA feat  SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS', url:'https://www.youtube.com/watch?v=y1-m1SaoSno', youtubeId:'y1-m1SaoSno', channel:'YF Sessions' },
+  { title:'09 LLEGASTE A TIEMPO feat  SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS', url:'https://www.youtube.com/watch?v=UPgYebBVuG8', youtubeId:'UPgYebBVuG8', channel:'YF Sessions' },
+  { title:'12  TRAJE LIMPIO, MANOS SUCIAS feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=Y6w-nk7aqfI', youtubeId:'Y6w-nk7aqfI', channel:'YF Sessions' },
+  { title:'11  REJAS INVISIBLES feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=SuXxCSxtSnY', youtubeId:'SuXxCSxtSnY', channel:'YF Sessions' },
+  { title:'BALANCE ROTO feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=tJsCLVIuCAA', youtubeId:'tJsCLVIuCAA', channel:'YF Sessions' },
+  { title:'ENTRE CAOS Y CONCIENCIA feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=TDVM0XWCFGk', youtubeId:'TDVM0XWCFGk', channel:'YF Sessions' },
+  { title:'SILENCIO QUE PESA feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=zYmlcfDi0Fc', youtubeId:'zYmlcfDi0Fc', channel:'YF Sessions' },
+  { title:'01  SIN MASCARAS feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=suyAqgCPel8', youtubeId:'suyAqgCPel8', channel:'YF Sessions' },
+  { title:'35  YOU WATCHED ME FALL', url:'https://www.youtube.com/watch?v=B_webYMkz5k', youtubeId:'B_webYMkz5k', channel:'YF Sessions' },
+  { title:"06  DON'T CALL IT LOVE IF YOU'RE AFRAID", url:'https://www.youtube.com/watch?v=pxk0XLjtgDI', youtubeId:'pxk0XLjtgDI', channel:'YF Sessions' },
+  { title:"Que Lo Cante To' El Mundo feat  YANKYFILMS", url:'https://www.youtube.com/watch?v=Y0847EIa4u8', youtubeId:'Y0847EIa4u8', channel:'YF Sessions' },
+  { title:'Yo Quiero Bailar Playero Rmix feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=8yZJhtOXER8', youtubeId:'8yZJhtOXER8', channel:'YF Sessions' },
+  { title:'Sudor y Bajo feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=vXabnbx69YE', youtubeId:'vXabnbx69YE', channel:'YF Sessions' },
+  { title:'Sale el Sol y Nadie se Quiere Ir feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=cZy9fxLOp6A', youtubeId:'cZy9fxLOp6A', channel:'YF Sessions' },
+  { title:'Que No Se Apague feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=fJ7L0Q33kd4', youtubeId:'fJ7L0Q33kd4', channel:'YF Sessions' },
+  { title:'Punto Cuarenta feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=2IhQYeEnhQE', youtubeId:'2IhQYeEnhQE', channel:'YF Sessions' },
+  { title:'Nadie Se Quite feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=3rTePZksCOo', youtubeId:'3rTePZksCOo', channel:'YF Sessions' },
+  { title:'La Cherry Prendia feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=D0Eb6KS1abE', youtubeId:'D0Eb6KS1abE', channel:'YF Sessions' },
+  { title:'Contacto Sin Freno feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=BE6zNGJRamg', youtubeId:'BE6zNGJRamg', channel:'YF Sessions' },
+  { title:'12  TWO WAYS TO LOVE YOU', url:'https://www.youtube.com/watch?v=KSBD94GJMy8', youtubeId:'KSBD94GJMy8', channel:'YF Sessions' },
+  { title:"34  I WOULD'VE DIED FOR YOU", url:'https://www.youtube.com/watch?v=nmPgJ2zXo-k', youtubeId:'nmPgJ2zXo-k', channel:'YF Sessions' },
+  { title:"26  I DON'T TOUCH YOU", url:'https://www.youtube.com/watch?v=TxLLMjMY1kE', youtubeId:'TxLLMjMY1kE', channel:'YF Sessions' }
+];
+let youtubeVideos = loadJson(STORAGE_KEYS.videos, DATA.videos || DEFAULT_YOUTUBE_VIDEOS);
+document.getElementById('count-videos').textContent = youtubeVideos.length;
+function renderVideos(videos){
+  if(!videos.length){
+    videoGrid.innerHTML = '<div class="empty-state">Pasame los enlaces de YouTube y los coloco aqui con miniatura, canal y enlace directo.</div>';
+    return;
+  }
+  videoGrid.innerHTML = videos.map((video) => {
+    const id = video.youtubeId || getYoutubeId(video.url);
+    const thumb = video.thumb || (id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
+    return `<a class="video-card" href="${video.url}" target="_blank" rel="noopener">
+      <div class="video-thumb">${thumb ? `<img src="${thumb}" alt="${video.title || 'Video YF Sessions'}" loading="lazy">` : ''}</div>
+      <div class="video-info"><h3>${video.title || 'Video YF Sessions'}</h3><span>${video.channel || 'YouTube'}${video.spotifyUrl ? ' - Spotify conectado' : ''}</span></div>
+    </a>`;
+  }).join('');
+}
+renderVideos(youtubeVideos);
+document.getElementById('youtube-preview-btn').addEventListener('click', () => {
+  const input = document.getElementById('youtube-url-input');
+  const id = getYoutubeId(input.value);
+  if(!id){ renderVideos(youtubeVideos); return; }
+  renderVideos([{ title:'Previsualizacion YouTube', channel:'YouTube', url:input.value, youtubeId:id }, ...youtubeVideos]);
+});
+document.getElementById('modal-close').addEventListener('click', closeAlbumDetail);
+modal.addEventListener('click', (event) => { if(event.target === modal) closeAlbumDetail(); });
+document.addEventListener('keydown', (event) => { if(event.key === 'Escape') closeAlbumDetail(); });
+
+
+const ADMIN_CREDENTIALS = { email:'admin@yfsessionsrecords.com', password:'YF2026!' };
+function isAdminAuthed(){ return sessionStorage.getItem('yf_admin_auth') === '1'; }
+function showAdminLogin(){ document.getElementById('admin-login').classList.add('active'); }
+function hideAdminLogin(){ document.getElementById('admin-login').classList.remove('active'); }
+function openPrivateAdmin(){
+  if(!isAdminAuthed()) { showAdminLogin(); return; }
+  tabs.forEach(t => t.classList.remove('active'));
+  views.forEach(v => v.classList.remove('active'));
+  document.getElementById('view-admin').classList.add('active');
+  window.scrollTo({top: document.querySelector('.tabs-wrap').offsetTop - 1, behavior:'smooth'});
+  renderAdmin();
+}
+function renderContacts(){
+  const list = document.getElementById('admin-contact-list');
+  if(!list) return;
+  const contacts = loadJson(STORAGE_KEYS.contacts, []);
+  list.innerHTML = contacts.map((item, index) => `
+    <div class="contact-card">
+      <strong>${item.name} - ${item.type}</strong>
+      <small>${item.email}${item.link ? ' - ' + item.link : ''} - ${item.date}</small>
+      <p>${item.message}</p>
+      <button class="admin-mini-btn" data-contact-remove="${index}" type="button">Quitar</button>
+    </div>`).join('') || '<div class="empty-state">No hay solicitudes todavia.</div>';
+}
+
+// ===== ADMIN DASHBOARD =====
+function defaultPhotos(){
+  return [
+    { title:'YF Sessions logo', url:'https://i.scdn.co/image/ab6761610000e5eb60429b62905033e6c2c2ee6b' },
+    { title:'A LO BIEN GUARACHA', url:'https://i.scdn.co/image/ab67616d0000b273e727b3e44f28660b02000fde' }
+  ];
+}
+function loadProfile(){
+  const profile = loadJson(STORAGE_KEYS.profile, {
+    name:'YF Sessions',
+    hero:'El catalogo oficial de YF Sessions - guaracha, dancehall, afro, flamenco urbano y mas. Todo el sonido, en un solo lugar.',
+    bio:'YF Sessions es el sello musical de YF Sessions Records. Reggae-conscious, urban latin y R&B donde el artista nunca aparece en camara. La narrativa visual la llevan los modelos, con una paleta roja, ambar y dorada que define cada lanzamiento.',
+    spotify:'https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN',
+    youtube:'https://www.youtube.com/@YFSessions',
+    instagram:'YF Sessions HD',
+    footer:'YF Sessions Records'
+  });
+  if(!profile.youtube || profile.youtube.includes('@JFCX')) profile.youtube = 'https://www.youtube.com/@YFSessions';
+  if(!profile.spotify) profile.spotify = 'https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN';
+  if(!profile.instagram || profile.instagram.includes('JFCX')) profile.instagram = 'YF Sessions HD';
+  if(!profile.footer || profile.footer.includes('JFCX')) profile.footer = 'YF Sessions Records';
+  if(profile.bio && profile.bio.includes('JFCX Records')) profile.bio = profile.bio.replaceAll('JFCX Records', 'YF Sessions Records');
+  saveJson(STORAGE_KEYS.profile, profile);
+  return profile;
+}
+function applyProfile(){
+  const profile = loadProfile();
+  document.querySelector('.brand-name').innerHTML = `${profile.name.split(' ')[0] || 'YF'} <span>${profile.name.split(' ').slice(1).join(' ') || 'SESSIONS'}</span>`;
+  const heroText = document.querySelector('.hero-content p');
+  if(heroText) heroText.textContent = profile.hero;
+  const aboutText = document.querySelector('.about p');
+  if(aboutText) aboutText.textContent = profile.bio;
+  document.querySelectorAll('a[href*="open.spotify.com/artist"]').forEach((link) => { link.href = profile.spotify; });
+  const footerCredit = document.querySelector('.footer-credit');
+  if(footerCredit) footerCredit.textContent = `© 2026 ${profile.footer}`;
+  const footerLinks = document.querySelector('.footer-links');
+  if(footerLinks) {
+    footerLinks.innerHTML = `
+      <a href="${profile.spotify}" target="_blank" rel="noopener">Spotify</a>
+      <a href="${profile.youtube || 'https://www.youtube.com/@YFSessions'}" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.instagram.com/yfsessionshd/" target="_blank" rel="noopener">Instagram</a>`;
+  }
+}
+function fillProfileForm(){
+  const profile = loadProfile();
+  document.getElementById('profile-name').value = profile.name;
+  document.getElementById('profile-hero').value = profile.hero;
+  document.getElementById('profile-bio').value = profile.bio;
+  document.getElementById('profile-spotify').value = profile.spotify;
+  document.getElementById('profile-youtube').value = profile.youtube;
+  document.getElementById('profile-instagram').value = profile.instagram;
+  document.getElementById('profile-footer').value = profile.footer;
+}
+function renderPhotos(){
+  const photos = loadJson(STORAGE_KEYS.photos, defaultPhotos());
+  document.getElementById('photo-grid').innerHTML = photos.map((photo, index) => `
+    <div class="photo-card">
+      <img src="${photo.url}" alt="${photo.title}" loading="lazy">
+      <span>${photo.title} <button class="admin-mini-btn" data-photo-remove="${index}" type="button">Quitar</button></span>
+    </div>`).join('');
+}
+function renderAdminVideos(){
+  const list = document.getElementById('admin-video-list');
+  list.innerHTML = youtubeVideos.map((video, index) => {
+    const id = video.youtubeId || getYoutubeId(video.url);
+    const thumb = video.thumb || (id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
+    return `<div class="admin-item">
+      <img src="${thumb}" alt="">
+      <div><strong>${video.title || 'Video YF Sessions'}</strong><small>${video.channel || 'YouTube'}</small></div>
+      <button class="admin-mini-btn" data-video-remove="${index}" type="button">Quitar</button>
+    </div>`;
+  }).join('') || '<div class="empty-state">No hay videos fijos todavia.</div>';
+}
+function renderMetrics(){
+  const stats = getStats();
+  const totalClicks = stats.spotifyClicks + stats.youtubeClicks;
+  document.getElementById('admin-metrics').innerHTML = `
+    <div class="metric"><b>${stats.visits}</b><span>Visitas locales</span></div>
+    <div class="metric"><b>${stats.spotifyClicks}</b><span>Clicks Spotify</span></div>
+    <div class="metric"><b>${stats.youtubeClicks}</b><span>Clicks YouTube</span></div>
+    <div class="metric"><b>${totalClicks}</b><span>Clicks totales</span></div>
+    <div class="metric"><b>${allReleases.length}</b><span>Releases</span></div>
+    <div class="metric"><b>${songs.length}</b><span>Canciones</span></div>`;
+  const top = Object.entries(stats.clicks).sort((a,b) => b[1] - a[1]).slice(0, 10);
+  document.getElementById('top-clicks').innerHTML = top.map(([label, count]) => `<div><span>${label}</span><strong>${count}</strong></div>`).join('') || '<div><span>Aun no hay clicks registrados</span><strong>0</strong></div>';
+}
+
+function refreshSongs(){
+  customSongs = loadJson(STORAGE_KEYS.songs, []);
+  songs = [...DATA.songs, ...customSongs].sort((a,b)=> a.title.localeCompare(b.title, 'es', {sensitivity:'base'}));
+  songs.forEach((song) => { song.genre = detectGenre(song); song.description = describeSong(song); });
+  document.getElementById('count-songs').textContent = songs.length;
+}
+function renderAdminSongs(){
+  const list = document.getElementById('admin-song-list');
+  if(!list) return;
+  list.innerHTML = customSongs.map((song, index) => `
+    <div class="admin-item">
+      <img src="${song.cover}" alt="">
+      <div><strong>${song.title}</strong><small>${song.genre} - ${song.album}</small></div>
+      <button class="admin-mini-btn" data-song-remove="${index}" type="button">Quitar</button>
+    </div>`).join('') || '<div class="empty-state">No hay canciones manuales todavia.</div>';
+}
+
+function renderAdmin(){
+  document.getElementById('count-videos').textContent = youtubeVideos.length;
+  renderAdminVideos();
+  renderAdminSongs();
+  renderPhotos();
+  renderContacts();
+  renderMetrics();
+}
+function initAdmin(){
+  const stats = getStats();
+  if(!sessionStorage.getItem('jfcx_visit_counted')){
+    stats.visits += 1;
+    sessionStorage.setItem('jfcx_visit_counted', '1');
+    saveStats(stats);
+    api('/api/visit', { method:'POST', body:JSON.stringify({}) }).catch(() => {});
+  }
+  fillProfileForm();
+  applyProfile();
+  syncPublicFromServer();
+  renderPlatforms();
+  renderAdmin();
+}
+
+document.getElementById('admin-login-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const email = document.getElementById('admin-email').value.trim().toLowerCase();
+  const password = document.getElementById('admin-password').value;
+  try {
+    await api('/api/login', { method:'POST', body:JSON.stringify({ email, password }) });
+    sessionStorage.setItem('yf_admin_auth', '1');
+    hideAdminLogin();
+    await syncAdminFromServer();
+    openPrivateAdmin();
+  } catch {
+    document.getElementById('admin-login-error').textContent = 'Correo o contrase?a incorrectos.';
+  }
+});
+document.getElementById('admin-cancel').addEventListener('click', () => {
+  hideAdminLogin();
+  history.replaceState(null, '', location.pathname);
+});
+document.getElementById('contact-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const contacts = loadJson(STORAGE_KEYS.contacts, []);
+  contacts.unshift({
+    name:document.getElementById('contact-name').value.trim(),
+    email:document.getElementById('contact-email').value.trim(),
+    type:document.getElementById('contact-type').value,
+    link:document.getElementById('contact-link').value.trim(),
+    message:document.getElementById('contact-message').value.trim(),
+    date:new Date().toLocaleString()
+  });
+  saveJson(STORAGE_KEYS.contacts, contacts);
+  api('/api/contacts', { method:'POST', body:JSON.stringify(contacts[0]) }).catch(() => {});
+  document.getElementById('contact-status').textContent = 'Solicitud guardada. YF Sessions Records revisara tu mensaje.';
+  event.target.reset();
+  renderContacts();
+});
+
+document.getElementById('profile-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const profile = {
+    name:document.getElementById('profile-name').value.trim() || 'YF Sessions',
+    hero:document.getElementById('profile-hero').value.trim(),
+    bio:document.getElementById('profile-bio').value.trim(),
+    spotify:document.getElementById('profile-spotify').value.trim(),
+    youtube:document.getElementById('profile-youtube').value.trim(),
+    instagram:document.getElementById('profile-instagram').value.trim(),
+    footer:document.getElementById('profile-footer').value.trim() || 'YF Sessions Records'
+  };
+  saveJson(STORAGE_KEYS.profile, profile);
+  await api('/api/admin/profile', { method:'PUT', body:JSON.stringify(profile) }).catch(() => {});
+  applyProfile();
+  renderAdmin();
+});
+document.getElementById('video-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const url = document.getElementById('video-url').value.trim();
+  const id = getYoutubeId(url);
+  if(!id) return;
+  youtubeVideos = [{
+    title:document.getElementById('video-title').value.trim() || 'Video YF Sessions',
+    url,
+    youtubeId:id,
+    channel:document.getElementById('video-channel').value.trim() || 'YF Sessions',
+    spotifyUrl:document.getElementById('video-spotify').value.trim()
+  }, ...youtubeVideos];
+  saveJson(STORAGE_KEYS.videos, youtubeVideos);
+  api('/api/admin/videos', { method:'POST', body:JSON.stringify(youtubeVideos[0]) }).catch(() => {});
+  renderVideos(youtubeVideos);
+  renderAdmin();
+  event.target.reset();
+  document.getElementById('video-channel').value = 'YF Sessions';
+});
+document.getElementById('photo-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const title = document.getElementById('photo-title').value.trim();
+  const url = document.getElementById('photo-url').value.trim();
+  if(!title || !url) return;
+  const photos = loadJson(STORAGE_KEYS.photos, defaultPhotos());
+  photos.unshift({ title, url });
+  saveJson(STORAGE_KEYS.photos, photos);
+  api('/api/admin/photos', { method:'POST', body:JSON.stringify(photos[0]) }).catch(() => {});
+  renderPhotos();
+  event.target.reset();
+});
+document.getElementById('view-admin').addEventListener('click', (event) => {
+  const videoRemove = event.target.dataset.videoRemove;
+  const photoRemove = event.target.dataset.photoRemove;
+  const songRemove = event.target.dataset.songRemove;
+  const contactRemove = event.target.dataset.contactRemove;
+  if(contactRemove !== undefined){
+    const contacts = loadJson(STORAGE_KEYS.contacts, []);
+    contacts.splice(Number(contactRemove), 1);
+    saveJson(STORAGE_KEYS.contacts, contacts);
+    renderContacts();
+  }
+  if(videoRemove !== undefined){
+    youtubeVideos.splice(Number(videoRemove), 1);
+    saveJson(STORAGE_KEYS.videos, youtubeVideos);
+    renderVideos(youtubeVideos);
+    renderAdmin();
+  }
+  if(songRemove !== undefined){
+    customSongs.splice(Number(songRemove), 1);
+    saveJson(STORAGE_KEYS.songs, customSongs);
+    refreshSongs();
+    renderSongs(document.getElementById('song-search-input').value);
+    renderAdmin();
+  }
+  if(photoRemove !== undefined){
+    const photos = loadJson(STORAGE_KEYS.photos, defaultPhotos());
+    photos.splice(Number(photoRemove), 1);
+    saveJson(STORAGE_KEYS.photos, photos);
+    renderPhotos();
+  }
+});
+
+document.getElementById('song-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  const song = {
+    title:document.getElementById('song-title-admin').value.trim(),
+    album:document.getElementById('song-album-admin').value.trim() || 'Single',
+    genre:document.getElementById('song-genre-admin').value.trim() || 'Urban Latin',
+    url:document.getElementById('song-url-admin').value.trim(),
+    cover:document.getElementById('song-cover-admin').value.trim() || 'https://i.scdn.co/image/ab6761610000e5eb60429b62905033e6c2c2ee6b',
+    description:document.getElementById('song-description-admin').value.trim()
+  };
+  if(!song.title || !song.url) return;
+  customSongs.unshift(song);
+  saveJson(STORAGE_KEYS.songs, customSongs);
+  api('/api/admin/songs', { method:'POST', body:JSON.stringify(song) }).catch(() => {});
+  refreshSongs();
+  renderSongs(document.getElementById('song-search-input').value);
+  renderAdmin();
+  event.target.reset();
+});
+
+document.getElementById('clear-contacts').addEventListener('click', () => { saveJson(STORAGE_KEYS.contacts, []); renderContacts(); });
+
+document.getElementById('reset-stats').addEventListener('click', () => {
+  saveStats({ visits: 0, spotifyClicks: 0, youtubeClicks: 0, clicks: {} });
+  api('/api/admin/reset-stats', { method:'POST', body:JSON.stringify({}) }).catch(() => {});
+  sessionStorage.removeItem('jfcx_visit_counted');
+  renderAdmin();
+});
+document.addEventListener('click', (event) => {
+  const link = event.target.closest('a[href]');
+  if(!link) return;
+  const href = link.href || '';
+  if(href.includes('open.spotify.com')){
+    trackClick((link.getAttribute('aria-label') || link.textContent || href).trim().slice(0, 90), 'spotify');
+  }
+  if(href.includes('youtube.com') || href.includes('youtu.be')){
+    trackClick((link.textContent || href).trim().slice(0, 90), 'youtube');
+  }
+});
+initAdmin();
+
+window.addEventListener('hashchange', () => { if(location.hash === '#admin') openPrivateAdmin(); });
+if(location.hash === '#admin') setTimeout(openPrivateAdmin, 300);
+
+// ===== TABS =====
+const tabs = document.querySelectorAll('.tab-btn');
+const views = document.querySelectorAll('.view');
+tabs.forEach(tab => {
+  if(!tab.querySelector('.pill')){
+    const pill = document.createElement('span');
+    pill.className = 'pill';
+    tab.insertBefore(pill, tab.firstChild);
+  }
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    views.forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + tab.dataset.tab).classList.add('active');
+    window.scrollTo({top: document.querySelector('.tabs-wrap').offsetTop - 1, behavior:'smooth'});
+  });
+});
+
+// header bg on scroll
+const headerEl = document.querySelector('header');
+window.addEventListener('scroll', () => {
+  if(window.scrollY > 60){ headerEl.style.background = 'rgba(10,6,4,.92)'; }
+  else { headerEl.style.background = 'linear-gradient(to bottom, rgba(10,6,4,.95), rgba(10,6,4,0))'; }
+});
+</script>
+</body>
+</html>

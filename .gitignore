@@ -1,0 +1,10 @@
+node_modules/
+.env
+*.log
+tmp/
+output/server-*.log
+data/db.local.json
+
+output/*.png
+output/server-*.out.log
+output/server-*.err.log
