@@ -482,10 +482,11 @@ footer{
 .video-thumb{ aspect-ratio:16/9; background:#080403; position:relative; overflow:hidden; }
 .video-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .35s ease; }
 .video-card:hover .video-thumb img{ transform:scale(1.06); }
-.video-thumb::after{ content:'PLAY'; position:absolute; inset:auto 14px 14px auto; width:54px;height:34px;border-radius:999px; display:flex;align-items:center;justify-content:center; background:linear-gradient(120deg,var(--red-bright),var(--amber)); color:#1a0805; font-size:1rem; }
+.video-embed{ width:100%; aspect-ratio:16/9; border:0; display:block; background:#080403; }
 .video-info{ padding:16px; }
 .video-info h3{ font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1; margin-bottom:8px; }
 .video-info span{ color:var(--text-dim); font-size:.78rem; }
+.video-info p{ color:var(--text-dim); font-size:.84rem; line-height:1.55; margin-top:10px; }
 
 
 .platform-strip{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
@@ -1293,32 +1294,2116 @@ DATA.playlists.forEach(p => {
 
 // ===== YOUTUBE VIDEOS =====
 const DEFAULT_YOUTUBE_VIDEOS = [
-  { title:'El Amor Verdadero No Necesita Ruido: Descubre Su Silencio', url:'https://www.youtube.com/watch?v=AakqiN_MIFY', youtubeId:'AakqiN_MIFY', channel:'YF Sessions' },
-  { title:'05 DESDE QUE LLEGASTE feat  SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS', url:'https://www.youtube.com/watch?v=-KiPTbfU2bs', youtubeId:'-KiPTbfU2bs', channel:'YF Sessions' },
-  { title:'06 ELLA NO ESTABA ROTA feat  SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS', url:'https://www.youtube.com/watch?v=y1-m1SaoSno', youtubeId:'y1-m1SaoSno', channel:'YF Sessions' },
-  { title:'09 LLEGASTE A TIEMPO feat  SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS', url:'https://www.youtube.com/watch?v=UPgYebBVuG8', youtubeId:'UPgYebBVuG8', channel:'YF Sessions' },
-  { title:'12  TRAJE LIMPIO, MANOS SUCIAS feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=Y6w-nk7aqfI', youtubeId:'Y6w-nk7aqfI', channel:'YF Sessions' },
-  { title:'11  REJAS INVISIBLES feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=SuXxCSxtSnY', youtubeId:'SuXxCSxtSnY', channel:'YF Sessions' },
-  { title:'BALANCE ROTO feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=tJsCLVIuCAA', youtubeId:'tJsCLVIuCAA', channel:'YF Sessions' },
-  { title:'ENTRE CAOS Y CONCIENCIA feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=TDVM0XWCFGk', youtubeId:'TDVM0XWCFGk', channel:'YF Sessions' },
-  { title:'SILENCIO QUE PESA feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=zYmlcfDi0Fc', youtubeId:'zYmlcfDi0Fc', channel:'YF Sessions' },
-  { title:'01  SIN MASCARAS feat  DAREK MAMBA', url:'https://www.youtube.com/watch?v=suyAqgCPel8', youtubeId:'suyAqgCPel8', channel:'YF Sessions' },
-  { title:'35  YOU WATCHED ME FALL', url:'https://www.youtube.com/watch?v=B_webYMkz5k', youtubeId:'B_webYMkz5k', channel:'YF Sessions' },
-  { title:"06  DON'T CALL IT LOVE IF YOU'RE AFRAID", url:'https://www.youtube.com/watch?v=pxk0XLjtgDI', youtubeId:'pxk0XLjtgDI', channel:'YF Sessions' },
-  { title:"Que Lo Cante To' El Mundo feat  YANKYFILMS", url:'https://www.youtube.com/watch?v=Y0847EIa4u8', youtubeId:'Y0847EIa4u8', channel:'YF Sessions' },
-  { title:'Yo Quiero Bailar Playero Rmix feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=8yZJhtOXER8', youtubeId:'8yZJhtOXER8', channel:'YF Sessions' },
-  { title:'Sudor y Bajo feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=vXabnbx69YE', youtubeId:'vXabnbx69YE', channel:'YF Sessions' },
-  { title:'Sale el Sol y Nadie se Quiere Ir feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=cZy9fxLOp6A', youtubeId:'cZy9fxLOp6A', channel:'YF Sessions' },
-  { title:'Que No Se Apague feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=fJ7L0Q33kd4', youtubeId:'fJ7L0Q33kd4', channel:'YF Sessions' },
-  { title:'Punto Cuarenta feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=2IhQYeEnhQE', youtubeId:'2IhQYeEnhQE', channel:'YF Sessions' },
-  { title:'Nadie Se Quite feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=3rTePZksCOo', youtubeId:'3rTePZksCOo', channel:'YF Sessions' },
-  { title:'La Cherry Prendia feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=D0Eb6KS1abE', youtubeId:'D0Eb6KS1abE', channel:'YF Sessions' },
-  { title:'Contacto Sin Freno feat  YANKYFILMS', url:'https://www.youtube.com/watch?v=BE6zNGJRamg', youtubeId:'BE6zNGJRamg', channel:'YF Sessions' },
-  { title:'12  TWO WAYS TO LOVE YOU', url:'https://www.youtube.com/watch?v=KSBD94GJMy8', youtubeId:'KSBD94GJMy8', channel:'YF Sessions' },
-  { title:"34  I WOULD'VE DIED FOR YOU", url:'https://www.youtube.com/watch?v=nmPgJ2zXo-k', youtubeId:'nmPgJ2zXo-k', channel:'YF Sessions' },
-  { title:"26  I DON'T TOUCH YOU", url:'https://www.youtube.com/watch?v=TxLLMjMY1kE', youtubeId:'TxLLMjMY1kE', channel:'YF Sessions' }
+  {
+    "title": "El Amor Verdadero No Necesita Ruido: Descubre Su Silencio",
+    "url": "https://www.youtube.com/watch?v=AakqiN_MIFY",
+    "youtubeId": "AakqiN_MIFY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: El Amor Verdadero No Necesita Ruido: Descubre Su Silencio. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/AakqiN_MIFY/hqdefault.jpg",
+    "duration": 328
+  },
+  {
+    "title": "05 DESDE QUE LLEGASTE feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=-KiPTbfU2bs",
+    "youtubeId": "-KiPTbfU2bs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 05 DESDE QUE LLEGASTE feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/-KiPTbfU2bs/hqdefault.jpg",
+    "duration": 378
+  },
+  {
+    "title": "06 ELLA NO ESTABA ROTA feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=y1-m1SaoSno",
+    "youtubeId": "y1-m1SaoSno",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 06 ELLA NO ESTABA ROTA feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/y1-m1SaoSno/hqdefault.jpg",
+    "duration": 378
+  },
+  {
+    "title": "09 LLEGASTE A TIEMPO feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=UPgYebBVuG8",
+    "youtubeId": "UPgYebBVuG8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 09 LLEGASTE A TIEMPO feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/UPgYebBVuG8/hqdefault.jpg",
+    "duration": 257
+  },
+  {
+    "title": "12 TRAJE LIMPIO, MANOS SUCIAS feat DAREK MAMBA",
+    "url": "https://www.youtube.com/watch?v=Y6w-nk7aqfI",
+    "youtubeId": "Y6w-nk7aqfI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 12 TRAJE LIMPIO, MANOS SUCIAS feat DAREK MAMBA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Y6w-nk7aqfI/hqdefault.jpg",
+    "duration": 198
+  },
+  {
+    "title": "11 REJAS INVISIBLES feat DAREK MAMBA",
+    "url": "https://www.youtube.com/watch?v=SuXxCSxtSnY",
+    "youtubeId": "SuXxCSxtSnY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 11 REJAS INVISIBLES feat DAREK MAMBA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/SuXxCSxtSnY/hqdefault.jpg",
+    "duration": 188
+  },
+  {
+    "title": "BALANCE ROTO feat DAREK MAMBA",
+    "url": "https://www.youtube.com/watch?v=tJsCLVIuCAA",
+    "youtubeId": "tJsCLVIuCAA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: BALANCE ROTO feat DAREK MAMBA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/tJsCLVIuCAA/hqdefault.jpg",
+    "duration": 188
+  },
+  {
+    "title": "ENTRE CAOS Y CONCIENCIA feat DAREK MAMBA",
+    "url": "https://www.youtube.com/watch?v=TDVM0XWCFGk",
+    "youtubeId": "TDVM0XWCFGk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: ENTRE CAOS Y CONCIENCIA feat DAREK MAMBA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/TDVM0XWCFGk/hqdefault.jpg",
+    "duration": 266
+  },
+  {
+    "title": "SILENCIO QUE PESA feat DAREK MAMBA",
+    "url": "https://www.youtube.com/watch?v=zYmlcfDi0Fc",
+    "youtubeId": "zYmlcfDi0Fc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SILENCIO QUE PESA feat DAREK MAMBA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/zYmlcfDi0Fc/hqdefault.jpg",
+    "duration": 197
+  },
+  {
+    "title": "01 SIN MÁSCARAS feat DAREK MAMBA",
+    "url": "https://www.youtube.com/watch?v=suyAqgCPel8",
+    "youtubeId": "suyAqgCPel8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 01 SIN MÁSCARAS feat DAREK MAMBA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/suyAqgCPel8/hqdefault.jpg",
+    "duration": 186
+  },
+  {
+    "title": "35 YOU WATCHED ME FALL",
+    "url": "https://www.youtube.com/watch?v=B_webYMkz5k",
+    "youtubeId": "B_webYMkz5k",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 35 YOU WATCHED ME FALL. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/B_webYMkz5k/hqdefault.jpg",
+    "duration": 215
+  },
+  {
+    "title": "06 DON’T CALL IT LOVE IF YOU’RE AFRAID",
+    "url": "https://www.youtube.com/watch?v=pxk0XLjtgDI",
+    "youtubeId": "pxk0XLjtgDI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 06 DON’T CALL IT LOVE IF YOU’RE AFRAID. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/pxk0XLjtgDI/hqdefault.jpg",
+    "duration": 191
+  },
+  {
+    "title": "Que Lo Cante To’ El Mundo feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=Y0847EIa4u8",
+    "youtubeId": "Y0847EIa4u8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que Lo Cante To’ El Mundo feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Y0847EIa4u8/hqdefault.jpg",
+    "duration": 189
+  },
+  {
+    "title": "Yo Quiero Bailar Playero Rmix feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=8yZJhtOXER8",
+    "youtubeId": "8yZJhtOXER8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Yo Quiero Bailar Playero Rmix feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8yZJhtOXER8/hqdefault.jpg",
+    "duration": 186
+  },
+  {
+    "title": "Sudor y Bajo feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=vXabnbx69YE",
+    "youtubeId": "vXabnbx69YE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sudor y Bajo feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/vXabnbx69YE/hqdefault.jpg",
+    "duration": 184
+  },
+  {
+    "title": "Sale el Sol y Nadie se Quiere Ir feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=cZy9fxLOp6A",
+    "youtubeId": "cZy9fxLOp6A",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sale el Sol y Nadie se Quiere Ir feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/cZy9fxLOp6A/hqdefault.jpg",
+    "duration": 197
+  },
+  {
+    "title": "Que No Se Apague feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=fJ7L0Q33kd4",
+    "youtubeId": "fJ7L0Q33kd4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que No Se Apague feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/fJ7L0Q33kd4/hqdefault.jpg",
+    "duration": 243
+  },
+  {
+    "title": "Punto Cuarenta feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=2IhQYeEnhQE",
+    "youtubeId": "2IhQYeEnhQE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Punto Cuarenta feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/2IhQYeEnhQE/hqdefault.jpg",
+    "duration": 200
+  },
+  {
+    "title": "Nadie Se Quite feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=3rTePZksCOo",
+    "youtubeId": "3rTePZksCOo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Nadie Se Quite feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/3rTePZksCOo/hqdefault.jpg",
+    "duration": 183
+  },
+  {
+    "title": "La Cherry Prendía feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=D0Eb6KS1abE",
+    "youtubeId": "D0Eb6KS1abE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Cherry Prendía feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/D0Eb6KS1abE/hqdefault.jpg",
+    "duration": 185
+  },
+  {
+    "title": "Contacto Sin Freno feat YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=BE6zNGJRamg",
+    "youtubeId": "BE6zNGJRamg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Contacto Sin Freno feat YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/BE6zNGJRamg/hqdefault.jpg",
+    "duration": 197
+  },
+  {
+    "title": "12 TWO WAYS TO LOVE YOU",
+    "url": "https://www.youtube.com/watch?v=KSBD94GJMy8",
+    "youtubeId": "KSBD94GJMy8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 12 TWO WAYS TO LOVE YOU. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/KSBD94GJMy8/hqdefault.jpg",
+    "duration": 220
+  },
+  {
+    "title": "34 I WOULD’VE DIED FOR YOU",
+    "url": "https://www.youtube.com/watch?v=nmPgJ2zXo-k",
+    "youtubeId": "nmPgJ2zXo-k",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 34 I WOULD’VE DIED FOR YOU. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/nmPgJ2zXo-k/hqdefault.jpg",
+    "duration": 195
+  },
+  {
+    "title": "26 I DON’T TOUCH YOU",
+    "url": "https://www.youtube.com/watch?v=TxLLMjMY1kE",
+    "youtubeId": "TxLLMjMY1kE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 26 I DON’T TOUCH YOU. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/TxLLMjMY1kE/hqdefault.jpg",
+    "duration": 239
+  },
+  {
+    "title": "15 I PRAYED FOR YOU, YOU LEFT ANYWAY",
+    "url": "https://www.youtube.com/watch?v=XKbnkCgnZF0",
+    "youtubeId": "XKbnkCgnZF0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 15 I PRAYED FOR YOU, YOU LEFT ANYWAY. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/XKbnkCgnZF0/hqdefault.jpg",
+    "duration": 213
+  },
+  {
+    "title": "21 STAY A LITTLE CLOSER",
+    "url": "https://www.youtube.com/watch?v=zwRyhsT94dk",
+    "youtubeId": "zwRyhsT94dk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 21 STAY A LITTLE CLOSER. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/zwRyhsT94dk/hqdefault.jpg",
+    "duration": 249
+  },
+  {
+    "title": "17 YOU ARE MY FAVORITE PLACE",
+    "url": "https://www.youtube.com/watch?v=te66-p88ZQI",
+    "youtubeId": "te66-p88ZQI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 17 YOU ARE MY FAVORITE PLACE. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/te66-p88ZQI/hqdefault.jpg",
+    "duration": 193
+  },
+  {
+    "title": "10 I BLEED QUIETLY",
+    "url": "https://www.youtube.com/watch?v=IpdCRi_INtI",
+    "youtubeId": "IpdCRi_INtI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 10 I BLEED QUIETLY. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/IpdCRi_INtI/hqdefault.jpg",
+    "duration": 228
+  },
+  {
+    "title": "09 HOME IS WHERE WE BREATHE",
+    "url": "https://www.youtube.com/watch?v=0EBX4FzFgwI",
+    "youtubeId": "0EBX4FzFgwI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 09 HOME IS WHERE WE BREATHE. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/0EBX4FzFgwI/hqdefault.jpg",
+    "duration": 293
+  },
+  {
+    "title": "08 DON’T LOOK AWAY",
+    "url": "https://www.youtube.com/watch?v=lLZRzHZQfd0",
+    "youtubeId": "lLZRzHZQfd0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 08 DON’T LOOK AWAY. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/lLZRzHZQfd0/hqdefault.jpg",
+    "duration": 205
+  },
+  {
+    "title": "04 QUEEN OF MY WAR",
+    "url": "https://www.youtube.com/watch?v=UKugTnx1rFc",
+    "youtubeId": "UKugTnx1rFc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 04 QUEEN OF MY WAR. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/UKugTnx1rFc/hqdefault.jpg",
+    "duration": 195
+  },
+  {
+    "title": "02 TURN THE LIGHTS LOW",
+    "url": "https://www.youtube.com/watch?v=9RF-oaeiM_Y",
+    "youtubeId": "9RF-oaeiM_Y",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 02 TURN THE LIGHTS LOW. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9RF-oaeiM_Y/hqdefault.jpg",
+    "duration": 275
+  },
+  {
+    "title": "01 LOOK ME IN THE EYES",
+    "url": "https://www.youtube.com/watch?v=NjFi0mAjnHo",
+    "youtubeId": "NjFi0mAjnHo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 01 LOOK ME IN THE EYES. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/NjFi0mAjnHo/hqdefault.jpg",
+    "duration": 206
+  },
+  {
+    "title": "15 SECONDS HEAT – Beat Para Reels & TikTok",
+    "url": "https://www.youtube.com/watch?v=ZXpbtr6R2XE",
+    "youtubeId": "ZXpbtr6R2XE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 15 SECONDS HEAT – Beat Para Reels & TikTok. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/ZXpbtr6R2XE/hqdefault.jpg",
+    "duration": 1638
+  },
+  {
+    "title": "TETEO MUNDIAL 🇩🇴 Dembow Dominicano Party Mix",
+    "url": "https://www.youtube.com/watch?v=97whR83-eJM",
+    "youtubeId": "97whR83-eJM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: TETEO MUNDIAL 🇩🇴 Dembow Dominicano Party Mix. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/97whR83-eJM/hqdefault.jpg",
+    "duration": 5238
+  },
+  {
+    "title": "DEMBOW BARRIAL 2025 & 2026 🇩🇴🔥 Lo Más Viral De TikTok | YF Sessions",
+    "url": "https://www.youtube.com/watch?v=l7vP46tH1D8",
+    "youtubeId": "l7vP46tH1D8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: DEMBOW BARRIAL 2025 & 2026 🇩🇴🔥 Lo Más Viral De TikTok | YF Sessions. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/l7vP46tH1D8/hqdefault.jpg",
+    "duration": 919
+  },
+  {
+    "title": "TWERK – Dembow / Reggaeton Club Beat (TikTok Viral)",
+    "url": "https://www.youtube.com/watch?v=7-vb7Ukv0OQ",
+    "youtubeId": "7-vb7Ukv0OQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: TWERK – Dembow / Reggaeton Club Beat (TikTok Viral). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/7-vb7Ukv0OQ/hqdefault.jpg",
+    "duration": 4287
+  },
+  {
+    "title": "La Force Afro 🌍 Afro Latin Global Rhythm",
+    "url": "https://www.youtube.com/watch?v=3EY1b8Vjx5w",
+    "youtubeId": "3EY1b8Vjx5w",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Force Afro 🌍 Afro Latin Global Rhythm. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/3EY1b8Vjx5w/hqdefault.jpg",
+    "duration": 5064
+  },
+  {
+    "title": "SE HIZO VIRAL 🔥 Música para TikTok | YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=it06f3mU6GM",
+    "youtubeId": "it06f3mU6GM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SE HIZO VIRAL 🔥 Música para TikTok | YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/it06f3mU6GM/hqdefault.jpg",
+    "duration": 5072
+  },
+  {
+    "title": "Testimonio Salsero 🔥 Historias con Clave | YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=e7bTRcfHFVs",
+    "youtubeId": "e7bTRcfHFVs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Testimonio Salsero 🔥 Historias con Clave | YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/e7bTRcfHFVs/hqdefault.jpg",
+    "duration": 6570
+  },
+  {
+    "title": "DANCEHALL MUSIC 🔥 Caribbean Party Mix | YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=1ocbjIyvF7Q",
+    "youtubeId": "1ocbjIyvF7Q",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: DANCEHALL MUSIC 🔥 Caribbean Party Mix | YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/1ocbjIyvF7Q/hqdefault.jpg",
+    "duration": 2938
+  },
+  {
+    "title": "Renacer en Fuego – Luna Reyna (Canción de Amor)",
+    "url": "https://www.youtube.com/watch?v=PCegP4wm-nM",
+    "youtubeId": "PCegP4wm-nM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Renacer en Fuego – Luna Reyna (Canción de Amor). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/PCegP4wm-nM/hqdefault.jpg",
+    "duration": 3105
+  },
+  {
+    "title": "BODY ON FIRE 🔥 Dembow & Reggaetón Mix | YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=0ylBN_3ENsI",
+    "youtubeId": "0ylBN_3ENsI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: BODY ON FIRE 🔥 Dembow & Reggaetón Mix | YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/0ylBN_3ENsI/hqdefault.jpg",
+    "duration": 2944
+  },
+  {
+    "title": "MAKE SOME NOISE 🔥 Epic EDM Festival Anthem | YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=OSGvh3JMBIc",
+    "youtubeId": "OSGvh3JMBIc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: MAKE SOME NOISE 🔥 Epic EDM Festival Anthem | YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/OSGvh3JMBIc/hqdefault.jpg",
+    "duration": 3855
+  },
+  {
+    "title": "Power In The Silence – Deep Electronic Chill Vibes",
+    "url": "https://www.youtube.com/watch?v=jtcfyVAV9Iw",
+    "youtubeId": "jtcfyVAV9Iw",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Power In The Silence – Deep Electronic Chill Vibes. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/jtcfyVAV9Iw/hqdefault.jpg",
+    "duration": 6846
+  },
+  {
+    "title": "SIN SALIR EN LAS NOTICIAS 🚨 | Darek Mamba x YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=I_kKZfue_xE",
+    "youtubeId": "I_kKZfue_xE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SIN SALIR EN LAS NOTICIAS 🚨 | Darek Mamba x YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/I_kKZfue_xE/hqdefault.jpg",
+    "duration": 2396
+  },
+  {
+    "title": "Nuits Afro Vibrantes 🌍🔥 | Afrobeats Night Vibes | YF Sessions HD",
+    "url": "https://www.youtube.com/watch?v=YwfSO8AKxO0",
+    "youtubeId": "YwfSO8AKxO0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Nuits Afro Vibrantes 🌍🔥 | Afrobeats Night Vibes | YF Sessions HD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/YwfSO8AKxO0/hqdefault.jpg",
+    "duration": 1471
+  },
+  {
+    "title": "El Amor Verdadero No Necesita Ruido: Descubre Su Silencio",
+    "url": "https://www.youtube.com/watch?v=gKVxSdSCbrM",
+    "youtubeId": "gKVxSdSCbrM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: El Amor Verdadero No Necesita Ruido: Descubre Su Silencio. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/gKVxSdSCbrM/hqdefault.jpg",
+    "duration": 328
+  },
+  {
+    "title": "El Poder del Silencio en el Amor Verdadero #shorts",
+    "url": "https://www.youtube.com/watch?v=wxV45NpMLn4",
+    "youtubeId": "wxV45NpMLn4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: El Poder del Silencio en el Amor Verdadero #shorts. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/wxV45NpMLn4/hqdefault.jpg",
+    "duration": 328
+  },
+  {
+    "title": "Orquesta El Aquelarre – Homenaje y Son | Salsa & Son Latino",
+    "url": "https://www.youtube.com/watch?v=hP-Fh3W50ak",
+    "youtubeId": "hP-Fh3W50ak",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Orquesta El Aquelarre – Homenaje y Son | Salsa & Son Latino. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/hP-Fh3W50ak/hqdefault.jpg",
+    "duration": 4932
+  },
+  {
+    "title": "AFTER PARTY 🔥 Tech House & Techno DJ Mix 2026",
+    "url": "https://www.youtube.com/watch?v=B58449Ocfbw",
+    "youtubeId": "B58449Ocfbw",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: AFTER PARTY 🔥 Tech House & Techno DJ Mix 2026. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/B58449Ocfbw/hqdefault.jpg",
+    "duration": 7551
+  },
+  {
+    "title": "Addicted To You, BUT You Hurt Me: The Cycle",
+    "url": "https://www.youtube.com/watch?v=jDh_uGmFBsI",
+    "youtubeId": "jDh_uGmFBsI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Addicted To You, BUT You Hurt Me: The Cycle. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/jDh_uGmFBsI/hqdefault.jpg",
+    "duration": 216
+  },
+  {
+    "title": "Soulmates Confessions: Love Hurts, Can't Let Go!",
+    "url": "https://www.youtube.com/watch?v=v7FP-eyN7O4",
+    "youtubeId": "v7FP-eyN7O4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Soulmates Confessions: Love Hurts, Can't Let Go!. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/v7FP-eyN7O4/hqdefault.jpg",
+    "duration": 205
+  },
+  {
+    "title": "Can't Quit You: The Toxic Love Cycle That Pulls You Back",
+    "url": "https://www.youtube.com/watch?v=Y8Lt4VPFMSU",
+    "youtubeId": "Y8Lt4VPFMSU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Can't Quit You: The Toxic Love Cycle That Pulls You Back. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Y8Lt4VPFMSU/hqdefault.jpg",
+    "duration": 222
+  },
+  {
+    "title": "Bachata Sensual – Sangre Bachata Band (Bachata Romántica Álbum Completo)",
+    "url": "https://www.youtube.com/watch?v=LjDQk-sO55Y",
+    "youtubeId": "LjDQk-sO55Y",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Bachata Sensual – Sangre Bachata Band (Bachata Romántica Álbum Completo). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/LjDQk-sO55Y/hqdefault.jpg",
+    "duration": 2954
+  },
+  {
+    "title": "YF Sessions – MY STORY (Official Álbum Completo)",
+    "url": "https://www.youtube.com/watch?v=QsLlVFzxXLg",
+    "youtubeId": "QsLlVFzxXLg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: YF Sessions – MY STORY (Official Álbum Completo). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/QsLlVFzxXLg/hqdefault.jpg",
+    "duration": 2289
+  },
+  {
+    "title": "SOUL con “GROOVE” 🔥 Retro Soul & Funk Vibes",
+    "url": "https://www.youtube.com/watch?v=HS1Lsh6c_BU",
+    "youtubeId": "HS1Lsh6c_BU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SOUL con “GROOVE” 🔥 Retro Soul & Funk Vibes. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/HS1Lsh6c_BU/hqdefault.jpg",
+    "duration": 3215
+  },
+  {
+    "title": "Modo Avión - YF Sessions x YANKYFILMS (Video Oficial)",
+    "url": "https://www.youtube.com/watch?v=dZ10fG_Wnv0",
+    "youtubeId": "dZ10fG_Wnv0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Modo Avión - YF Sessions x YANKYFILMS (Video Oficial). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/dZ10fG_Wnv0/hqdefault.jpg",
+    "duration": 176
+  },
+  {
+    "title": "El Tiguere Negro – Calle Pero Elegante | Rap Callejero Latino 2026 | Trap Urbano Flow Dominicano 🔥",
+    "url": "https://www.youtube.com/watch?v=POr_YAF9Fvo",
+    "youtubeId": "POr_YAF9Fvo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: El Tiguere Negro – Calle Pero Elegante | Rap Callejero Latino 2026 | Trap Urbano Flow Dominicano 🔥. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/POr_YAF9Fvo/hqdefault.jpg",
+    "duration": 4357
+  },
+  {
+    "title": "Atlas Killa – Triq l-ħayat 🔥 Urban Arabic Trap Experience (Una Hora)( Álbum Completo )",
+    "url": "https://www.youtube.com/watch?v=z9ArqHGf3CU",
+    "youtubeId": "z9ArqHGf3CU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Atlas Killa – Triq l-ħayat 🔥 Urban Arabic Trap Experience (Una Hora)( Álbum Completo ). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/z9ArqHGf3CU/hqdefault.jpg",
+    "duration": 3474
+  },
+  {
+    "title": "Spirit of the Drum – Afrohouse Experience 🔥 Ritmos Tribales Afro House (Más de 40 Minutos)",
+    "url": "https://www.youtube.com/watch?v=qMqpKa1_Te0",
+    "youtubeId": "qMqpKa1_Te0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Spirit of the Drum – Afrohouse Experience 🔥 Ritmos Tribales Afro House (Más de 40 Minutos). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/qMqpKa1_Te0/hqdefault.jpg",
+    "duration": 2549
+  },
+  {
+    "title": "Do Not Disturb (LO-FI SESSION) (COMPLETA UNA HORA Y MEDIA)",
+    "url": "https://www.youtube.com/watch?v=q8EyjHOPi3M",
+    "youtubeId": "q8EyjHOPi3M",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Do Not Disturb (LO-FI SESSION) (COMPLETA UNA HORA Y MEDIA). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/q8EyjHOPi3M/hqdefault.jpg",
+    "duration": 5574
+  },
+  {
+    "title": "Lo Que Piensan No Me Para",
+    "url": "https://www.youtube.com/watch?v=_9Yg93VOSq0",
+    "youtubeId": "_9Yg93VOSq0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Lo Que Piensan No Me Para. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/_9Yg93VOSq0/hqdefault.jpg",
+    "duration": 168
+  },
+  {
+    "title": "La Jefa del Juego",
+    "url": "https://www.youtube.com/watch?v=qWEX41INYNA",
+    "youtubeId": "qWEX41INYNA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Jefa del Juego. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/qWEX41INYNA/hqdefault.jpg",
+    "duration": 158
+  },
+  {
+    "title": "Mi Camino Real",
+    "url": "https://www.youtube.com/watch?v=uWHJlvJ8OAs",
+    "youtubeId": "uWHJlvJ8OAs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Mi Camino Real. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/uWHJlvJ8OAs/hqdefault.jpg",
+    "duration": 226
+  },
+  {
+    "title": "Yo Sí Me Quedé",
+    "url": "https://www.youtube.com/watch?v=iWYBzJ-uw1g",
+    "youtubeId": "iWYBzJ-uw1g",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Yo Sí Me Quedé. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/iWYBzJ-uw1g/hqdefault.jpg",
+    "duration": 148
+  },
+  {
+    "title": "Hora Cero Modo",
+    "url": "https://www.youtube.com/watch?v=zhM9Qb7upQ8",
+    "youtubeId": "zhM9Qb7upQ8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Hora Cero Modo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/zhM9Qb7upQ8/hqdefault.jpg",
+    "duration": 145
+  },
+  {
+    "title": "Cuando Te Siento Remix",
+    "url": "https://www.youtube.com/watch?v=pkgCwNeF9Nw",
+    "youtubeId": "pkgCwNeF9Nw",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Cuando Te Siento Remix. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/pkgCwNeF9Nw/hqdefault.jpg",
+    "duration": 173
+  },
+  {
+    "title": "Sin Preguntar",
+    "url": "https://www.youtube.com/watch?v=rKLGxVFGheE",
+    "youtubeId": "rKLGxVFGheE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sin Preguntar. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/rKLGxVFGheE/hqdefault.jpg",
+    "duration": 150
+  },
+  {
+    "title": "No Me Sueltes",
+    "url": "https://www.youtube.com/watch?v=uHg6_v3zQaE",
+    "youtubeId": "uHg6_v3zQaE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: No Me Sueltes. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/uHg6_v3zQaE/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "La Atracción",
+    "url": "https://www.youtube.com/watch?v=0_TiKuKjHfc",
+    "youtubeId": "0_TiKuKjHfc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Atracción. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/0_TiKuKjHfc/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "Cinco Estrellas",
+    "url": "https://www.youtube.com/watch?v=581KsiH-JoU",
+    "youtubeId": "581KsiH-JoU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Cinco Estrellas. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/581KsiH-JoU/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "A La Semana",
+    "url": "https://www.youtube.com/watch?v=V_ppTDMn_Wk",
+    "youtubeId": "V_ppTDMn_Wk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: A La Semana. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/V_ppTDMn_Wk/hqdefault.jpg",
+    "duration": 127
+  },
+  {
+    "title": "Casa en Silencio",
+    "url": "https://www.youtube.com/watch?v=6wXoxzzXlgY",
+    "youtubeId": "6wXoxzzXlgY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Casa en Silencio. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6wXoxzzXlgY/hqdefault.jpg",
+    "duration": 180
+  },
+  {
+    "title": "Entre Miradas y Noches",
+    "url": "https://www.youtube.com/watch?v=fmkrhdMTrMk",
+    "youtubeId": "fmkrhdMTrMk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Entre Miradas y Noches. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/fmkrhdMTrMk/hqdefault.jpg",
+    "duration": 180
+  },
+  {
+    "title": "Modo Avión",
+    "url": "https://www.youtube.com/watch?v=lk6M1N-8VAM",
+    "youtubeId": "lk6M1N-8VAM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Modo Avión. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/lk6M1N-8VAM/hqdefault.jpg",
+    "duration": 173
+  },
+  {
+    "title": "“La Cherry Prendía”",
+    "url": "https://www.youtube.com/watch?v=cb0YqvpqsfY",
+    "youtubeId": "cb0YqvpqsfY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: “La Cherry Prendía”. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/cb0YqvpqsfY/hqdefault.jpg",
+    "duration": 174
+  },
+  {
+    "title": "Yo Quiero Bailar Playero Remix",
+    "url": "https://www.youtube.com/watch?v=2IDP5mxRKdQ",
+    "youtubeId": "2IDP5mxRKdQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Yo Quiero Bailar Playero Remix. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/2IDP5mxRKdQ/hqdefault.jpg",
+    "duration": 242
+  },
+  {
+    "title": "Sale el Sol y Nadie Se Quiere Ir",
+    "url": "https://www.youtube.com/watch?v=X7avz3wvT3c",
+    "youtubeId": "X7avz3wvT3c",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sale el Sol y Nadie Se Quiere Ir. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/X7avz3wvT3c/hqdefault.jpg",
+    "duration": 205
+  },
+  {
+    "title": "Punto Cuarenta Remix",
+    "url": "https://www.youtube.com/watch?v=3Yqfg6gnrSo",
+    "youtubeId": "3Yqfg6gnrSo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Punto Cuarenta Remix. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/3Yqfg6gnrSo/hqdefault.jpg",
+    "duration": 185
+  },
+  {
+    "title": "Flow Criminal”",
+    "url": "https://www.youtube.com/watch?v=3Qs34n78YQE",
+    "youtubeId": "3Qs34n78YQE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Flow Criminal”. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/3Qs34n78YQE/hqdefault.jpg",
+    "duration": 178
+  },
+  {
+    "title": "Pegaito Sin Frenos",
+    "url": "https://www.youtube.com/watch?v=-3_boBkckNk",
+    "youtubeId": "-3_boBkckNk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Pegaito Sin Frenos. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/-3_boBkckNk/hqdefault.jpg",
+    "duration": 183
+  },
+  {
+    "title": "Contacto Sin Freno REMIX",
+    "url": "https://www.youtube.com/watch?v=avIZ4odftcU",
+    "youtubeId": "avIZ4odftcU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Contacto Sin Freno REMIX. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/avIZ4odftcU/hqdefault.jpg",
+    "duration": 185
+  },
+  {
+    "title": "Sudor y Bajo",
+    "url": "https://www.youtube.com/watch?v=LlvrbpGYp5Y",
+    "youtubeId": "LlvrbpGYp5Y",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sudor y Bajo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/LlvrbpGYp5Y/hqdefault.jpg",
+    "duration": 185
+  },
+  {
+    "title": "Nadie Se Quite",
+    "url": "https://www.youtube.com/watch?v=8SRVDavplDk",
+    "youtubeId": "8SRVDavplDk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Nadie Se Quite. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8SRVDavplDk/hqdefault.jpg",
+    "duration": 200
+  },
+  {
+    "title": "Que No Se Apague",
+    "url": "https://www.youtube.com/watch?v=gFLp3PEj8pE",
+    "youtubeId": "gFLp3PEj8pE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que No Se Apague. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/gFLp3PEj8pE/hqdefault.jpg",
+    "duration": 253
+  },
+  {
+    "title": "Arena y Fuego",
+    "url": "https://www.youtube.com/watch?v=paPO3EYXyyg",
+    "youtubeId": "paPO3EYXyyg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Arena y Fuego. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/paPO3EYXyyg/hqdefault.jpg",
+    "duration": 145
+  },
+  {
+    "title": "Que Lo Cante To’ El Mundo”",
+    "url": "https://www.youtube.com/watch?v=k_mYWqEcgDc",
+    "youtubeId": "k_mYWqEcgDc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que Lo Cante To’ El Mundo”. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/k_mYWqEcgDc/hqdefault.jpg",
+    "duration": 172
+  },
+  {
+    "title": "Si Tú Quieres’",
+    "url": "https://www.youtube.com/watch?v=JnUctYbfhJM",
+    "youtubeId": "JnUctYbfhJM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Si Tú Quieres’. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/JnUctYbfhJM/hqdefault.jpg",
+    "duration": 143
+  },
+  {
+    "title": "No Te Pegues",
+    "url": "https://www.youtube.com/watch?v=24vvD3HN0dk",
+    "youtubeId": "24vvD3HN0dk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: No Te Pegues. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/24vvD3HN0dk/hqdefault.jpg",
+    "duration": 242
+  },
+  {
+    "title": "Aquí Se Dice Claro",
+    "url": "https://www.youtube.com/watch?v=27uw37ZZTwE",
+    "youtubeId": "27uw37ZZTwE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Aquí Se Dice Claro. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/27uw37ZZTwE/hqdefault.jpg",
+    "duration": 218
+  },
+  {
+    "title": "Lo Que Se Queda",
+    "url": "https://www.youtube.com/watch?v=6p54Ed1HnYk",
+    "youtubeId": "6p54Ed1HnYk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Lo Que Se Queda. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6p54Ed1HnYk/hqdefault.jpg",
+    "duration": 328
+  },
+  {
+    "title": "Cuando el Ritmo Nos Dice",
+    "url": "https://www.youtube.com/watch?v=5ST1u90bWGo",
+    "youtubeId": "5ST1u90bWGo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Cuando el Ritmo Nos Dice. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/5ST1u90bWGo/hqdefault.jpg",
+    "duration": 350
+  },
+  {
+    "title": "Sal de Plata y Carcajadas",
+    "url": "https://www.youtube.com/watch?v=6ZXSHBnQjDU",
+    "youtubeId": "6ZXSHBnQjDU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sal de Plata y Carcajadas. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6ZXSHBnQjDU/hqdefault.jpg",
+    "duration": 195
+  },
+  {
+    "title": "La Lengua del Vecindario",
+    "url": "https://www.youtube.com/watch?v=8gQZpzNHqsU",
+    "youtubeId": "8gQZpzNHqsU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Lengua del Vecindario. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8gQZpzNHqsU/hqdefault.jpg",
+    "duration": 159
+  },
+  {
+    "title": "La Calle No Pide Permiso",
+    "url": "https://www.youtube.com/watch?v=OlDtTNhdzH0",
+    "youtubeId": "OlDtTNhdzH0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Calle No Pide Permiso. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/OlDtTNhdzH0/hqdefault.jpg",
+    "duration": 197
+  },
+  {
+    "title": "Lo Que No Sale en la Foto",
+    "url": "https://www.youtube.com/watch?v=Anx91GwL6JQ",
+    "youtubeId": "Anx91GwL6JQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Lo Que No Sale en la Foto. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Anx91GwL6JQ/hqdefault.jpg",
+    "duration": 263
+  },
+  {
+    "title": "Live It Light",
+    "url": "https://www.youtube.com/watch?v=CW9iCY3b5sc",
+    "youtubeId": "CW9iCY3b5sc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Live It Light. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/CW9iCY3b5sc/hqdefault.jpg",
+    "duration": 244
+  },
+  {
+    "title": "Cuando Suena Mi Tacón",
+    "url": "https://www.youtube.com/watch?v=HyFbvP2LVLc",
+    "youtubeId": "HyFbvP2LVLc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Cuando Suena Mi Tacón. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/HyFbvP2LVLc/hqdefault.jpg",
+    "duration": 180
+  },
+  {
+    "title": "Dale Sin Miedo",
+    "url": "https://www.youtube.com/watch?v=I0ZWTziDlfE",
+    "youtubeId": "I0ZWTziDlfE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Dale Sin Miedo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/I0ZWTziDlfE/hqdefault.jpg",
+    "duration": 175
+  },
+  {
+    "title": "Yo Me Sostengo",
+    "url": "https://www.youtube.com/watch?v=P2Zgf75jyHg",
+    "youtubeId": "P2Zgf75jyHg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Yo Me Sostengo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/P2Zgf75jyHg/hqdefault.jpg",
+    "duration": 157
+  },
+  {
+    "title": "Que Baile la Verdad",
+    "url": "https://www.youtube.com/watch?v=Pf6Vg-dNlDw",
+    "youtubeId": "Pf6Vg-dNlDw",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que Baile la Verdad. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Pf6Vg-dNlDw/hqdefault.jpg",
+    "duration": 207
+  },
+  {
+    "title": "No Me Bajes el Ritmo",
+    "url": "https://www.youtube.com/watch?v=PtMN2sHBdbk",
+    "youtubeId": "PtMN2sHBdbk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: No Me Bajes el Ritmo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/PtMN2sHBdbk/hqdefault.jpg",
+    "duration": 232
+  },
+  {
+    "title": "Dos Mundos, Una Verdad",
+    "url": "https://www.youtube.com/watch?v=RgT6Nb43SOI",
+    "youtubeId": "RgT6Nb43SOI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Dos Mundos, Una Verdad. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/RgT6Nb43SOI/hqdefault.jpg",
+    "duration": 273
+  },
+  {
+    "title": "Raíz que No se Dobla",
+    "url": "https://www.youtube.com/watch?v=W7uTDO_Aky4",
+    "youtubeId": "W7uTDO_Aky4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Raíz que No se Dobla. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/W7uTDO_Aky4/hqdefault.jpg",
+    "duration": 250
+  },
+  {
+    "title": "Aquí Nadie Se Esconde",
+    "url": "https://www.youtube.com/watch?v=ZYBUlszlTkU",
+    "youtubeId": "ZYBUlszlTkU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Aquí Nadie Se Esconde. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/ZYBUlszlTkU/hqdefault.jpg",
+    "duration": 259
+  },
+  {
+    "title": "Que Lo Mueva el Barrio SALSA",
+    "url": "https://www.youtube.com/watch?v=Zt1Nn-Ctnps",
+    "youtubeId": "Zt1Nn-Ctnps",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que Lo Mueva el Barrio SALSA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Zt1Nn-Ctnps/hqdefault.jpg",
+    "duration": 188
+  },
+  {
+    "title": "No Me Cabe en Tu Norma",
+    "url": "https://www.youtube.com/watch?v=_sFZLXTmyh0",
+    "youtubeId": "_sFZLXTmyh0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: No Me Cabe en Tu Norma. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/_sFZLXTmyh0/hqdefault.jpg",
+    "duration": 253
+  },
+  {
+    "title": "La Vida No Pide Permiso",
+    "url": "https://www.youtube.com/watch?v=b0F6w7urdVg",
+    "youtubeId": "b0F6w7urdVg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Vida No Pide Permiso. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/b0F6w7urdVg/hqdefault.jpg",
+    "duration": 204
+  },
+  {
+    "title": "Lo Que No Se Aplaude",
+    "url": "https://www.youtube.com/watch?v=bbRZr6gluI8",
+    "youtubeId": "bbRZr6gluI8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Lo Que No Se Aplaude. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/bbRZr6gluI8/hqdefault.jpg",
+    "duration": 265
+  },
+  {
+    "title": "De Mí Para Ti",
+    "url": "https://www.youtube.com/watch?v=dWs-2uUyT2o",
+    "youtubeId": "dWs-2uUyT2o",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: De Mí Para Ti. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/dWs-2uUyT2o/hqdefault.jpg",
+    "duration": 213
+  },
+  {
+    "title": "Ni Callada Ni Perdía",
+    "url": "https://www.youtube.com/watch?v=h1SA5iqUEY0",
+    "youtubeId": "h1SA5iqUEY0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Ni Callada Ni Perdía. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/h1SA5iqUEY0/hqdefault.jpg",
+    "duration": 294
+  },
+  {
+    "title": "Cantiñas con Bulerías",
+    "url": "https://www.youtube.com/watch?v=hcOOyrge8sc",
+    "youtubeId": "hcOOyrge8sc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Cantiñas con Bulerías. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/hcOOyrge8sc/hqdefault.jpg",
+    "duration": 244
+  },
+  {
+    "title": "Manual Básico del Hombre",
+    "url": "https://www.youtube.com/watch?v=lyNsfMtI7XI",
+    "youtubeId": "lyNsfMtI7XI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Manual Básico del Hombre. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/lyNsfMtI7XI/hqdefault.jpg",
+    "duration": 209
+  },
+  {
+    "title": "No Me Llames Mañana",
+    "url": "https://www.youtube.com/watch?v=mhW8y4QzkaY",
+    "youtubeId": "mhW8y4QzkaY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: No Me Llames Mañana. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/mhW8y4QzkaY/hqdefault.jpg",
+    "duration": 188
+  },
+  {
+    "title": "Between The Fire And The Calm",
+    "url": "https://www.youtube.com/watch?v=ow9PDemBDEY",
+    "youtubeId": "ow9PDemBDEY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Between The Fire And The Calm. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/ow9PDemBDEY/hqdefault.jpg",
+    "duration": 319
+  },
+  {
+    "title": "Te Provoca",
+    "url": "https://www.youtube.com/watch?v=3Gp_yDlB8XE",
+    "youtubeId": "3Gp_yDlB8XE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Te Provoca. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/3Gp_yDlB8XE/hqdefault.jpg",
+    "duration": 143
+  },
+  {
+    "title": "Sin Filtro en el Bloque",
+    "url": "https://www.youtube.com/watch?v=XLfDiA5zl3w",
+    "youtubeId": "XLfDiA5zl3w",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Sin Filtro en el Bloque. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/XLfDiA5zl3w/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "Provocas Bailando",
+    "url": "https://www.youtube.com/watch?v=_wXboZI8OEk",
+    "youtubeId": "_wXboZI8OEk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Provocas Bailando. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/_wXboZI8OEk/hqdefault.jpg",
+    "duration": 150
+  },
+  {
+    "title": "CALOR SIN PROMESAS",
+    "url": "https://www.youtube.com/watch?v=BaHThbS7iSw",
+    "youtubeId": "BaHThbS7iSw",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: CALOR SIN PROMESAS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/BaHThbS7iSw/hqdefault.jpg",
+    "duration": 186
+  },
+  {
+    "title": "Basura Con Micrófono",
+    "url": "https://www.youtube.com/watch?v=5sPZKl7xI90",
+    "youtubeId": "5sPZKl7xI90",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Basura Con Micrófono. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/5sPZKl7xI90/hqdefault.jpg",
+    "duration": 172
+  },
+  {
+    "title": "Rompe el Bajo",
+    "url": "https://www.youtube.com/watch?v=yEKlPxymvvw",
+    "youtubeId": "yEKlPxymvvw",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Rompe el Bajo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/yEKlPxymvvw/hqdefault.jpg",
+    "duration": 144
+  },
+  {
+    "title": "Desde Mi Ventana",
+    "url": "https://www.youtube.com/watch?v=NNfmFKJemtA",
+    "youtubeId": "NNfmFKJemtA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Desde Mi Ventana. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/NNfmFKJemtA/hqdefault.jpg",
+    "duration": 153
+  },
+  {
+    "title": "Manda Ella Violento",
+    "url": "https://www.youtube.com/watch?v=GzYS8iyEJWc",
+    "youtubeId": "GzYS8iyEJWc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Manda Ella Violento. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/GzYS8iyEJWc/hqdefault.jpg",
+    "duration": 202
+  },
+  {
+    "title": "La Chapa Que Retumba FT” La Vibra Negra",
+    "url": "https://www.youtube.com/watch?v=oR8NB49JKOk",
+    "youtubeId": "oR8NB49JKOk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Chapa Que Retumba FT” La Vibra Negra. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/oR8NB49JKOk/hqdefault.jpg",
+    "duration": 207
+  },
+  {
+    "title": "Hasta Abajo Lento",
+    "url": "https://www.youtube.com/watch?v=KQO_IbsDVQI",
+    "youtubeId": "KQO_IbsDVQI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Hasta Abajo Lento. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/KQO_IbsDVQI/hqdefault.jpg",
+    "duration": 175
+  },
+  {
+    "title": "De Frente Y Sin Guantes",
+    "url": "https://www.youtube.com/watch?v=8f9BBrA6yi0",
+    "youtubeId": "8f9BBrA6yi0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: De Frente Y Sin Guantes. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8f9BBrA6yi0/hqdefault.jpg",
+    "duration": 198
+  },
+  {
+    "title": "Pegá’ Pa’ Que Miren",
+    "url": "https://www.youtube.com/watch?v=_y_320Poqjc",
+    "youtubeId": "_y_320Poqjc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Pegá’ Pa’ Que Miren. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/_y_320Poqjc/hqdefault.jpg",
+    "duration": 144
+  },
+  {
+    "title": "Guasa No Me Llega",
+    "url": "https://www.youtube.com/watch?v=7R_My_7NWSQ",
+    "youtubeId": "7R_My_7NWSQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Guasa No Me Llega. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/7R_My_7NWSQ/hqdefault.jpg",
+    "duration": 233
+  },
+  {
+    "title": "La Más Cara del Barrio REMIX",
+    "url": "https://www.youtube.com/watch?v=9mI0wkyLzvM",
+    "youtubeId": "9mI0wkyLzvM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Más Cara del Barrio REMIX. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9mI0wkyLzvM/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "Que En Descansen",
+    "url": "https://www.youtube.com/watch?v=gCLK6rbgFKY",
+    "youtubeId": "gCLK6rbgFKY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Que En Descansen. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/gCLK6rbgFKY/hqdefault.jpg",
+    "duration": 168
+  },
+  {
+    "title": "Noche Sin Censura",
+    "url": "https://www.youtube.com/watch?v=hHEqRm3BTX8",
+    "youtubeId": "hHEqRm3BTX8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Noche Sin Censura. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/hHEqRm3BTX8/hqdefault.jpg",
+    "duration": 157
+  },
+  {
+    "title": "El Tiguere Negro",
+    "url": "https://www.youtube.com/watch?v=6UdubOuWCPU",
+    "youtubeId": "6UdubOuWCPU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: El Tiguere Negro. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6UdubOuWCPU/hqdefault.jpg",
+    "duration": 127
+  },
+  {
+    "title": "La Esquina No Duerme (Street Club Remix)",
+    "url": "https://www.youtube.com/watch?v=pBEPvtHvFnc",
+    "youtubeId": "pBEPvtHvFnc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Esquina No Duerme (Street Club Remix). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/pBEPvtHvFnc/hqdefault.jpg",
+    "duration": 151
+  },
+  {
+    "title": "Lento Sin Prisa",
+    "url": "https://www.youtube.com/watch?v=C7HEpxNHZ00",
+    "youtubeId": "C7HEpxNHZ00",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Lento Sin Prisa. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/C7HEpxNHZ00/hqdefault.jpg",
+    "duration": 168
+  },
+  {
+    "title": "Payaso De Micrófono",
+    "url": "https://www.youtube.com/watch?v=2FT0jObeK0I",
+    "youtubeId": "2FT0jObeK0I",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Payaso De Micrófono. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/2FT0jObeK0I/hqdefault.jpg",
+    "duration": 262
+  },
+  {
+    "title": "Lo Haces a Propósito",
+    "url": "https://www.youtube.com/watch?v=4V_xw7qiHpQ",
+    "youtubeId": "4V_xw7qiHpQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Lo Haces a Propósito. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/4V_xw7qiHpQ/hqdefault.jpg",
+    "duration": 138
+  },
+  {
+    "title": "Hablan Mucho",
+    "url": "https://www.youtube.com/watch?v=6Iy0dl8nvVM",
+    "youtubeId": "6Iy0dl8nvVM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Hablan Mucho. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6Iy0dl8nvVM/hqdefault.jpg",
+    "duration": 102
+  },
+  {
+    "title": "La Más Cara del Barrio",
+    "url": "https://www.youtube.com/watch?v=hi6nE-MrWm4",
+    "youtubeId": "hi6nE-MrWm4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: La Más Cara del Barrio. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/hi6nE-MrWm4/hqdefault.jpg",
+    "duration": 164
+  },
+  {
+    "title": "Plákata Todo El Día",
+    "url": "https://www.youtube.com/watch?v=lwQ_fcFkR7g",
+    "youtubeId": "lwQ_fcFkR7g",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Plákata Todo El Día. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/lwQ_fcFkR7g/hqdefault.jpg",
+    "duration": 150
+  },
+  {
+    "title": "Calle Sin Pardón",
+    "url": "https://www.youtube.com/watch?v=omxt5MwirU0",
+    "youtubeId": "omxt5MwirU0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Calle Sin Pardón. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/omxt5MwirU0/hqdefault.jpg",
+    "duration": 208
+  },
+  {
+    "title": "Punto y Aparte Remix Calle Elegante",
+    "url": "https://www.youtube.com/watch?v=NWNw8iHCTtI",
+    "youtubeId": "NWNw8iHCTtI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: Punto y Aparte Remix Calle Elegante. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/NWNw8iHCTtI/hqdefault.jpg",
+    "duration": 159
+  },
+  {
+    "title": "10 Stay Right Here",
+    "url": "https://www.youtube.com/watch?v=wexufKjZ4yI",
+    "youtubeId": "wexufKjZ4yI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 10 Stay Right Here. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/wexufKjZ4yI/hqdefault.jpg",
+    "duration": 254
+  },
+  {
+    "title": "14 If I Close My Eyes",
+    "url": "https://www.youtube.com/watch?v=n87zGnpFg_0",
+    "youtubeId": "n87zGnpFg_0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 14 If I Close My Eyes. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/n87zGnpFg_0/hqdefault.jpg",
+    "duration": 232
+  },
+  {
+    "title": "13 Say It Again",
+    "url": "https://www.youtube.com/watch?v=eW3s-kKlrNk",
+    "youtubeId": "eW3s-kKlrNk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 13 Say It Again. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/eW3s-kKlrNk/hqdefault.jpg",
+    "duration": 160
+  },
+  {
+    "title": "11 You Got Me Like That",
+    "url": "https://www.youtube.com/watch?v=WuwZrnEzWdE",
+    "youtubeId": "WuwZrnEzWdE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 11 You Got Me Like That. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/WuwZrnEzWdE/hqdefault.jpg",
+    "duration": 210
+  },
+  {
+    "title": "09 Can’t Quit You",
+    "url": "https://www.youtube.com/watch?v=WLspTzlsW-s",
+    "youtubeId": "WLspTzlsW-s",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 09 Can’t Quit You. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/WLspTzlsW-s/hqdefault.jpg",
+    "duration": 215
+  },
+  {
+    "title": "04 Too Fast to Feel",
+    "url": "https://www.youtube.com/watch?v=WEfm-0ZE_z4",
+    "youtubeId": "WEfm-0ZE_z4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 04 Too Fast to Feel. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/WEfm-0ZE_z4/hqdefault.jpg",
+    "duration": 199
+  },
+  {
+    "title": "05 You Were My Always",
+    "url": "https://www.youtube.com/watch?v=BSDnCqTAEhM",
+    "youtubeId": "BSDnCqTAEhM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 05 You Were My Always. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/BSDnCqTAEhM/hqdefault.jpg",
+    "duration": 205
+  },
+  {
+    "title": "02 I Hate How Much I Need You",
+    "url": "https://www.youtube.com/watch?v=BjDVFdqiMb8",
+    "youtubeId": "BjDVFdqiMb8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 02 I Hate How Much I Need You. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/BjDVFdqiMb8/hqdefault.jpg",
+    "duration": 286
+  },
+  {
+    "title": "08 I Need You Tonight",
+    "url": "https://www.youtube.com/watch?v=B811RzufCxQ",
+    "youtubeId": "B811RzufCxQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 08 I Need You Tonight. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/B811RzufCxQ/hqdefault.jpg",
+    "duration": 149
+  },
+  {
+    "title": "06 Spiraling Again",
+    "url": "https://www.youtube.com/watch?v=B-QwrUJP97I",
+    "youtubeId": "B-QwrUJP97I",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 06 Spiraling Again. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/B-QwrUJP97I/hqdefault.jpg",
+    "duration": 209
+  },
+  {
+    "title": "03 Don’t Let Me Go",
+    "url": "https://www.youtube.com/watch?v=8Bt06JRxOgg",
+    "youtubeId": "8Bt06JRxOgg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 03 Don’t Let Me Go. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8Bt06JRxOgg/hqdefault.jpg",
+    "duration": 261
+  },
+  {
+    "title": "15 You’re My Weakest Point",
+    "url": "https://www.youtube.com/watch?v=7x-ZujaneIs",
+    "youtubeId": "7x-ZujaneIs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 15 You’re My Weakest Point. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/7x-ZujaneIs/hqdefault.jpg",
+    "duration": 200
+  },
+  {
+    "title": "12 Don’t Leave Yet",
+    "url": "https://www.youtube.com/watch?v=41ARJe19obU",
+    "youtubeId": "41ARJe19obU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 12 Don’t Leave Yet. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/41ARJe19obU/hqdefault.jpg",
+    "duration": 164
+  },
+  {
+    "title": "07 You Feel Like Home But You Hurt",
+    "url": "https://www.youtube.com/watch?v=-qHUG5cbon0",
+    "youtubeId": "-qHUG5cbon0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 07 You Feel Like Home But You Hurt. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/-qHUG5cbon0/hqdefault.jpg",
+    "duration": 258
+  },
+  {
+    "title": "01 I’m Not Okay When You’re Gone",
+    "url": "https://www.youtube.com/watch?v=8tkUgscUynM",
+    "youtubeId": "8tkUgscUynM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 01 I’m Not Okay When You’re Gone. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8tkUgscUynM/hqdefault.jpg",
+    "duration": 220
+  },
+  {
+    "title": "01 Lerelé",
+    "url": "https://www.youtube.com/watch?v=am9OBHB3c2Y",
+    "youtubeId": "am9OBHB3c2Y",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 01 Lerelé. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/am9OBHB3c2Y/hqdefault.jpg",
+    "duration": 127
+  },
+  {
+    "title": "02 La Tinta de mis Venas",
+    "url": "https://www.youtube.com/watch?v=THdV1_p6iYk",
+    "youtubeId": "THdV1_p6iYk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 02 La Tinta de mis Venas. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/THdV1_p6iYk/hqdefault.jpg",
+    "duration": 167
+  },
+  {
+    "title": "03 Aires de Libertad",
+    "url": "https://www.youtube.com/watch?v=Zp8rjD9E-iU",
+    "youtubeId": "Zp8rjD9E-iU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 03 Aires de Libertad. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Zp8rjD9E-iU/hqdefault.jpg",
+    "duration": 135
+  },
+  {
+    "title": "04 Sevilla",
+    "url": "https://www.youtube.com/watch?v=LXV73qPMIMU",
+    "youtubeId": "LXV73qPMIMU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 04 Sevilla. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/LXV73qPMIMU/hqdefault.jpg",
+    "duration": 105
+  },
+  {
+    "title": "05 Fuego en el Mimbral",
+    "url": "https://www.youtube.com/watch?v=B5jTghDEkJA",
+    "youtubeId": "B5jTghDEkJA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 05 Fuego en el Mimbral. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/B5jTghDEkJA/hqdefault.jpg",
+    "duration": 105
+  },
+  {
+    "title": "06 Sendas de Bronce",
+    "url": "https://www.youtube.com/watch?v=6RLd4OOoUSo",
+    "youtubeId": "6RLd4OOoUSo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 06 Sendas de Bronce. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6RLd4OOoUSo/hqdefault.jpg",
+    "duration": 152
+  },
+  {
+    "title": "07 El Valor de lo Sencillo",
+    "url": "https://www.youtube.com/watch?v=6mz8Sej464k",
+    "youtubeId": "6mz8Sej464k",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 07 El Valor de lo Sencillo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6mz8Sej464k/hqdefault.jpg",
+    "duration": 256
+  },
+  {
+    "title": "08 La Llorona de Cristal",
+    "url": "https://www.youtube.com/watch?v=5HQ22WsnQjs",
+    "youtubeId": "5HQ22WsnQjs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 08 La Llorona de Cristal. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/5HQ22WsnQjs/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "09 En el cristal de mi copa",
+    "url": "https://www.youtube.com/watch?v=lFFDAXvpnrc",
+    "youtubeId": "lFFDAXvpnrc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 09 En el cristal de mi copa. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/lFFDAXvpnrc/hqdefault.jpg",
+    "duration": 172
+  },
+  {
+    "title": "10 La Lengua de Doble Filo",
+    "url": "https://www.youtube.com/watch?v=bOTw75us6Wo",
+    "youtubeId": "bOTw75us6Wo",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 10 La Lengua de Doble Filo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/bOTw75us6Wo/hqdefault.jpg",
+    "duration": 145
+  },
+  {
+    "title": "11 Quejio",
+    "url": "https://www.youtube.com/watch?v=MSWSjgwxrU0",
+    "youtubeId": "MSWSjgwxrU0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 11 Quejio. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/MSWSjgwxrU0/hqdefault.jpg",
+    "duration": 175
+  },
+  {
+    "title": "12 Amor de madre",
+    "url": "https://www.youtube.com/watch?v=0_wH8cYkwkI",
+    "youtubeId": "0_wH8cYkwkI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 12 Amor de madre. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/0_wH8cYkwkI/hqdefault.jpg",
+    "duration": 207
+  },
+  {
+    "title": "13 La Herida de la Luna",
+    "url": "https://www.youtube.com/watch?v=2jSNDfshy_k",
+    "youtubeId": "2jSNDfshy_k",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 13 La Herida de la Luna. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/2jSNDfshy_k/hqdefault.jpg",
+    "duration": 205
+  },
+  {
+    "title": "14 La Lengua del Vecindario",
+    "url": "https://www.youtube.com/watch?v=cDZzXXILBjQ",
+    "youtubeId": "cDZzXXILBjQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 14 La Lengua del Vecindario. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/cDZzXXILBjQ/hqdefault.jpg",
+    "duration": 114
+  },
+  {
+    "title": "15 La Sangre del Alfar",
+    "url": "https://www.youtube.com/watch?v=dDTOAT_42U0",
+    "youtubeId": "dDTOAT_42U0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 15 La Sangre del Alfar. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/dDTOAT_42U0/hqdefault.jpg",
+    "duration": 148
+  },
+  {
+    "title": "16 Cenizas de Oro",
+    "url": "https://www.youtube.com/watch?v=ZLqbsphrwdk",
+    "youtubeId": "ZLqbsphrwdk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 16 Cenizas de Oro. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/ZLqbsphrwdk/hqdefault.jpg",
+    "duration": 170
+  },
+  {
+    "title": "17 La Cuenta Pendiente",
+    "url": "https://www.youtube.com/watch?v=TndXII6lxfs",
+    "youtubeId": "TndXII6lxfs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 17 La Cuenta Pendiente. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/TndXII6lxfs/hqdefault.jpg",
+    "duration": 141
+  },
+  {
+    "title": "18 Cai de la Sal",
+    "url": "https://www.youtube.com/watch?v=6NaUmsKgsXA",
+    "youtubeId": "6NaUmsKgsXA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 18 Cai de la Sal. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/6NaUmsKgsXA/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "19 Esa es mi amiga",
+    "url": "https://www.youtube.com/watch?v=tjYmXFZlsSc",
+    "youtubeId": "tjYmXFZlsSc",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 19 Esa es mi amiga. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/tjYmXFZlsSc/hqdefault.jpg",
+    "duration": 205
+  },
+  {
+    "title": "20 Sal de Plata y Carcajadas",
+    "url": "https://www.youtube.com/watch?v=2IKJsp7-BeY",
+    "youtubeId": "2IKJsp7-BeY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 20 Sal de Plata y Carcajadas. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/2IKJsp7-BeY/hqdefault.jpg",
+    "duration": 195
+  },
+  {
+    "title": "01 Umbrella",
+    "url": "https://www.youtube.com/watch?v=zFuzBXbp3ws",
+    "youtubeId": "zFuzBXbp3ws",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 01 Umbrella. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/zFuzBXbp3ws/hqdefault.jpg",
+    "duration": 148
+  },
+  {
+    "title": "02 Father",
+    "url": "https://www.youtube.com/watch?v=y7EkIFalG9M",
+    "youtubeId": "y7EkIFalG9M",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 02 Father. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/y7EkIFalG9M/hqdefault.jpg",
+    "duration": 245
+  },
+  {
+    "title": "03 More than friends",
+    "url": "https://www.youtube.com/watch?v=TW7ifEQeajk",
+    "youtubeId": "TW7ifEQeajk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 03 More than friends. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/TW7ifEQeajk/hqdefault.jpg",
+    "duration": 250
+  },
+  {
+    "title": "04 Negro",
+    "url": "https://www.youtube.com/watch?v=vME2FRa0wJE",
+    "youtubeId": "vME2FRa0wJE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 04 Negro. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/vME2FRa0wJE/hqdefault.jpg",
+    "duration": 145
+  },
+  {
+    "title": "05 Stars We Used to Know",
+    "url": "https://www.youtube.com/watch?v=8ngfPM21qug",
+    "youtubeId": "8ngfPM21qug",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 05 Stars We Used to Know. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8ngfPM21qug/hqdefault.jpg",
+    "duration": 104
+  },
+  {
+    "title": "06 Fiesta y Vacío",
+    "url": "https://www.youtube.com/watch?v=AtoAHYUGPiM",
+    "youtubeId": "AtoAHYUGPiM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 06 Fiesta y Vacío. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/AtoAHYUGPiM/hqdefault.jpg",
+    "duration": 131
+  },
+  {
+    "title": "07 Here Tonight",
+    "url": "https://www.youtube.com/watch?v=bn0xIbwfaKs",
+    "youtubeId": "bn0xIbwfaKs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 07 Here Tonight. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/bn0xIbwfaKs/hqdefault.jpg",
+    "duration": 102
+  },
+  {
+    "title": "08 Echoes of Us",
+    "url": "https://www.youtube.com/watch?v=46rkHPpgPfQ",
+    "youtubeId": "46rkHPpgPfQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 08 Echoes of Us. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/46rkHPpgPfQ/hqdefault.jpg",
+    "duration": 77
+  },
+  {
+    "title": "09 Pasos de Ayer",
+    "url": "https://www.youtube.com/watch?v=bGE4pYDSOv4",
+    "youtubeId": "bGE4pYDSOv4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 09 Pasos de Ayer. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/bGE4pYDSOv4/hqdefault.jpg",
+    "duration": 120
+  },
+  {
+    "title": "10 En la vida",
+    "url": "https://www.youtube.com/watch?v=uzUaTS8N58A",
+    "youtubeId": "uzUaTS8N58A",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 10 En la vida. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/uzUaTS8N58A/hqdefault.jpg",
+    "duration": 267
+  },
+  {
+    "title": "11 Sobrevivire",
+    "url": "https://www.youtube.com/watch?v=LPMvn3rmOEA",
+    "youtubeId": "LPMvn3rmOEA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 11 Sobrevivire. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/LPMvn3rmOEA/hqdefault.jpg",
+    "duration": 150
+  },
+  {
+    "title": "12 La Vida",
+    "url": "https://www.youtube.com/watch?v=FT3vJu5ZaEE",
+    "youtubeId": "FT3vJu5ZaEE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 12 La Vida. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/FT3vJu5ZaEE/hqdefault.jpg",
+    "duration": 160
+  },
+  {
+    "title": "13 AMIGOS",
+    "url": "https://www.youtube.com/watch?v=Rvi9Pqai2hU",
+    "youtubeId": "Rvi9Pqai2hU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 13 AMIGOS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Rvi9Pqai2hU/hqdefault.jpg",
+    "duration": 67
+  },
+  {
+    "title": "14 Cuore",
+    "url": "https://www.youtube.com/watch?v=Xyl0TIyIY88",
+    "youtubeId": "Xyl0TIyIY88",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 14 Cuore. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Xyl0TIyIY88/hqdefault.jpg",
+    "duration": 185
+  },
+  {
+    "title": "15 Love",
+    "url": "https://www.youtube.com/watch?v=23VlR5i5TPk",
+    "youtubeId": "23VlR5i5TPk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 15 Love. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/23VlR5i5TPk/hqdefault.jpg",
+    "duration": 198
+  },
+  {
+    "title": "16 The sun",
+    "url": "https://www.youtube.com/watch?v=58rcLTo-xD4",
+    "youtubeId": "58rcLTo-xD4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 16 The sun. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/58rcLTo-xD4/hqdefault.jpg",
+    "duration": 206
+  },
+  {
+    "title": "18 Friends",
+    "url": "https://www.youtube.com/watch?v=xKb_0hTr-IA",
+    "youtubeId": "xKb_0hTr-IA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 18 Friends. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/xKb_0hTr-IA/hqdefault.jpg",
+    "duration": 221
+  },
+  {
+    "title": "19 Holidays",
+    "url": "https://www.youtube.com/watch?v=wuNTNKXnTY4",
+    "youtubeId": "wuNTNKXnTY4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 19 Holidays. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/wuNTNKXnTY4/hqdefault.jpg",
+    "duration": 172
+  },
+  {
+    "title": "20 Son",
+    "url": "https://www.youtube.com/watch?v=9JLLH6JPjC4",
+    "youtubeId": "9JLLH6JPjC4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 20 Son. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9JLLH6JPjC4/hqdefault.jpg",
+    "duration": 151
+  },
+  {
+    "title": "21Vanity",
+    "url": "https://www.youtube.com/watch?v=fhh4FpqU46Y",
+    "youtubeId": "fhh4FpqU46Y",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 21Vanity. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/fhh4FpqU46Y/hqdefault.jpg",
+    "duration": 172
+  },
+  {
+    "title": "22 Vanité",
+    "url": "https://www.youtube.com/watch?v=VOmdbiHCJew",
+    "youtubeId": "VOmdbiHCJew",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 22 Vanité. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/VOmdbiHCJew/hqdefault.jpg",
+    "duration": 206
+  },
+  {
+    "title": "23 La Distanza",
+    "url": "https://www.youtube.com/watch?v=9xNi2bnlxW8",
+    "youtubeId": "9xNi2bnlxW8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 23 La Distanza. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9xNi2bnlxW8/hqdefault.jpg",
+    "duration": 173
+  },
+  {
+    "title": "24 Fecha a Porta",
+    "url": "https://www.youtube.com/watch?v=5BgWnQZv7c4",
+    "youtubeId": "5BgWnQZv7c4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 24 Fecha a Porta. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/5BgWnQZv7c4/hqdefault.jpg",
+    "duration": 155
+  },
+  {
+    "title": "01 Cicatrices Que Brillan",
+    "url": "https://www.youtube.com/watch?v=pmvSSs8ilkI",
+    "youtubeId": "pmvSSs8ilkI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 01 Cicatrices Que Brillan. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/pmvSSs8ilkI/hqdefault.jpg",
+    "duration": 152
+  },
+  {
+    "title": "02 Guerra de Sombras",
+    "url": "https://www.youtube.com/watch?v=WNpZ3mdW7WM",
+    "youtubeId": "WNpZ3mdW7WM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 02 Guerra de Sombras. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/WNpZ3mdW7WM/hqdefault.jpg",
+    "duration": 116
+  },
+  {
+    "title": "03 Noche Sin Testigos",
+    "url": "https://www.youtube.com/watch?v=JDNGzV2B3ZI",
+    "youtubeId": "JDNGzV2B3ZI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 03 Noche Sin Testigos. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/JDNGzV2B3ZI/hqdefault.jpg",
+    "duration": 174
+  },
+  {
+    "title": "04 Respeto Prestado",
+    "url": "https://www.youtube.com/watch?v=XR4WUegE4Hs",
+    "youtubeId": "XR4WUegE4Hs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 04 Respeto Prestado. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/XR4WUegE4Hs/hqdefault.jpg",
+    "duration": 150
+  },
+  {
+    "title": "05 Crónicas de un Bloque Roto",
+    "url": "https://www.youtube.com/watch?v=pXfRz8ZSCFk",
+    "youtubeId": "pXfRz8ZSCFk",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 05 Crónicas de un Bloque Roto. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/pXfRz8ZSCFk/hqdefault.jpg",
+    "duration": 207
+  },
+  {
+    "title": "06 Ecos de la Esquina",
+    "url": "https://www.youtube.com/watch?v=Tmmzdasw_S0",
+    "youtubeId": "Tmmzdasw_S0",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 06 Ecos de la Esquina. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Tmmzdasw_S0/hqdefault.jpg",
+    "duration": 190
+  },
+  {
+    "title": "07 Donde el Miedo Aprende a Vivir",
+    "url": "https://www.youtube.com/watch?v=9jxa1PaTJ9U",
+    "youtubeId": "9jxa1PaTJ9U",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 07 Donde el Miedo Aprende a Vivir. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9jxa1PaTJ9U/hqdefault.jpg",
+    "duration": 165
+  },
+  {
+    "title": "08 El Rencor",
+    "url": "https://www.youtube.com/watch?v=zjipxb4Yqg8",
+    "youtubeId": "zjipxb4Yqg8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 08 El Rencor. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/zjipxb4Yqg8/hqdefault.jpg",
+    "duration": 220
+  },
+  {
+    "title": "10 Voces Que No Duermen",
+    "url": "https://www.youtube.com/watch?v=0-iVjowyd4w",
+    "youtubeId": "0-iVjowyd4w",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 10 Voces Que No Duermen. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/0-iVjowyd4w/hqdefault.jpg",
+    "duration": 107
+  },
+  {
+    "title": "11 La Noche No Me Llevó",
+    "url": "https://www.youtube.com/watch?v=U0o7yrirCF8",
+    "youtubeId": "U0o7yrirCF8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 11 La Noche No Me Llevó. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/U0o7yrirCF8/hqdefault.jpg",
+    "duration": 210
+  },
+  {
+    "title": "12 Trono de Cristal",
+    "url": "https://www.youtube.com/watch?v=PW6aXvoY44w",
+    "youtubeId": "PW6aXvoY44w",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 12 Trono de Cristal. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/PW6aXvoY44w/hqdefault.jpg",
+    "duration": 108
+  },
+  {
+    "title": "13 Lo Que Cantan Mis Cicatrices",
+    "url": "https://www.youtube.com/watch?v=sMuq5pNoxOs",
+    "youtubeId": "sMuq5pNoxOs",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 13 Lo Que Cantan Mis Cicatrices. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/sMuq5pNoxOs/hqdefault.jpg",
+    "duration": 213
+  },
+  {
+    "title": "14 Por Un Segundo",
+    "url": "https://www.youtube.com/watch?v=leWbdmjMmrA",
+    "youtubeId": "leWbdmjMmrA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: 14 Por Un Segundo. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/leWbdmjMmrA/hqdefault.jpg",
+    "duration": 159
+  },
+  {
+    "title": "NO ES DESTINO, ES CADENA",
+    "url": "https://www.youtube.com/watch?v=9LLaEluY1CA",
+    "youtubeId": "9LLaEluY1CA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: NO ES DESTINO, ES CADENA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9LLaEluY1CA/hqdefault.jpg",
+    "duration": 140
+  },
+  {
+    "title": "CUANDO EL PUEBLO DESPIERTE",
+    "url": "https://www.youtube.com/watch?v=8ounLnmJGWI",
+    "youtubeId": "8ounLnmJGWI",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: CUANDO EL PUEBLO DESPIERTE. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/8ounLnmJGWI/hqdefault.jpg",
+    "duration": 133
+  },
+  {
+    "title": "MISMO DOLOR, MISMA BANDERA",
+    "url": "https://www.youtube.com/watch?v=SZClLMreBEY",
+    "youtubeId": "SZClLMreBEY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: MISMO DOLOR, MISMA BANDERA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/SZClLMreBEY/hqdefault.jpg",
+    "duration": 179
+  },
+  {
+    "title": "TRAJE LIMPIO, MANOS SUCIAS",
+    "url": "https://www.youtube.com/watch?v=BIGu5cL4Ras",
+    "youtubeId": "BIGu5cL4Ras",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: TRAJE LIMPIO, MANOS SUCIAS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/BIGu5cL4Ras/hqdefault.jpg",
+    "duration": 198
+  },
+  {
+    "title": "REJAS INVISIBLES”",
+    "url": "https://www.youtube.com/watch?v=tBEfFisuY58",
+    "youtubeId": "tBEfFisuY58",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: REJAS INVISIBLES”. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/tBEfFisuY58/hqdefault.jpg",
+    "duration": 188
+  },
+  {
+    "title": "EL CIRCO DE LOS TITIRITEROS",
+    "url": "https://www.youtube.com/watch?v=xUbKrRE1ANU",
+    "youtubeId": "xUbKrRE1ANU",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: EL CIRCO DE LOS TITIRITEROS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/xUbKrRE1ANU/hqdefault.jpg",
+    "duration": 173
+  },
+  {
+    "title": "BALANCE ROTO",
+    "url": "https://www.youtube.com/watch?v=kmu0WOuoVq4",
+    "youtubeId": "kmu0WOuoVq4",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: BALANCE ROTO. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/kmu0WOuoVq4/hqdefault.jpg",
+    "duration": 188
+  },
+  {
+    "title": "ENTRE CAOS Y CONCIENCIA",
+    "url": "https://www.youtube.com/watch?v=fVZHgD2ygTM",
+    "youtubeId": "fVZHgD2ygTM",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: ENTRE CAOS Y CONCIENCIA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/fVZHgD2ygTM/hqdefault.jpg",
+    "duration": 192
+  },
+  {
+    "title": "IMPUESTOS PARA LOS POBRES",
+    "url": "https://www.youtube.com/watch?v=aIrT7WjSc54",
+    "youtubeId": "aIrT7WjSc54",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: IMPUESTOS PARA LOS POBRES. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/aIrT7WjSc54/hqdefault.jpg",
+    "duration": 153
+  },
+  {
+    "title": "PESO MUERTO",
+    "url": "https://www.youtube.com/watch?v=odJSeDGU5JY",
+    "youtubeId": "odJSeDGU5JY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: PESO MUERTO. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/odJSeDGU5JY/hqdefault.jpg",
+    "duration": 137
+  },
+  {
+    "title": "SILENCIO QUE PESA",
+    "url": "https://www.youtube.com/watch?v=Z5soIONVDvY",
+    "youtubeId": "Z5soIONVDvY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SILENCIO QUE PESA. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/Z5soIONVDvY/hqdefault.jpg",
+    "duration": 197
+  },
+  {
+    "title": "CONTINENTE DE PIE",
+    "url": "https://www.youtube.com/watch?v=41IXjwDoH28",
+    "youtubeId": "41IXjwDoH28",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: CONTINENTE DE PIE. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/41IXjwDoH28/hqdefault.jpg",
+    "duration": 145
+  },
+  {
+    "title": "DOS VOCES, UNA VERDAD - DAREK MAMBA ✖ R-KONTROL",
+    "url": "https://www.youtube.com/watch?v=v5G_YeWCTB8",
+    "youtubeId": "v5G_YeWCTB8",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: DOS VOCES, UNA VERDAD - DAREK MAMBA ✖ R-KONTROL. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/v5G_YeWCTB8/hqdefault.jpg",
+    "duration": 123
+  },
+  {
+    "title": "SOMOS EL REFLEJO - DAREK MAMBA ✖ NOX VERDAD",
+    "url": "https://www.youtube.com/watch?v=7ffyo8iggns",
+    "youtubeId": "7ffyo8iggns",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SOMOS EL REFLEJO - DAREK MAMBA ✖ NOX VERDAD. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/7ffyo8iggns/hqdefault.jpg",
+    "duration": 150
+  },
+  {
+    "title": "SIN MÁSCARAS",
+    "url": "https://www.youtube.com/watch?v=LFsyz3uFErY",
+    "youtubeId": "LFsyz3uFErY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: SIN MÁSCARAS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/LFsyz3uFErY/hqdefault.jpg",
+    "duration": 186
+  },
+  {
+    "title": "BACHATA SENSUAL Feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=9vGoI2WmLRA",
+    "youtubeId": "9vGoI2WmLRA",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: BACHATA SENSUAL Feat SANGRE BACHATA BAND, SOLFA MENDEZ & YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/9vGoI2WmLRA/hqdefault.jpg",
+    "duration": 263
+  },
+  {
+    "title": "HOY HAY FIESTA - YFSessions HD - (VIDEO OFFICIAL) DIR.YANKYFILMS",
+    "url": "https://www.youtube.com/watch?v=RJe5Co2iNsg",
+    "youtubeId": "RJe5Co2iNsg",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: HOY HAY FIESTA - YFSessions HD - (VIDEO OFFICIAL) DIR.YANKYFILMS. Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/RJe5Co2iNsg/hqdefault.jpg",
+    "duration": 115
+  },
+  {
+    "title": "YF Sessions - Después de la Medianoche (REGUETÓN PERREO) (VIDEO VISIAL)",
+    "url": "https://www.youtube.com/watch?v=jf4w7N90XBQ",
+    "youtubeId": "jf4w7N90XBQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: YF Sessions - Después de la Medianoche (REGUETÓN PERREO) (VIDEO VISIAL). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/jf4w7N90XBQ/hqdefault.jpg",
+    "duration": 200
+  },
+  {
+    "title": "YF Sessions - CALLEJÓN PRENDIO (REGUETÓN PERREO) (VIDEO VISIAL)",
+    "url": "https://www.youtube.com/watch?v=tHxuUieKDsE",
+    "youtubeId": "tHxuUieKDsE",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: YF Sessions - CALLEJÓN PRENDIO (REGUETÓN PERREO) (VIDEO VISIAL). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/tHxuUieKDsE/hqdefault.jpg",
+    "duration": 77
+  },
+  {
+    "title": "YF Sessions - Cuando Se Apaga la Luz (REGUETÓN PERREO) (VIDEO VISIAL)",
+    "url": "https://www.youtube.com/watch?v=yY-QBRVT4mQ",
+    "youtubeId": "yY-QBRVT4mQ",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: YF Sessions - Cuando Se Apaga la Luz (REGUETÓN PERREO) (VIDEO VISIAL). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/yY-QBRVT4mQ/hqdefault.jpg",
+    "duration": 180
+  },
+  {
+    "title": "YF Sessions - Callejón Sin Salida (REGUETÓN PERREO) (VIDEO VISIAL)",
+    "url": "https://www.youtube.com/watch?v=DQhryZqWTKY",
+    "youtubeId": "DQhryZqWTKY",
+    "channel": "YF Sessions",
+    "description": "Video oficial de YF Sessions Records: YF Sessions - Callejón Sin Salida (REGUETÓN PERREO) (VIDEO VISIAL). Produccion musical y visual del catalogo, disponible para reproducir directamente aqui.",
+    "thumb": "https://i.ytimg.com/vi/DQhryZqWTKY/hqdefault.jpg",
+    "duration": 110
+  }
 ];
-let youtubeVideos = loadJson(STORAGE_KEYS.videos, DATA.videos || DEFAULT_YOUTUBE_VIDEOS);
+const savedYoutubeVideos = loadJson(STORAGE_KEYS.videos, []);
+const sourceYoutubeVideos = DATA.videos && DATA.videos.length ? DATA.videos : DEFAULT_YOUTUBE_VIDEOS;
+let youtubeVideos = savedYoutubeVideos.length > sourceYoutubeVideos.length ? savedYoutubeVideos : sourceYoutubeVideos;
 document.getElementById('count-videos').textContent = youtubeVideos.length;
 function renderVideos(videos){
   if(!videos.length){
@@ -1327,11 +3412,11 @@ function renderVideos(videos){
   }
   videoGrid.innerHTML = videos.map((video) => {
     const id = video.youtubeId || getYoutubeId(video.url);
-    const thumb = video.thumb || (id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '');
-    return `<a class="video-card" href="${video.url}" target="_blank" rel="noopener">
-      <div class="video-thumb">${thumb ? `<img src="${thumb}" alt="${video.title || 'Video YF Sessions'}" loading="lazy">` : ''}</div>
-      <div class="video-info"><h3>${video.title || 'Video YF Sessions'}</h3><span>${video.channel || 'YouTube'}${video.spotifyUrl ? ' - Spotify conectado' : ''}</span></div>
-    </a>`;
+    const description = video.description || `Video oficial de YF Sessions Records: ${video.title || 'catalogo audiovisual'}.`;
+    return `<article class="video-card">
+      ${id ? `<iframe class="video-embed" src="https://www.youtube-nocookie.com/embed/${id}" title="${video.title || 'Video YF Sessions'}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` : ''}
+      <div class="video-info"><h3>${video.title || 'Video YF Sessions'}</h3><span>${video.channel || 'YouTube'}${video.duration ? ' - ' + Math.floor(video.duration / 60) + ':' + String(video.duration % 60).padStart(2,'0') : ''}</span><p>${description}</p></div>
+    </article>`;
   }).join('');
 }
 renderVideos(youtubeVideos);
