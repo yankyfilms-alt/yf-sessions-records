@@ -81,6 +81,9 @@ header{
   transition: transform .25s ease, box-shadow .25s ease;
 }
 .follow-btn:hover{ transform:translateY(-2px) scale(1.03); box-shadow:0 8px 28px rgba(247,148,29,.45); }
+.header-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+.follow-btn.youtube{ background:linear-gradient(120deg,#ff1f1f,#ff7bac); color:#fff; }
+.follow-btn.instagram{ background:linear-gradient(120deg,#833ab4,#fd1d1d,#fcb045); color:#fff; }
 
 /* ===== HERO ===== */
 .hero{
@@ -497,7 +500,7 @@ footer{
 .hero-bg{ background-size:cover; background-position:center center; }
 .album-card,.song-row,.playlist-card,.video-card{ will-change:transform; }
 @media(min-width:1500px){ .hero-bg{ background-size:cover; background-position:center 42%; } .hero{ min-height:88vh; } }
-@media(max-width:640px){ header{ padding:12px 4vw; } .brand-name{font-size:1.1rem;} .follow-btn{padding:8px 12px;font-size:.7rem;} .hero{min-height:92vh;padding-top:70px;} .hero-bg{background-position:center top; background-image:linear-gradient(0deg, rgba(10,6,4,.96) 0%, rgba(10,6,4,.70) 42%, rgba(10,6,4,.18) 100%), linear-gradient(90deg, rgba(10,6,4,.82), rgba(10,6,4,.18)), url('hero-a-lo-bien-guaracha.jpg');} .tabs{padding:12px 4vw;} section.view{padding:38px 4vw 72px;} .platform-strip{gap:8px;} .platform-btn{font-size:.68rem;padding:9px 11px;} }
+@media(max-width:640px){ header{ padding:12px 4vw; gap:10px; } .brand-name{font-size:1.1rem;} .header-actions{gap:6px;} .follow-btn{padding:8px 10px;font-size:.66rem;} .hero{min-height:92vh;padding-top:104px;} .hero-bg{background-position:center top; background-image:linear-gradient(0deg, rgba(10,6,4,.96) 0%, rgba(10,6,4,.70) 42%, rgba(10,6,4,.18) 100%), linear-gradient(90deg, rgba(10,6,4,.82), rgba(10,6,4,.18)), url('hero-a-lo-bien-guaracha.jpg');} .tabs{padding:12px 4vw;} section.view{padding:38px 4vw 72px;} .platform-strip{gap:8px;} .platform-btn{font-size:.68rem;padding:9px 11px;} }
 
 
 /* PUBLIC BIO + CONTACT */
@@ -599,7 +602,11 @@ footer{
     <img src="https://i.scdn.co/image/ab6761610000e5eb60429b62905033e6c2c2ee6b" alt="YF Sessions logo">
     <span class="brand-name">YF <span>SESSIONS</span></span>
   </div>
-  <a class="follow-btn" href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">Seguir en Spotify</a>
+  <div class="header-actions">
+    <a class="follow-btn" href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">Seguir Spotify</a>
+    <a class="follow-btn youtube" href="https://www.youtube.com/@YFSessions?sub_confirmation=1" target="_blank" rel="noopener">Suscribirse</a>
+    <a class="follow-btn instagram" href="https://www.instagram.com/yfsessionshd/" target="_blank" rel="noopener">Instagram</a>
+  </div>
 </header>
 
 <section class="hero">
@@ -611,11 +618,15 @@ footer{
     <div class="hero-actions">
       <a class="btn-primary" href="https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN" target="_blank" rel="noopener">
         <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
-        Escuchar en Spotify
+        Seguir en Spotify
       </a>
-      <div class="stat"><b>2.8K</b><span>Oyentes mensuales</span></div>
-      <div class="stat"><b>15+</b><span>Álbumes</span></div>
-      <div class="stat"><b>360+</b><span>Canciones</span></div>
+      <a class="btn-primary" href="https://www.youtube.com/@YFSessions?sub_confirmation=1" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M10 15.5v-7l6 3.5-6 3.5z"/><path fill="currentColor" d="M21.6 7.2s-.2-1.5-.8-2.1c-.8-.8-1.7-.8-2.1-.9C15.8 4 12 4 12 4s-3.8 0-6.7.2c-.4 0-1.3.1-2.1.9-.6.6-.8 2.1-.8 2.1S2.2 9 2.2 10.8v1.7c0 1.8.2 3.6.2 3.6s.2 1.5.8 2.1c.8.8 1.9.8 2.4.9 1.7.2 6.4.2 6.4.2s3.8 0 6.7-.2c.4 0 1.3-.1 2.1-.9.6-.6.8-2.1.8-2.1s.2-1.8.2-3.6v-1.7c0-1.8-.2-3.6-.2-3.6z"/></svg>
+        Suscribirse en YouTube
+      </a>
+      <div class="stat"><b>56</b><span>Álbumes</span></div>
+      <div class="stat"><b>1041</b><span>Canciones</span></div>
+      <div class="stat"><b>234</b><span>Videos</span></div>
     </div>
     <div class="platform-strip" id="platform-strip"></div>
   </div>
@@ -673,7 +684,7 @@ footer{
 <section class="view" id="view-videos">
   <div class="section-head">
     <h2>Videos de <em>YouTube</em></h2>
-    <p>Pega enlaces de YouTube aqui y se mostraran como tarjetas con miniatura, canal y salida directa al video.</p>
+    <p>Videos oficiales del canal YF Sessions. Reproduce cada video directamente aqui sin salir de la pagina.</p>
   </div>
   <div class="video-tools">
     <input type="text" id="youtube-url-input" placeholder="Pega aqui un enlace de YouTube para previsualizarlo">
@@ -892,8 +903,8 @@ const STORAGE_KEYS = {
 
 
 const PLATFORM_LINKS = [
-  { name:'Spotify', url:'https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN' },
-  { name:'YouTube', url:'https://www.youtube.com/@YFSessions' },
+  { name:'Seguir en Spotify', url:'https://open.spotify.com/artist/7cn2dOji4Io2WDx1SXH2mN' },
+  { name:'Suscribirse en YouTube', url:'https://www.youtube.com/@YFSessions?sub_confirmation=1' },
   { name:'Instagram', url:'https://www.instagram.com/yfsessionshd/' },
   { name:'Apple Music', url:'https://music.apple.com/search?term=YF%20Sessions' },
   { name:'YouTube Music', url:'https://music.youtube.com/search?q=YF%20Sessions' },
