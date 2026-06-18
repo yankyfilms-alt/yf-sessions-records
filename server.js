@@ -11,8 +11,25 @@ const dataDir = process.env.DATA_DIR || join(root, "data");
 const dbPath = join(dataDir, "db.json");
 const port = Number(process.env.PORT || 8093);
 const adminEmail = (process.env.ADMIN_EMAIL || "admin@yfsessionsrecords.com").toLowerCase();
-const adminPassword = process.env.ADMIN_PASSWORD || "YF2026!";
+const adminPassword = process.env.ADMIN_PASSWORD || "";
 const sessions = new Map();
+const loginAttempts = new Map();
+const SESSION_TTL_MS = 1000 * 60 * 60 * 8;
+const MAX_LOGIN_ATTEMPTS = 6;
+const LOGIN_WINDOW_MS = 1000 * 60 * 15;
+
+const defaultAdminAccounts = [
+  {
+    email: "macarenaperez.mp@icloud.com",
+    salt: "b038f0995b5717284799faf6e7850ead",
+    hash: "80c92b34c9e496faef4429074de2a5f2809ebbf4403c2b845c068c6634fb45ae99e0ed0f08c503d8cd5ae1adcbf2fa67375c43d1820963f817e382b5263ab55b"
+  },
+  {
+    email: "yankyfilms@gmail.com",
+    salt: "cc7d0f0a900d1ab9383890f370d78890",
+    hash: "b01cfdaf18eb25951bc44932884b47ace3d28fd16a244539dae503ece882c11d2e0e09aba116e872c465d10ee1c5d8de883f7c5f9c1a62c545e4952bd0a8d10e"
+  }
+];
 
 const defaultDb = {
   profile: {
@@ -32,7 +49,64 @@ const defaultDb = {
 };
 
 const passwordSalt = process.env.ADMIN_PASSWORD_SALT || "yf-sessions-local-salt";
-const passwordHash = scryptSync(adminPassword, passwordSalt, 64);
+const passwordHash = adminPassword ? scryptSync(adminPassword, passwordSalt, 64) : null;
+
+function loadAdminAccounts() {
+  const accounts = [];
+  if (process.env.ADMIN_ACCOUNTS_JSON) {
+    try {
+      const parsed = JSON.parse(process.env.ADMIN_ACCOUNTS_JSON);
+      for (const account of parsed) {
+        if (account.email && account.salt && account.hash) {
+          accounts.push({
+            email: String(account.email).toLowerCase(),
+            salt: String(account.salt),
+            hash: String(account.hash)
+          });
+        }
+      }
+    } catch (error) {
+      console.error("ADMIN_ACCOUNTS_JSON invalido:", error.message);
+    }
+  }
+  accounts.push(...defaultAdminAccounts);
+  if (passwordHash) accounts.push({ email: adminEmail, salt: passwordSalt, hash: passwordHash.toString("hex") });
+  return accounts;
+}
+
+const adminAccounts = loadAdminAccounts();
+
+function securityHeaders(req, extra = {}) {
+  const isHttps = req.headers["x-forwarded-proto"] === "https" || req.socket.encrypted;
+  return {
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=()",
+    "cross-origin-opener-policy": "same-origin",
+    "cache-control": "no-store",
+    ...(isHttps ? { "strict-transport-security": "max-age=31536000; includeSubDomains; preload" } : {}),
+    ...extra
+  };
+}
+
+function htmlSecurityHeaders(req, extra = {}) {
+  return securityHeaders(req, {
+    "content-security-policy": [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: https://i.scdn.co https://i.ytimg.com https://img.youtube.com",
+      "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
+      "connect-src 'self'",
+      "form-action 'self'",
+      "base-uri 'self'",
+      "frame-ancestors 'none'"
+    ].join("; "),
+    ...extra
+  });
+}
 
 function json(res, status, body, headers = {}) {
   res.writeHead(status, { "content-type": "application/json; charset=utf-8", ...headers });
@@ -40,7 +114,7 @@ function json(res, status, body, headers = {}) {
 }
 
 function text(res, status, body) {
-  res.writeHead(status, { "content-type": "text/plain; charset=utf-8" });
+  res.writeHead(status, { "content-type": "text/plain; charset=utf-8", "x-content-type-options": "nosniff" });
   res.end(body);
 }
 
@@ -61,7 +135,12 @@ async function writeDb(db) {
 
 async function parseBody(req) {
   const chunks = [];
-  for await (const chunk of req) chunks.push(chunk);
+  let size = 0;
+  for await (const chunk of req) {
+    size += chunk.length;
+    if (size > 1024 * 1024) throw new Error("PAYLOAD_TOO_LARGE");
+    chunks.push(chunk);
+  }
   if (!chunks.length) return {};
   try {
     return JSON.parse(Buffer.concat(chunks).toString("utf8"));
@@ -85,13 +164,13 @@ function isAuthed(req) {
     sessions.delete(sid);
     return false;
   }
-  session.expiresAt = Date.now() + 1000 * 60 * 60 * 8;
+  session.expiresAt = Date.now() + SESSION_TTL_MS;
   return true;
 }
 
 function requireAuth(req, res) {
   if (isAuthed(req)) return true;
-  json(res, 401, { error: "No autorizado" });
+  json(res, 401, { error: "No autorizado" }, securityHeaders(req));
   return false;
 }
 
@@ -109,28 +188,85 @@ function sanitizeText(value, max = 2000) {
   return String(value || "").trim().slice(0, max);
 }
 
+function clientKey(req, email = "") {
+  const forwarded = String(req.headers["x-forwarded-for"] || "").split(",")[0].trim();
+  const ip = forwarded || req.socket.remoteAddress || "unknown";
+  return `${ip}:${email}`;
+}
+
+function checkLoginLimit(req, email) {
+  const key = clientKey(req, email);
+  const now = Date.now();
+  const current = loginAttempts.get(key);
+  if (!current || now > current.resetAt) {
+    loginAttempts.set(key, { count: 0, resetAt: now + LOGIN_WINDOW_MS });
+    return { ok: true, key };
+  }
+  return { ok: current.count < MAX_LOGIN_ATTEMPTS, key, resetAt: current.resetAt };
+}
+
+function recordLoginFailure(key) {
+  const current = loginAttempts.get(key) || { count: 0, resetAt: Date.now() + LOGIN_WINDOW_MS };
+  current.count += 1;
+  loginAttempts.set(key, current);
+}
+
+function clearLoginFailures(key) {
+  loginAttempts.delete(key);
+}
+
+function verifyAdmin(email, password) {
+  const account = adminAccounts.find((item) => item.email === email);
+  if (!account) return false;
+  const candidateHash = scryptSync(String(password || ""), account.salt, 64);
+  const expectedHash = Buffer.from(account.hash, "hex");
+  return expectedHash.length === candidateHash.length && timingSafeEqual(candidateHash, expectedHash);
+}
+
+function sameOrigin(req) {
+  if (!["POST", "PUT", "DELETE", "PATCH"].includes(req.method || "")) return true;
+  const origin = req.headers.origin;
+  if (!origin) return true;
+  try {
+    return new URL(origin).host === req.headers.host;
+  } catch {
+    return false;
+  }
+}
+
+function sessionCookie(req, sid, maxAge = 28800) {
+  const secure = req.headers["x-forwarded-proto"] === "https" || req.socket.encrypted ? "; Secure" : "";
+  return `yf_session=${sid}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${secure}`;
+}
+
 async function handleApi(req, res, pathname) {
+  if (!sameOrigin(req)) return json(res, 403, { error: "Origen no permitido" }, securityHeaders(req));
   const db = await readDb();
 
   if (req.method === "POST" && pathname === "/api/login") {
     const body = await parseBody(req);
     const email = sanitizeText(body.email).toLowerCase();
-    const candidateHash = scryptSync(String(body.password || ""), passwordSalt, 64);
-    const ok = email === adminEmail && timingSafeEqual(candidateHash, passwordHash);
-    if (!ok) return json(res, 401, { error: "Credenciales incorrectas" });
+    const limit = checkLoginLimit(req, email);
+    if (!limit.ok) return json(res, 429, { error: "Demasiados intentos. Espera unos minutos." }, securityHeaders(req));
+    const ok = verifyAdmin(email, body.password);
+    if (!ok) {
+      recordLoginFailure(limit.key);
+      return json(res, 401, { error: "Credenciales incorrectas" }, securityHeaders(req));
+    }
+    clearLoginFailures(limit.key);
     const sid = randomBytes(32).toString("hex");
-    sessions.set(sid, { email, expiresAt: Date.now() + 1000 * 60 * 60 * 8 });
-    return json(res, 200, { ok: true }, { "set-cookie": `yf_session=${sid}; HttpOnly; SameSite=Lax; Path=/; Max-Age=28800` });
+    sessions.set(sid, { email, expiresAt: Date.now() + SESSION_TTL_MS });
+    return json(res, 200, { ok: true }, securityHeaders(req, { "set-cookie": sessionCookie(req, sid) }));
   }
 
   if (req.method === "POST" && pathname === "/api/logout") {
     const sid = cookies(req).yf_session;
     if (sid) sessions.delete(sid);
-    return json(res, 200, { ok: true }, { "set-cookie": "yf_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0" });
+    return json(res, 200, { ok: true }, securityHeaders(req, { "set-cookie": sessionCookie(req, "", 0) }));
   }
 
   if (req.method === "GET" && pathname === "/api/session") {
-    return json(res, 200, { authenticated: isAuthed(req) });
+    return json(res, 200, { authenticated: isAuthed(req) }, securityHeaders(req));
   }
 
   if (req.method === "GET" && pathname === "/api/public") {
@@ -139,13 +275,13 @@ async function handleApi(req, res, pathname) {
       videos: db.videos,
       photos: db.photos,
       songs: db.songs
-    });
+    }, securityHeaders(req));
   }
 
   if (req.method === "POST" && pathname === "/api/visit") {
     db.stats.visits += 1;
     await writeDb(db);
-    return json(res, 200, { ok: true });
+    return json(res, 200, { ok: true }, securityHeaders(req));
   }
 
   if (req.method === "POST" && pathname === "/api/click") {
@@ -156,7 +292,7 @@ async function handleApi(req, res, pathname) {
     else db.stats.spotifyClicks += 1;
     db.stats.clicks[label] = (db.stats.clicks[label] || 0) + 1;
     await writeDb(db);
-    return json(res, 200, { ok: true });
+    return json(res, 200, { ok: true }, securityHeaders(req));
   }
 
   if (req.method === "POST" && pathname === "/api/contacts") {
@@ -170,15 +306,15 @@ async function handleApi(req, res, pathname) {
       message: sanitizeText(body.message, 2500),
       date: new Date().toLocaleString()
     };
-    if (!item.name || !item.email || !item.message) return json(res, 400, { error: "Faltan campos requeridos" });
+    if (!item.name || !item.email || !item.message) return json(res, 400, { error: "Faltan campos requeridos" }, securityHeaders(req));
     db.contacts.unshift(item);
     await writeDb(db);
-    return json(res, 201, { ok: true, contact: item });
+    return json(res, 201, { ok: true, contact: item }, securityHeaders(req));
   }
 
   if (pathname.startsWith("/api/admin/") && !requireAuth(req, res)) return;
 
-  if (req.method === "GET" && pathname === "/api/admin/state") return json(res, 200, db);
+  if (req.method === "GET" && pathname === "/api/admin/state") return json(res, 200, db, securityHeaders(req));
 
   if (req.method === "PUT" && pathname === "/api/admin/profile") {
     const body = await parseBody(req);
@@ -192,7 +328,7 @@ async function handleApi(req, res, pathname) {
       footer: sanitizeText(body.footer, 100) || "YF Sessions Records"
     };
     await writeDb(db);
-    return json(res, 200, { ok: true, profile: db.profile });
+    return json(res, 200, { ok: true, profile: db.profile }, securityHeaders(req));
   }
 
   const collectionRoutes = {
@@ -207,13 +343,13 @@ async function handleApi(req, res, pathname) {
       const item = { id: randomBytes(8).toString("hex"), ...body };
       db[key].unshift(item);
       await writeDb(db);
-      return json(res, 201, { ok: true, item });
+      return json(res, 201, { ok: true, item }, securityHeaders(req));
     }
     if (req.method === "DELETE") {
       const body = await parseBody(req);
       db[key] = db[key].filter((item) => item.id !== body.id);
       await writeDb(db);
-      return json(res, 200, { ok: true });
+      return json(res, 200, { ok: true }, securityHeaders(req));
     }
   }
 
@@ -221,19 +357,20 @@ async function handleApi(req, res, pathname) {
     const body = await parseBody(req);
     db.contacts = body.id ? db.contacts.filter((item) => item.id !== body.id) : [];
     await writeDb(db);
-    return json(res, 200, { ok: true });
+    return json(res, 200, { ok: true }, securityHeaders(req));
   }
 
   if (req.method === "POST" && pathname === "/api/admin/reset-stats") {
     db.stats = structuredClone(defaultDb.stats);
     await writeDb(db);
-    return json(res, 200, { ok: true, stats: db.stats });
+    return json(res, 200, { ok: true, stats: db.stats }, securityHeaders(req));
   }
 
-  json(res, 404, { error: "Endpoint no encontrado" });
+  json(res, 404, { error: "Endpoint no encontrado" }, securityHeaders(req));
 }
 
 async function serveStatic(req, res, pathname) {
+  if (!["GET", "HEAD"].includes(req.method || "")) return text(res, 405, "Metodo no permitido");
   const requested = pathname === "/" ? "/yf-sessions-web.html" : pathname;
   const safePath = normalize(decodeURIComponent(requested)).replace(/^(\.\.[/\\])+/, "");
   const filePath = join(publicDir, safePath);
@@ -249,7 +386,11 @@ async function serveStatic(req, res, pathname) {
       ".png": "image/png",
       ".svg": "image/svg+xml"
     }[extname(filePath).toLowerCase()] || "application/octet-stream";
-    res.writeHead(200, { "content-type": type, "cache-control": "no-store" });
+    const headers = type.startsWith("text/html")
+      ? htmlSecurityHeaders(req, { "content-type": type, "cache-control": "no-store" })
+      : securityHeaders(req, { "content-type": type, "cache-control": "public, max-age=3600" });
+    res.writeHead(200, headers);
+    if (req.method === "HEAD") return res.end();
     createReadStream(filePath).pipe(res);
   } catch {
     text(res, 404, "No encontrado");

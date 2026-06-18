@@ -49,6 +49,14 @@ El dashboard privado:
 https://yf-sessions-records.onrender.com/yf-sessions-web.html#admin
 ```
 
+Dashboard privado con dominio:
+
+```text
+https://yfstudiopro.online/yf-sessions-web.html#admin
+```
+
+El login admin acepta las cuentas autorizadas configuradas para YF Sessions Records. Las contrasenas no se guardan en texto plano.
+
 ### 5. Dominio final
 
 Dominio principal:
