@@ -4,16 +4,12 @@
 
 Esta app necesita servidor Node porque tiene dashboard, login, formularios, contactos, clicks y estadisticas.
 
-### 1. Subir a GitHub
+### 1. Repositorio GitHub
 
-```powershell
-cd "E:\PROYECTO CODEX\YF SESSIONS PLAYLIST"
-git init
-git add .
-git commit -m "Publicar YF Sessions Records"
-git branch -M main
-git remote add origin TU_REPO_GITHUB
-git push -u origin main
+Repositorio conectado:
+
+```text
+https://github.com/yankyfilms-alt/yf-sessions-records
 ```
 
 ### 2. Crear servicio en Render
@@ -21,17 +17,17 @@ git push -u origin main
 Abre:
 
 ```text
-https://dashboard.render.com/blueprint/new
+https://dashboard.render.com/blueprint/new?repo=https://github.com/yankyfilms-alt/yf-sessions-records
 ```
 
-Selecciona el repo y Render detectara `render.yaml`.
+Render detectara `render.yaml` y creara el servicio `yf-sessions-records`.
 
 ### 3. Variables secretas
 
 Render pedira estos valores:
 
-- `ADMIN_PASSWORD`: contraseña privada del dashboard.
-- `ADMIN_PASSWORD_SALT`: texto largo aleatorio para cifrar la contraseña.
+- `ADMIN_PASSWORD`: contrasena privada del dashboard.
+- `ADMIN_PASSWORD_SALT`: texto largo aleatorio para cifrar la contrasena.
 
 Ejemplo de salt:
 
@@ -39,12 +35,12 @@ Ejemplo de salt:
 yf-sessions-records-2026-cambia-esto-por-un-texto-largo
 ```
 
-### 4. URL final
+### 4. URL temporal
 
 Cuando Render termine, la web quedara en una URL parecida a:
 
 ```text
-https://yf-sessions-records.onrender.com/yf-sessions-web.html
+https://yf-sessions-records.onrender.com
 ```
 
 El dashboard privado:
@@ -52,6 +48,29 @@ El dashboard privado:
 ```text
 https://yf-sessions-records.onrender.com/yf-sessions-web.html#admin
 ```
+
+### 5. Dominio final
+
+Dominio principal:
+
+```text
+https://yfstudiopro.online
+```
+
+Dominio con www:
+
+```text
+https://www.yfstudiopro.online
+```
+
+En Render, entra al servicio `yf-sessions-records`, abre `Settings` -> `Custom Domains` y agrega:
+
+```text
+yfstudiopro.online
+www.yfstudiopro.online
+```
+
+Despues Render mostrara los registros DNS exactos que hay que poner en el proveedor del dominio.
 
 ### Nota importante
 
